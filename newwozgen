@@ -1,0 +1,72 @@
+#!/bin/bash
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+rm -rf wozoutput
+rm -rf wozstaging
+mkdir postsorted
+mkdir wozoutput
+mkdir wozstaging
+echo -e $1 >> wozadaylog.txt
+ia search 'collection:wozaday' --parameters="page=$1&rows=1" --sort="publicdate desc" -i > currentitems.txt
+ia download -i --no-directories --glob '*.xml|*.woz|*.zip'  --destdir="./wozstaging" --itemlist=currentitems.txt
+unzip -n -qq -LL -j "wozstaging/*.zip" -d wozoutput
+mv wozstaging/*.woz wozoutput
+cp wozstaging/*meta.xml wozoutput
+cd wozoutput
+rm 00playable.woz
+rm playable.woz
+rm ../xml/woz$1.xml
+for filename in *.xml; do
+	[ -e "$filename" ] || continue
+	echo -e -n "$1" >> ../xml/wozmastertable.txt
+	echo -e -n ' is ' >> ../xml/wozmastertable.txt
+	echo -e -n "$filename"  >> ../xml/wozmastertable.txt
+	echo -e '\t<software name="namehere">' >> ../xml/woz$1.xml
+	echo -e -n '\t\t<description>' >> ../xml/woz$1.xml
+	xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e '</description>' >> ../xml/woz$1.xml
+	echo -e -n '\t\t<year>' >> ../xml/woz$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e '</year>' >> ../xml/woz$1.xml
+	echo -e -n '\t\t<publisher>' >> ../xml/woz$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -e 's/distributed by //g' | sed -e 's/published by //g' | sed -e 's/\&amp;amp;/and/g' >> ../xml/woz$1.xml
+	echo -e '</publisher>' >> ../xml/woz$1.xml
+	echo -e -n '\t\t<info name="release" value="' >> ../xml/woz$1.xml
+	xmllint --xpath 'metadata/addeddate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e '"/>' >> ../xml/woz$1.xml
+	echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz$1.xml
+	echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz$1.xml
+	echo -e -n '\t\t<!--' >> ../xml/woz$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e -n '-->\n' >> ../xml/woz$1.xml
+done
+
+disknum=1
+for filename in *.woz; do
+	[ -e "$filename" ] || continue
+	sha1sum $filename | awk '{print $1}' > temp
+	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
+	echo -e -n '\t\t<part name="flop' >> ../xml/woz$1.xml
+	echo -e -n $disknum >> ../xml/woz$1.xml
+	echo -e '" interface="floppy_5_25">' >> ../xml/woz$1.xml
+	echo -e -n '\t\t\t<dataarea name="flop" size="' >> ../xml/woz$1.xml
+	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e '">' >> ../xml/woz$1.xml
+	echo -e -n '\t\t\t\t<rom name="' >> ../xml/woz$1.xml
+	echo -e -n $filename >> ../xml/woz$1.xml
+	echo -e -n '" size="' >> ../xml/woz$1.xml
+	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e -n '" crc="' >> ../xml/woz$1.xml
+	crc32 $filename | awk '{print $1}' | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e -n '" sha1="' >> ../xml/woz$1.xml
+	sha1sum $filename | awk '{print $1}' | tr -d '\n' >> ../xml/woz$1.xml
+	echo -e '" />' >> ../xml/woz$1.xml
+	echo -e '\t\t\t</dataarea>' >> ../xml/woz$1.xml
+	echo -e '\t\t</part>' >> ../xml/woz$1.xml
+	((disknum++))
+done
+echo -e '\t</software>\n' >> ../xml/woz$1.xml
+sed -i 's/ (woz-a-day collection)<\/description>/<\/description>/g' ../xml/woz$1.xml
+mv *.woz ../postsorted
+cd ..
+IFS=$SAVEIFS
