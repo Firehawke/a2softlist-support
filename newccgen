@@ -8,7 +8,7 @@ mkdir newccoutput
 mkdir newccstaging
 echo -e $1 >> newcclog.txt
 ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
-ia download -i --no-directories --destdir="./newccstaging" --itemlist=currentitems.txt
+ia download -i --no-directories --glob '*.xml|*.dsk|*.woz|*.zip'  --destdir="./newccstaging" --itemlist=currentitems.txt
 unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput
 mv newccstaging/*.dsk newccoutput
 cp newccstaging/*meta.xml newccoutput
