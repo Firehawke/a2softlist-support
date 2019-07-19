@@ -21,7 +21,9 @@
  `newwozgen` is set up to count from the END of the 4AM WOZ-a-day archives. Running `newwozgen 1` will ALWAYS grab the latest single release in that collection and generate MAME softlist-compatible XML as `woz1.xml` overwriting whatever is in that file on creation. Running `newwozgen 100` will go back 100 releases from latest and generate a `woz100.xml` file (and again overwriting what's there).
 
  When run, you may get output that looks like:
+
  `/mnt/c/msys64/src/mame/hash/apple2_flop_clcracked.xml:22105: <rom name="repton (4am crack).dsk" size="143360" crc="eb5a3f65" sha1="8efc7bf1b2bf004de51d7de9c4d0675626d3b0ff" />`
+
  That's your official warning that the script found this exact SHA1 already in the described softlist and that you shouldn't proceed further without making sure you're not adding a duplicate. This WILL NOT save you from duplicates that don't have the same SHA1, however, such as from a different crack source.
 
 ## Warnings
@@ -29,8 +31,11 @@
  At no point should the output from this ever be directly trusted without an eyeball pass. There will ALWAYS be special cases that no script, no matter how finely-tuned, can deal with.
 
  You WILL need to doublecheck all output.
+
  You WILL need to add a shortname in the definition's first line.
+
  You WILL need to make sure that disk filenames are properly lowercased to meet MAME requirements.
+
  You WILL need to add disk/side tags where appropriate (see existing softlist entries for examples)
 
  You also will need to make small adjustments to match the formatting used in the MAME softlist files; the comment line that gets output by the script containing the complete description (suitable for doublechecking the work) can be converted to a blank line once you're ready to sign off on the file and that'll get you in line with the usual formatting for Apple softlists.
