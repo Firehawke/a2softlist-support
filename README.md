@@ -42,10 +42,12 @@
 
  So, yeah, this does leave you with a bit of work, but it's still considerably better than hand-editing.
 
-## Prereq packages
+## Prerequisites for use
+
  As I run Debian from a laptop and also as a WSL add-on to Windows 10, the packages will be described in that way.
 
 `sudo apt-get install python3-pip libarchive-zip-perl unzip libxml2-utils`
+
 `sudo pip3 install internetarchive`
 
 You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `/mnt/c/msys64/src/mame/hash/apple2_flop*.xml` in the script and change accordingly.
