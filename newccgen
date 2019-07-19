@@ -1,11 +1,11 @@
 #!/bin/bash
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
-rm -rf newccoutput
-rm -rf newccstaging
+rm -rf newccoutput 2> /dev/null
+rm -rf newccstaging 2> /dev/null
 mkdir postsorted 2> /dev/null
-mkdir newccoutput
-mkdir newccstaging
+mkdir newccoutput 2> /dev/null
+mkdir newccstaging 2> /dev/null
 echo -e $1 >> newcclog.txt
 ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
 ia download -i --no-directories --glob '*.xml|*.dsk|*.woz|*.zip'  --destdir="./newccstaging" --itemlist=currentitems.txt
@@ -22,56 +22,55 @@ rm *.jpg 2> /dev/null
 rm ProjFileList.xml 2> /dev/null
 rm project.xml 2> /dev/null
 rm *work\ disk* 2> /dev/null
-rm ../xml/$1.xml 2> /dev/null
+rm ../xml/cc$1.xml 2> /dev/null
 for filename in *.xml; do
 	[ -e "$filename" ] || continue
 	echo -e -n "$1" >> ../xml/mastertable.txt
 	echo -e -n ' is ' >> ../xml/mastertable.txt
 	echo -e -n "$filename"  >> ../xml/mastertable.txt
-	echo -e '\t<software name="namehere">' >> ../xml/$1.xml
-	echo -e -n '\t\t<description>' >> ../xml/$1.xml
-	xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >> ../xml/$1.xml
-	echo -e '</description>' >> ../xml/$1.xml
-	echo -e -n '\t\t<year>' >> ../xml/$1.xml
-	xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >> ../xml/$1.xml
-	echo -e '</year>' >> ../xml/$1.xml
-	echo -e -n '\t\t<publisher>' >> ../xml/$1.xml
-	xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -e 's/distributed by //g' | sed -e 's/published by //g' | sed -e 's/\&amp;amp;/and/g' >> ../xml/$1.xml
-	echo -e '</publisher>' >> ../xml/$1.xml
-	echo -e -n '\t\t<info name="release" value="' >> ../xml/$1.xml
-	xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/$1.xml
-	echo -e '"/>' >> ../xml/$1.xml
-	echo -e -n '\t\t<!--' >> ../xml/$1.xml
-	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/$1.xml
-	echo -e -n '-->\n' >> ../xml/$1.xml
+	echo -e '\t<software name="namehere">' >> ../xml/cc$1.xml
+	echo -e -n '\t\t<description>' >> ../xml/cc$1.xml
+	xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e '</description>' >> ../xml/cc$1.xml
+	echo -e -n '\t\t<year>' >> ../xml/cc$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e '</year>' >> ../xml/cc$1.xml
+	echo -e -n '\t\t<publisher>' >> ../xml/cc$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -e 's/distributed by //g' | sed -e 's/published by //g' | sed -e 's/\&amp;amp;/and/g' >> ../xml/cc$1.xml
+	echo -e '</publisher>' >> ../xml/cc$1.xml
+	echo -e -n '\t\t<info name="release" value="' >> ../xml/cc$1.xml
+	xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e '"/>' >> ../xml/cc$1.xml
+	echo -e -n '\t\t<!--' >> ../xml/cc$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e -n '-->\n' >> ../xml/cc$1.xml
 done
-
 disknum=1
 for filename in *.dsk; do
 	[ -e "$filename" ] || continue
 	sha1sum $filename | awk '{print $1}' > temp
 	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
-	echo -e -n '\t\t<part name="flop' >> ../xml/$1.xml
-	echo -e -n $disknum >> ../xml/$1.xml
-	echo -e '" interface="floppy_5_25">' >> ../xml/$1.xml
-	echo -e -n '\t\t\t<dataarea name="flop" size="' >> ../xml/$1.xml
-	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/$1.xml
-	echo -e '">' >> ../xml/$1.xml
-	echo -e -n '\t\t\t\t<rom name="' >> ../xml/$1.xml
-	echo -e -n $filename >> ../xml/$1.xml
-	echo -e -n '" size="' >> ../xml/$1.xml
-	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/$1.xml
-	echo -e -n '" crc="' >> ../xml/$1.xml
-	crc32 $filename | awk '{print $1}' | tr -d '\n' >> ../xml/$1.xml
-	echo -e -n '" sha1="' >> ../xml/$1.xml
-	sha1sum $filename | awk '{print $1}' | tr -d '\n' >> ../xml/$1.xml
-	echo -e '" />' >> ../xml/$1.xml
-	echo -e '\t\t\t</dataarea>' >> ../xml/$1.xml
-	echo -e '\t\t</part>' >> ../xml/$1.xml
+	echo -e -n '\t\t<part name="flop' >> ../xml/cc$1.xml
+	echo -e -n $disknum >> ../xml/cc$1.xml
+	echo -e '" interface="floppy_5_25">' >> ../xml/cc$1.xml
+	echo -e -n '\t\t\t<dataarea name="flop" size="' >> ../xml/cc$1.xml
+	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e '">' >> ../xml/cc$1.xml
+	echo -e -n '\t\t\t\t<rom name="' >> ../xml/cc$1.xml
+	echo -e -n $filename >> ../xml/cc$1.xml
+	echo -e -n '" size="' >> ../xml/cc$1.xml
+	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e -n '" crc="' >> ../xml/cc$1.xml
+	crc32 $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e -n '" sha1="' >> ../xml/cc$1.xml
+	sha1sum $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc$1.xml
+	echo -e '" />' >> ../xml/cc$1.xml
+	echo -e '\t\t\t</dataarea>' >> ../xml/cc$1.xml
+	echo -e '\t\t</part>' >> ../xml/cc$1.xml
 	((disknum++))
 done
-echo -e '\t</software>\n' >> ../xml/$1.xml
-sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/$1.xml
+echo -e '\t</software>\n' >> ../xml/cc$1.xml
+sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc$1.xml
 mv *.dsk ../postsorted 2> /dev/null
 mv *.woz ../postsorted 2> /dev/null
 cd ..

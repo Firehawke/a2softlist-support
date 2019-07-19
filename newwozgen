@@ -1,11 +1,11 @@
 #!/bin/bash
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
-rm -rf wozoutput
-rm -rf wozstaging
-mkdir postsorted
-mkdir wozoutput
-mkdir wozstaging
+rm -rf wozoutput 2> /dev/null
+rm -rf wozstaging 2> /dev/null
+mkdir postsorted 2> /dev/null
+mkdir wozoutput 2> /dev/null
+mkdir wozstaging 2> /dev/null
 echo -e $1 >> wozadaylog.txt
 ia search 'collection:wozaday' --parameters="page=$1&rows=1" --sort="publicdate desc" -i > currentitems.txt
 ia download -i --no-directories --glob '*.xml|*.woz|*.zip'  --destdir="./wozstaging" --itemlist=currentitems.txt
@@ -13,9 +13,9 @@ unzip -n -qq -LL -j "wozstaging/*.zip" -d wozoutput
 mv wozstaging/*.woz wozoutput
 cp wozstaging/*meta.xml wozoutput
 cd wozoutput
-rm 00playable.woz
-rm playable.woz
-rm ../xml/woz$1.xml
+rm 00playable.woz 2> /dev/null
+rm playable.woz 2> /dev/null
+rm ../xml/woz$1.xml 2> /dev/null
 for filename in *.xml; do
 	[ -e "$filename" ] || continue
 	echo -e -n "$1" >> ../xml/wozmastertable.txt
@@ -40,7 +40,6 @@ for filename in *.xml; do
 	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/woz$1.xml
 	echo -e -n '-->\n' >> ../xml/woz$1.xml
 done
-
 disknum=1
 for filename in *.woz; do
 	[ -e "$filename" ] || continue
