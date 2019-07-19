@@ -1,44 +1,57 @@
-
 Decision Development
 distributed by A/V Concepts
 distributed by ARCO Publishing
+distributed by Abracadata
 distributed by Abraxas Basic Courseware
 distributed by Academic Hallmarks
 distributed by Activision
+distributed by Advanced Ideas
 distributed by Advanced Operating Systems
 distributed by Adventure International
 distributed by Alfred Publishing Company
+distributed by American Educational Computer
 distributed by Apple Computer
 distributed by Applecart Programs For Education
+distributed by Aquarius People Materials
 distributed by ArtSci
 distributed by Artworx
 distributed by Atari
 distributed by Avant-Garde Creations
 distributed by Bally Midway
+distributed by Bantam Software
 distributed by Baudville
+distributed by Behavioral Engineering
 distributed by Berserker Works
 distributed by Bitcards
 distributed by Blue Chip Software
 distributed by Blue Ridge Software
 distributed by Border Software
 distributed by Centurion Software
+distributed by College Entrance Exam Board
+distributed by College-Hill Press
+distributed by Compu-Tations
 distributed by Conduit Educational Software
+distributed by Control Data Corporation
 distributed by Courses by Computers
+distributed by Critical Thinking Press and Software
 distributed by D.C. Heath
 distributed by Data East
-distributed by Data East USA
 distributed by Datamost
 distributed by Datasoft
 distributed by Davidson &amp;amp; Associates
 distributed by Davidson and Associates
 distributed by Davka Corporation
+distributed by DesignWare
 distributed by Developmental Learning Materials
+distributed by Didatech Software
 distributed by Edu-Ware
 distributed by Educational Activities
 distributed by Educational Publishing Concepts
 distributed by Electronic Arts
+distributed by Electronic Courseware Systems
 distributed by Encyclopaedia Britannica
 distributed by Epyx
+distributed by Firebird
 distributed by Focus Media
 distributed by GARDE
 distributed by Gamco Industries
@@ -48,12 +61,16 @@ distributed by Gentry Software
 distributed by Gessler Educational Software
 distributed by Gray Matter
 distributed by Great Game Products
+distributed by Grolier Publishing
+distributed by HRM Software
 distributed by Hartley Courseware
+distributed by Hartley Software
 distributed by Hayden Book Company
 distributed by Hayden Software
 distributed by Hearlihy and Co
 distributed by Heartsoft
 distributed by Houghton Mifflin
+distributed by Human Engineered Software
 distributed by I.M.C.
 distributed by Imaginative Systems Software
 distributed by Infocom
@@ -62,6 +79,9 @@ distributed by Josten Learning Systems
 distributed by Jostens Learning
 distributed by K-12 Micro Media
 distributed by Krell Software
+distributed by Langenscheidt Publishers
+distributed by Laureate Learning Systems
+distributed by Learning Seed Company
 distributed by Learning Technologies
 distributed by Level-10
 distributed by Litag Productions
@@ -71,14 +91,22 @@ distributed by MUSE Software
 distributed by Marshware
 distributed by MatchMaker
 distributed by Mattel
+distributed by McCarthy-McCormack
 distributed by Media Basics
 distributed by Media Materials
 distributed by Methods and Solutions
 distributed by Micro Education Corporation of America
+distributed by Micro Lab
 distributed by Micro Learningware
 distributed by Micro-Fun Software
+distributed by MicroFun
 distributed by Microcomputer Workshops
+distributed by Micrograms
+distributed by Micromax
+distributed by Microprose Software
+distributed by Millennium Group Incorporated
 distributed by Milliken Publishing
+distributed by Milton Bradley Company
 distributed by Mindplay
 distributed by Mindscape
 distributed by National Textbook Company
@@ -87,6 +115,7 @@ distributed by Optimum Resource
 distributed by Origin
 distributed by Parrot Software
 distributed by Peachtree Software
+distributed by Pelican Software
 distributed by Penguin Software
 distributed by Phoenix Software
 distributed by Piccadilly Software
@@ -97,25 +126,38 @@ distributed by Queue
 distributed by Random House
 distributed by Reader's Digest Software
 distributed by Rhiannon
+distributed by RockRoy
 distributed by Santa Barbara Softworks
 distributed by Scholastic
+distributed by Science Research Associates
 distributed by Scott, Foresman and Company
+distributed by Screenplay
 distributed by Search Software
 distributed by Sega
+distributed by Sentient Software
 distributed by Sierra On-Line
 distributed by Silver Burdett Company
 distributed by Sirius Software
 distributed by SoftArt Games
+distributed by Softsmith
 distributed by South-Western Publishing
 distributed by Space-Time Associates
+distributed by Spectrum Holobyte
+distributed by Springboard Software
 distributed by Strategic Simulations
 distributed by Sunburst Communications
 distributed by Synergistic Software
 distributed by Taito
+distributed by Telarium
+distributed by Tess Enterprises
 distributed by The Continental Press
 distributed by The Learning Company
 distributed by The Math Lab
+distributed by The Regents
+distributed by The Regents of the University of California
+distributed by The Regents/ALA Company
 distributed by Thunder Mountain
+distributed by Trillium
 distributed by Troll Associates
 distributed by Turning Point Software
 distributed by Unicorn Software
