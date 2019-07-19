@@ -1,46 +1,125 @@
-distributed by Mindscape
-distributed by Sierra On-Line
-distributed by Activision
-distributed by Datamost
-distributed by Scholastic
-distributed by Heartsoft
-distributed by Thunder Mountain
-distributed by Data East
-published by Scholastic
-distributed by Bally Midway
-distributed by Level-10
-distributed by Lucasfilm Games
-distributed by Mindplay
-distributed by The Learning Company
-distributed by Datasoft
-distributed by Origin Systems
-distributed by Polarware
-distributed by Atari
-distributed by Gray Matter
-distributed by Piccadilly Software
-distributed by Gebelli Software
-distributed by Penguin Software
-distributed by Sega
-distributed by Epyx
-distributed by Sirius Software
-distributed by Optimum Resource
-distributed by Hartley Courseware
-distributed by MECC
-distributed by Infocom
-distributed by Prescription Learning
-distributed by Micro-Fun Software
-distributed by Milliken Publishing
-distributed by Sunburst Communications
-distributed by Davidson &amp;amp; Associates
+
 Decision Development
-distributed by Davka Corporation
-distributed by Advanced Operating Systems
-distributed by The Math Lab
-distributed by MatchMaker
-distributed by Silver Burdett Company
+distributed by A/V Concepts
+distributed by ARCO Publishing
+distributed by Abraxas Basic Courseware
 distributed by Academic Hallmarks
-distributed by Queue
-distributed by Focus Media
+distributed by Activision
+distributed by Advanced Operating Systems
+distributed by Adventure International
+distributed by Alfred Publishing Company
+distributed by Apple Computer
+distributed by Applecart Programs For Education
+distributed by ArtSci
+distributed by Artworx
+distributed by Atari
+distributed by Avant-Garde Creations
+distributed by Bally Midway
+distributed by Baudville
+distributed by Berserker Works
+distributed by Bitcards
+distributed by Blue Chip Software
+distributed by Blue Ridge Software
+distributed by Border Software
+distributed by Centurion Software
+distributed by Conduit Educational Software
+distributed by Courses by Computers
+distributed by D.C. Heath
+distributed by Data East
+distributed by Data East USA
+distributed by Datamost
+distributed by Datasoft
+distributed by Davidson &amp;amp; Associates
 distributed by Davidson and Associates
+distributed by Davka Corporation
+distributed by Developmental Learning Materials
+distributed by Edu-Ware
+distributed by Educational Activities
+distributed by Educational Publishing Concepts
+distributed by Electronic Arts
+distributed by Encyclopaedia Britannica
+distributed by Epyx
+distributed by Focus Media
+distributed by GARDE
+distributed by Gamco Industries
+distributed by Gebelli Software
+distributed by General Quarters Software
+distributed by Gentry Software
 distributed by Gessler Educational Software
+distributed by Gray Matter
+distributed by Great Game Products
+distributed by Hartley Courseware
+distributed by Hayden Book Company
+distributed by Hayden Software
+distributed by Hearlihy and Co
+distributed by Heartsoft
+distributed by Houghton Mifflin
+distributed by I.M.C.
+distributed by Imaginative Systems Software
+distributed by Infocom
+distributed by Intellectual Software
+distributed by Josten Learning Systems
+distributed by Jostens Learning
+distributed by K-12 Micro Media
+distributed by Krell Software
+distributed by Learning Technologies
+distributed by Level-10
+distributed by Litag Productions
+distributed by Lucasfilm
+distributed by MECC
+distributed by MUSE Software
+distributed by Marshware
+distributed by MatchMaker
+distributed by Mattel
+distributed by Media Basics
+distributed by Media Materials
+distributed by Methods and Solutions
+distributed by Micro Education Corporation of America
+distributed by Micro Learningware
+distributed by Micro-Fun Software
+distributed by Microcomputer Workshops
+distributed by Milliken Publishing
+distributed by Mindplay
+distributed by Mindscape
+distributed by National Textbook Company
+distributed by On-Line Systems
+distributed by Optimum Resource
+distributed by Origin
+distributed by Parrot Software
+distributed by Peachtree Software
+distributed by Penguin Software
+distributed by Phoenix Software
+distributed by Piccadilly Software
+distributed by Polarware
+distributed by Prescription Learning
+distributed by Quest Learning Systems
+distributed by Queue
+distributed by Random House
+distributed by Reader's Digest Software
+distributed by Rhiannon
+distributed by Santa Barbara Softworks
+distributed by Scholastic
+distributed by Scott, Foresman and Company
+distributed by Search Software
+distributed by Sega
+distributed by Sierra On-Line
+distributed by Silver Burdett Company
+distributed by Sirius Software
+distributed by SoftArt Games
+distributed by South-Western Publishing
+distributed by Space-Time Associates
+distributed by Strategic Simulations
+distributed by Sunburst Communications
+distributed by Synergistic Software
+distributed by Taito
+distributed by The Continental Press
+distributed by The Learning Company
+distributed by The Math Lab
+distributed by Thunder Mountain
+distributed by Troll Associates
+distributed by Turning Point Software
+distributed by Unicorn Software
+distributed by Windham Classics
+distributed by the Society for Visual Education
+published by Scholastic
 published by The Avalon Hill
