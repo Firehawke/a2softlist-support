@@ -5,11 +5,14 @@ distributed by Abracadata
 distributed by Abraxas Basic Courseware
 distributed by Academic Hallmarks
 distributed by Activision
+distributed by Addison-Wesley
 distributed by Advanced Ideas
 distributed by Advanced Operating Systems
 distributed by Adventure International
 distributed by Alfred Publishing Company
+distributed by American Eagle
 distributed by American Educational Computer
+distributed by American Language Academy
 distributed by Apple Computer
 distributed by Applecart Programs For Education
 distributed by Aquarius People Materials
@@ -26,21 +29,30 @@ distributed by Bitcards
 distributed by Blue Chip Software
 distributed by Blue Ridge Software
 distributed by Border Software
+distributed by Broderbund Software
+distributed by CBS Software
+distributed by CPU Software
 distributed by Centurion Software
+distributed by Charles Lund
+distributed by Chevron Chemical Co.
 distributed by College Entrance Exam Board
 distributed by College-Hill Press
 distributed by Compu-Tations
+distributed by Computer Headware
 distributed by Conduit Educational Software
 distributed by Control Data Corporation
 distributed by Courses by Computers
 distributed by Critical Thinking Press and Software
+distributed by Cross Educational Software
 distributed by D.C. Heath
 distributed by Data East
+distributed by Data East USA, Inc. and Mattel Electronics
 distributed by Datamost
 distributed by Datasoft
 distributed by Davidson &amp;amp; Associates
 distributed by Davidson and Associates
 distributed by Davka Corporation
+distributed by Daystar Learning
 distributed by DesignWare
 distributed by Developmental Learning Materials
 distributed by Didatech Software
@@ -52,6 +64,7 @@ distributed by Electronic Courseware Systems
 distributed by Encyclopaedia Britannica
 distributed by Epyx
 distributed by Firebird
+distributed by Fisher Price Learning Software
 distributed by Focus Media
 distributed by GARDE
 distributed by Gamco Industries
@@ -63,31 +76,44 @@ distributed by Gray Matter
 distributed by Great Game Products
 distributed by Grolier Publishing
 distributed by HRM Software
+distributed by Harcourt Brace Jovanovich
 distributed by Hartley Courseware
 distributed by Hartley Software
 distributed by Hayden Book Company
 distributed by Hayden Software
 distributed by Hearlihy and Co
 distributed by Heartsoft
+distributed by Hesware
+distributed by Highland Computers
+distributed by Hoffman Educational Systems
 distributed by Houghton Mifflin
 distributed by Human Engineered Software
 distributed by I.M.C.
 distributed by Imaginative Systems Software
 distributed by Infocom
 distributed by Intellectual Software
+distributed by Intelligent Statements
+distributed by Jandel Corporation
 distributed by Josten Learning Systems
 distributed by Jostens Learning
 distributed by K-12 Micro Media
+distributed by K-12 Micromedia
+distributed by Koala Technologies
 distributed by Krell Software
 distributed by Langenscheidt Publishers
 distributed by Laureate Learning Systems
 distributed by Learning Seed Company
 distributed by Learning Technologies
+distributed by Learning Well
+distributed by Learning Well and Pelican Software
 distributed by Level-10
 distributed by Litag Productions
 distributed by Lucasfilm
+distributed by MCE
 distributed by MECC
 distributed by MUSE Software
+distributed by Magna Soft
+distributed by Marshfilm
 distributed by Marshware
 distributed by MatchMaker
 distributed by Mattel
@@ -95,22 +121,32 @@ distributed by McCarthy-McCormack
 distributed by Media Basics
 distributed by Media Materials
 distributed by Methods and Solutions
+distributed by Michael G. Southwell
 distributed by Micro Education Corporation of America
 distributed by Micro Lab
 distributed by Micro Learningware
 distributed by Micro-Fun Software
 distributed by MicroFun
+distributed by Microcomputer Games
 distributed by Microcomputer Workshops
 distributed by Micrograms
 distributed by Micromax
 distributed by Microprose Software
+distributed by Midscape
+distributed by Midwest Software
 distributed by Millennium Group Incorporated
 distributed by Milliken Publishing
 distributed by Milton Bradley Company
 distributed by Mindplay
 distributed by Mindscape
+distributed by Morningstar
+distributed by National Geographic Society
 distributed by National Textbook Company
+distributed by Neosoft
+distributed by New World Computing
+distributed by Nikrom Technical Products
 distributed by On-Line Systems
+distributed by Opportunities For Learning
 distributed by Optimum Resource
 distributed by Origin
 distributed by Parrot Software
@@ -121,13 +157,20 @@ distributed by Phoenix Software
 distributed by Piccadilly Software
 distributed by Polarware
 distributed by Prescription Learning
+distributed by Program Design
 distributed by Quest Learning Systems
 distributed by Queue
 distributed by Random House
 distributed by Reader's Digest Software
+distributed by Realty Software
+distributed by Reston Publishing
 distributed by Rhiannon
+distributed by Ritam Corporation
 distributed by RockRoy
+distributed by SSI
 distributed by Santa Barbara Softworks
+distributed by Scandura Associates
+distributed by Scarborough Systems
 distributed by Scholastic
 distributed by Science Research Associates
 distributed by Scott, Foresman and Company
@@ -137,31 +180,46 @@ distributed by Sega
 distributed by Sentient Software
 distributed by Sierra On-Line
 distributed by Silver Burdett Company
+distributed by Silver, Burdett and Ginn
 distributed by Sirius Software
+distributed by Society for Visual Education
+distributed by Soft Productions
 distributed by SoftArt Games
+distributed by Softlore Corporation
 distributed by Softsmith
 distributed by South-Western Publishing
 distributed by Space-Time Associates
 distributed by Spectrum Holobyte
 distributed by Springboard Software
+distributed by Stoneware
 distributed by Strategic Simulations
 distributed by Sunburst Communications
+distributed by Superior Software
 distributed by Synergistic Software
 distributed by Taito
 distributed by Telarium
 distributed by Tess Enterprises
 distributed by The Continental Press
+distributed by The Human Edge
 distributed by The Learning Company
 distributed by The Math Lab
 distributed by The Regents
 distributed by The Regents of the University of California
 distributed by The Regents/ALA Company
+distributed by The Software Farm
 distributed by Thunder Mountain
+distributed by Tom Snyder Productions
+distributed by Top Notch Software
 distributed by Trillium
 distributed by Troll Associates
 distributed by Turning Point Software
 distributed by Unicorn Software
+distributed by Vital Information
 distributed by Windham Classics
 distributed by the Society for Visual Education
+published by Advanced Ideas
+published by Electric Transit
+published by K-12 MicroMedia
 published by Scholastic
 published by The Avalon Hill
+published by Windham Classics
