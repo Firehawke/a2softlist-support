@@ -22,6 +22,7 @@ distributed by Atari
 distributed by Avant-Garde Creations
 distributed by Bally Midway
 distributed by Bantam Software
+distributed by Barnum Software
 distributed by Baudville
 distributed by Behavioral Engineering
 distributed by Berserker Works
@@ -58,6 +59,7 @@ distributed by Developmental Learning Materials
 distributed by Didatech Software
 distributed by Edu-Ware
 distributed by Educational Activities
+distributed by Educational Materials and Equipment
 distributed by Educational Publishing Concepts
 distributed by Electronic Arts
 distributed by Electronic Courseware Systems
@@ -86,6 +88,7 @@ distributed by Heartsoft
 distributed by Hesware
 distributed by Highland Computers
 distributed by Hoffman Educational Systems
+distributed by Holt, Rinehart and Winston
 distributed by Houghton Mifflin
 distributed by Human Engineered Software
 distributed by I.M.C.
@@ -118,6 +121,7 @@ distributed by Marshware
 distributed by MatchMaker
 distributed by Mattel
 distributed by McCarthy-McCormack
+distributed by McGraw-Hill
 distributed by Media Basics
 distributed by Media Materials
 distributed by Methods and Solutions
@@ -198,6 +202,7 @@ distributed by Superior Software
 distributed by Synergistic Software
 distributed by Taito
 distributed by Telarium
+distributed by Terrapin
 distributed by Tess Enterprises
 distributed by The Continental Press
 distributed by The Human Edge
@@ -217,6 +222,8 @@ distributed by Unicorn Software
 distributed by Vital Information
 distributed by Windham Classics
 distributed by the Society for Visual Education
+distributed in 1982 by Terrapin
+distributed in 1984 by Terrapin
 published by Advanced Ideas
 published by Electric Transit
 published by K-12 MicroMedia

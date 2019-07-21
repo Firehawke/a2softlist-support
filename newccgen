@@ -1,76 +1,1019 @@
 #!/bin/bash
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
+# Remove and recreate the work directories so they're clean.
 rm -rf newccoutput 2> /dev/null
 rm -rf newccstaging 2> /dev/null
+mkdir xml 2> /dev/null
+mkdir xml/cc 2> /dev/null
 mkdir postsorted 2> /dev/null
 mkdir newccoutput 2> /dev/null
 mkdir newccstaging 2> /dev/null
+# Log the entry for work tracking.
 echo -e $1 >> newcclog.txt
+# Do the actual search and download.
 ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
 ia download -i --no-directories --glob '*.xml|*.dsk|*.woz|*.zip'  --destdir="./newccstaging" --itemlist=currentitems.txt
+# Now let's decompress any ZIP files we got, forced lowercase names.
 unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput
+# Move the meta XML and the disk images to the output folder for processing.
 mv newccstaging/*.dsk newccoutput
 cp newccstaging/*meta.xml newccoutput
 cd newccoutput
+# Remove stuff we don't want. We don't want to parse the playable.dsk because
+# that's an exact copy of the properly named disk. We don't want pictures and
+# videos in this case either.
 rm 00playable.dsk 2> /dev/null
 rm playable.dsk 2> /dev/null
 rm *.a2r 2> /dev/null
 rm *.png 2> /dev/null
 rm *.mp4 2> /dev/null
 rm *.jpg 2> /dev/null
+# These next two files seem to pop up a lot with MP4 files, which we don't want.
 rm ProjFileList.xml 2> /dev/null
 rm project.xml 2> /dev/null
+# 4AM sometimes leaves his work disk in the package. We don't want to keep that.
 rm *work\ disk* 2> /dev/null
-rm ../xml/cc$1.xml 2> /dev/null
+rm *demuffin\'d\ only* 2> /dev/null
+# Remove any existing XML file with the same number so we start clean.
+rm ../xml/cc/cc$1.xml 2> /dev/null
+#Now we start parsing each XML, of which there GENERALLY should only be one.
 for filename in *.xml; do
 	[ -e "$filename" ] || continue
-	echo -e -n "$1" >> ../xml/mastertable.txt
-	echo -e -n ' is ' >> ../xml/mastertable.txt
-	echo -e -n "$filename"  >> ../xml/mastertable.txt
-	echo -e '\t<software name="namehere">' >> ../xml/cc$1.xml
-	echo -e -n '\t\t<description>' >> ../xml/cc$1.xml
-	xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e '</description>' >> ../xml/cc$1.xml
-	echo -e -n '\t\t<year>' >> ../xml/cc$1.xml
-	xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e '</year>' >> ../xml/cc$1.xml
-	echo -e -n '\t\t<publisher>' >> ../xml/cc$1.xml
-	xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -e 's/distributed by //g' | sed -e 's/published by //g' | sed -e 's/\&amp;amp;/and/g' >> ../xml/cc$1.xml
-	echo -e '</publisher>' >> ../xml/cc$1.xml
-	echo -e -n '\t\t<info name="release" value="' >> ../xml/cc$1.xml
-	xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e '"/>' >> ../xml/cc$1.xml
-	echo -e -n '\t\t<!--' >> ../xml/cc$1.xml
-	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e -n '-->\n' >> ../xml/cc$1.xml
+	# We'll have to handcraft the shortname ourselves.
+	echo -e '\t<software name="namehere">' >> ../xml/cc/cc$1.xml
+	echo -e -n '\t\t<description>' >> ../xml/cc/cc$1.xml
+	xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e '</description>' >> ../xml/cc/cc$1.xml
+	echo -e -n '\t\t<year>' >> ../xml/cc/cc$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e '</year>' >> ../xml/cc/cc$1.xml
+	echo -e -n '\t\t<publisher>' >> ../xml/cc/cc$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -e 's/distributed by //g' | sed -e 's/published by //g' | sed -e 's/\&amp;amp;/and/g' >> ../xml/cc/cc$1.xml
+	echo -e '</publisher>' >> ../xml/cc/cc$1.xml
+	echo -e -n '\t\t<info name="release" value="' >> ../xml/cc/cc$1.xml
+	xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e '"/>' >> ../xml/cc/cc$1.xml
+	echo -e -n '\t\t<!--' >> ../xml/cc/cc$1.xml
+	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e -n '-->\n' >> ../xml/cc/cc$1.xml
 done
+# Now we start working on the disk images. Here's where things get a Little
+# hairy. We need both the proper (possibly bad)-cased filename for tools, but
+# we need a forced lowercase for the XML.
+# Clrmamepro will rename files automagically so the the files are fine as-is;
+# we won't be renaming.
 disknum=1
 for filename in *.dsk; do
 	[ -e "$filename" ] || continue
+	# Here we're generating a forced lowercase version of the name which we'll
+	# use in some places in the XML.
+	lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' )
+	# Critical: Check for SHA1 dupes.
+	# Generate the SHA1 and put it in temp.
 	sha1sum $filename | awk '{print $1}' > temp
+	# Show on-screen if we got a dupe.
 	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
-	echo -e -n '\t\t<part name="flop' >> ../xml/cc$1.xml
-	echo -e -n $disknum >> ../xml/cc$1.xml
-	echo -e '" interface="floppy_5_25">' >> ../xml/cc$1.xml
-	echo -e -n '\t\t\t<dataarea name="flop" size="' >> ../xml/cc$1.xml
-	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e '">' >> ../xml/cc$1.xml
-	echo -e -n '\t\t\t\t<rom name="' >> ../xml/cc$1.xml
-	echo -e -n $filename >> ../xml/cc$1.xml
-	echo -e -n '" size="' >> ../xml/cc$1.xml
-	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e -n '" crc="' >> ../xml/cc$1.xml
-	crc32 $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e -n '" sha1="' >> ../xml/cc$1.xml
-	sha1sum $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc$1.xml
-	echo -e '" />' >> ../xml/cc$1.xml
-	echo -e '\t\t\t</dataarea>' >> ../xml/cc$1.xml
-	echo -e '\t\t</part>' >> ../xml/cc$1.xml
+	# If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
+	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml > temp2
+	# Start outputting disk information.
+	echo -e -n '\t\t<part name="flop' >> ../xml/cc/cc$1.xml
+	echo -e -n $disknum >> ../xml/cc/cc$1.xml
+	echo -e '" interface="floppy_5_25">' >> ../xml/cc/cc$1.xml
+
+	# Generate side/disk number information.
+
+	case $lfilename in
+
+		# "Disk X - Title" type
+		# e.g. "swordthrust (4am crack) disk 1 - the king's testing ground.dsk"
+		*"disk 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 11 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 11 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 12 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 12 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 13 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 13 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 14 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 14 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 15 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 15 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 16 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 16 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 17 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 17 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 18 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 18 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 19 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 19 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 20 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 20 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 21 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 21 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 22 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 22 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 23 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 23 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 24 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 24 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 25 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 25 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 26 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 26 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 27 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 27 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 28 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 28 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 29 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 29 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 30 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 30 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Disk X" type
+		# e.g. "read and spell - in the days of knights and castles (4am crack) disk 1.dsk"
+		*"disk 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Side X - Title" type
+		# e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
+		*"side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Disk X Side X" type
+		# e.g. "read n roll (4am crack) disk 2 side a.dsk"
+		*"disk 1 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 1 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10 side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10 side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Disk X" type
+		*"disk a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Disk X Side A/B" type
+		*"disk a side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk a side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Disk X Side X" type
+		# e.g. "the perfect score (4am crack) disk a side 1 - antonyms i.dsk"
+		*"disk a side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk a side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z side 1 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z Side 1 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z side 2 -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z Side 2 - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk a side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk a side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk b side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk c side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk d side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk e side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk f side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk g side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk h side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk i side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk j side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk J Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk k side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk K Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk l side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk L Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk m side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk M Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk n side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk N Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk o side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk O Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk p side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk P Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk q side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Q Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk r side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk R Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk s side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk S Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk t side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk T Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk u side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk U Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk v side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk V Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk w side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk W Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk x side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk X Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk y side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Y Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk z side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk Z Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Disk X Side X - Title" type
+		# e.g. "superprint (4am crack) disk 1 side a - program.dsk"
+		*"disk 1 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 1 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10 side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10 side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# Disk NumberSide.
+		# e.g. "voyage of the mimi (4am crack) disk 1a.dsk"
+		*"disk 1a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 1b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 2b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 2 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 3b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 3 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 4b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 4 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 5b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 5 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 6b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 6 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 7b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 7 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 8b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 8 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 9b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 9 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"disk 10b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Side X" type
+		# e.g. "reading and me (4am crack) side a.dsk"
+		# Because case is a fallthrough, it only ever gets here if it fails to match
+		# one of the above entries.
+		*"side a."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side A"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"side b."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side B"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"side 1."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 1"/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"side 2."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 2"/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# Special cases. Will add as they come up.
+		*"side 2 (boot)."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 2 - Boot"/>' >> ../xml/cc/cc$1.xml
+			;;
+	esac
+
+	# Give us the actual floppy definition, including size.
+	echo -e -n '\t\t\t<dataarea name="flop" size="' >> ../xml/cc/cc$1.xml
+	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e '">' >> ../xml/cc/cc$1.xml
+	echo -e -n '\t\t\t\t<rom name="' >> ../xml/cc/cc$1.xml
+	# BUT! Give us the lowercase filename in the XML definition.
+	echo -e -n $lfilename >> ../xml/cc/cc$1.xml
+	# As always, tools use case of what's there.
+	echo -e -n '" size="' >> ../xml/cc/cc$1.xml
+	wc "$filename" | awk '{print $3}' | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e -n '" crc="' >> ../xml/cc/cc$1.xml
+	crc32 $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e -n '" sha1="' >> ../xml/cc/cc$1.xml
+	sha1sum $filename | awk '{print $1}' | tr -d '\n' >> ../xml/cc/cc$1.xml
+	echo -e '" />' >> ../xml/cc/cc$1.xml
+	echo -e '\t\t\t</dataarea>' >> ../xml/cc/cc$1.xml
+	echo -e '\t\t</part>' >> ../xml/cc/cc$1.xml
 	((disknum++))
 done
-echo -e '\t</software>\n' >> ../xml/cc$1.xml
-sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc$1.xml
+echo -e '\t</software>\n' >> ../xml/cc/cc$1.xml
+# Change 4am crack tags to cleanly cracked.
+sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc/cc$1.xml
+# If the temp2 file above says this already exists in our MAME softlists,
+# then all this work was a waste and we need to delete the XML now.
+if [[ -s temp2 ]]; then
+	rm ../xml/cc/cc$1.xml
+fi
+# Migrate all .dsk and .woz images to the postsorted folder for later Clrmamepro
+# parsing so we can be 100% sure the XML is correct even after mame -valid
 mv *.dsk ../postsorted 2> /dev/null
 mv *.woz ../postsorted 2> /dev/null
 cd ..
