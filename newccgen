@@ -13,18 +13,25 @@ mkdir newccstaging 2> /dev/null
 echo -e $1 >> newcclog.txt
 # Do the actual search and download.
 ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
-ia download -i --no-directories --glob '*.xml|*.dsk|*.woz|*.zip'  --destdir="./newccstaging" --itemlist=currentitems.txt
+ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.bin|*.woz|*.zip|*.BIN' --destdir="./newccstaging" --itemlist=currentitems.txt
 # Now let's decompress any ZIP files we got, forced lowercase names.
 unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput
+# Before we go ANY further, let's clean up the .bin files into .2mg ...
+cd newccstaging
+rename 's/.bin/.2mg/' *.bin
+cd ..
 # Move the meta XML and the disk images to the output folder for processing.
-mv newccstaging/*.dsk newccoutput
-cp newccstaging/*meta.xml newccoutput
+mv newccstaging/*.dsk newccoutput 2> /dev/null
+mv newccstaging/*.2mg newccoutput 2> /dev/null
+cp newccstaging/*meta.xml newccoutput 2> /dev/null
 cd newccoutput
 # Remove stuff we don't want. We don't want to parse the playable.dsk because
 # that's an exact copy of the properly named disk. We don't want pictures and
 # videos in this case either.
 rm 00playable.dsk 2> /dev/null
+rm 00playable.2mg 2> /dev/null
 rm playable.dsk 2> /dev/null
+rm playable.2mg 2> /dev/null
 rm *.a2r 2> /dev/null
 rm *.png 2> /dev/null
 rm *.mp4 2> /dev/null
@@ -64,7 +71,7 @@ done
 # Clrmamepro will rename files automagically so the the files are fine as-is;
 # we won't be renaming.
 disknum=1
-for filename in *.dsk; do
+for filename in *.dsk *.2mg; do
 	[ -e "$filename" ] || continue
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
@@ -209,15 +216,6 @@ for filename in *.dsk; do
 			;;
 		*"disk 10."*)
 			echo -e '\t\t\t<feature name="part_id" value="Disk 10"/>' >> ../xml/cc/cc$1.xml
-			;;
-
-		# "Side X - Title" type
-		# e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
-		*"side a -"*)
-			echo -e '\t\t\t<feature name="part_id" value="Side A - "/>' >> ../xml/cc/cc$1.xml
-			;;
-		*"side b -"*)
-			echo -e '\t\t\t<feature name="part_id" value="Side B - "/>' >> ../xml/cc/cc$1.xml
 			;;
 
 		# "Disk X Side X" type
@@ -962,10 +960,20 @@ for filename in *.dsk; do
 			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B"/>' >> ../xml/cc/cc$1.xml
 			;;
 
-		# "Side X" type
-		# e.g. "reading and me (4am crack) side a.dsk"
 		# Because case is a fallthrough, it only ever gets here if it fails to match
 		# one of the above entries.
+
+		# "Side X - Title" type
+		# e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
+		*"side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Side A - "/>' >> ../xml/cc/cc$1.xml
+			;;
+		*"side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+
+		# "Side X" type
+		# e.g. "reading and me (4am crack) side a.dsk"
 		*"side a."*)
 			echo -e '\t\t\t<feature name="part_id" value="Side A"/>' >> ../xml/cc/cc$1.xml
 			;;
@@ -1005,8 +1013,10 @@ for filename in *.dsk; do
 	((disknum++))
 done
 echo -e '\t</software>\n' >> ../xml/cc/cc$1.xml
-# Change 4am crack tags to cleanly cracked.
+# Change crack tags to cleanly cracked.
 sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc/cc$1.xml
+sed -i 's/(san inc crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc/cc$1.xml
+sed -i 's/ 800K / (800K 3.5") /g' ../xml/cc/cc$1.xml
 # If the temp2 file above says this already exists in our MAME softlists,
 # then all this work was a waste and we need to delete the XML now.
 if [[ -s temp2 ]]; then
@@ -1015,6 +1025,7 @@ fi
 # Migrate all .dsk and .woz images to the postsorted folder for later Clrmamepro
 # parsing so we can be 100% sure the XML is correct even after mame -valid
 mv *.dsk ../postsorted 2> /dev/null
+mv *.2mg ../postsorted 2> /dev/null
 mv *.woz ../postsorted 2> /dev/null
 cd ..
 IFS=$SAVEIFS

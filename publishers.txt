@@ -110,7 +110,7 @@ distributed by Learning Technologies
 distributed by Learning Well
 distributed by Learning Well and Pelican Software
 distributed by Level-10
-distributed by Litag Productions
+distributed by Litag
 distributed by Lucasfilm
 distributed by MCE
 distributed by MECC
@@ -138,6 +138,7 @@ distributed by Micromax
 distributed by Microprose Software
 distributed by Midscape
 distributed by Midwest Software
+distributed by Millenium Group Incorporated
 distributed by Millennium Group Incorporated
 distributed by Milliken Publishing
 distributed by Milton Bradley Company
@@ -194,6 +195,7 @@ distributed by Softsmith
 distributed by South-Western Publishing
 distributed by Space-Time Associates
 distributed by Spectrum Holobyte
+distributed by Spinnaker
 distributed by Springboard Software
 distributed by Stoneware
 distributed by Strategic Simulations
@@ -230,3 +232,6 @@ published by K-12 MicroMedia
 published by Scholastic
 published by The Avalon Hill
 published by Windham Classics
+distributed by Software Publishing Corporation
+distributed by Lightspeed Software
+distributed by Prentice-Hall
