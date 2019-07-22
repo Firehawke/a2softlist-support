@@ -18,6 +18,8 @@ ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.bin|*.woz|*.zip|*.BI
 unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput
 # Before we go ANY further, let's clean up the .bin files into .2mg ...
 cd newccstaging
+# THIS use of rename is, unfortunately, Debian-specific. If you're using a
+# different distro, you're going to have to modify this.
 rename 's/.bin/.2mg/' *.bin
 cd ..
 # Move the meta XML and the disk images to the output folder for processing.
@@ -86,7 +88,33 @@ for filename in *.dsk *.2mg; do
 	# Start outputting disk information.
 	echo -e -n '\t\t<part name="flop' >> ../xml/cc/cc$1.xml
 	echo -e -n $disknum >> ../xml/cc/cc$1.xml
-	echo -e '" interface="floppy_5_25">' >> ../xml/cc/cc$1.xml
+	echo -e -n '" interface="' >> ../xml/cc/cc$1.xml
+
+	# Now, is this a 5.25" or 3.5"?
+	case $lfilename in
+		*".dsk"*)
+			echo -e 'floppy_5_25">' >> ../xml/cc/cc$1.xml
+			;;
+		*".2mg"*)
+			echo -e 'floppy_3_5">' >> ../xml/cc/cc$1.xml
+			;;
+		*".woz"*)
+			# WOZ can be either. We need to pull the data from the WOZ itself.
+			# According to the WOZ 2.0 spec, certain info is always hard-set
+			# location-wise to help lower-end emulators.
+			# The disk type should ALWAYS be at offset 21, and
+			# should be "1" for 5.25" and "2" for 3.5" disks.
+			disktype=$((16#$(xxd -e -p -l1 -s 21 "$filename")))
+			case $disktype in
+				*"2"*)
+					echo -e 'floppy_3_5">' >> ../xml/cc/cc$1.xml
+					;;
+				*)
+					echo -e 'floppy_5_25">' >> ../xml/cc/cc$1.xml
+					;;
+			esac
+			;;
+	esac
 
 	# Generate side/disk number information.
 
