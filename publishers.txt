@@ -125,6 +125,7 @@ distributed by Longman Group
 distributed by Lucasfilm
 distributed by MCE
 distributed by MECC
+published by MECC
 distributed by MUSE Software
 distributed by Magna Soft
 distributed by Marshfilm
@@ -245,3 +246,9 @@ published by K-12 MicroMedia
 published by Scholastic
 published by The Avalon Hill
 published by Windham Classics
+distributed by Paramount Pictures
+distributed by Foster Cline
+distributed by Natural Intelligence
+distributed by Southwest Edpsych Services
+distributed by Language Study Software
+published by Central Point Software

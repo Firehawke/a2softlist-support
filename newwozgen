@@ -9,17 +9,15 @@ mkdir xml/woz 2> /dev/null
 mkdir postsorted 2> /dev/null
 mkdir wozoutput 2> /dev/null
 mkdir wozstaging 2> /dev/null
-# Log the entry for work tracking.
-echo -e $1 >> newcclog.txt
 # Do the actual search and download.
+echo -e "Beginning work on entry [$1].."
 ia search 'collection:wozaday' --parameters="page=$1&rows=1" --sort="publicdate desc" -i > currentitems.txt
 ia download -i --no-directories --glob '*.xml|*.woz|*.zip'  --destdir="./wozstaging" --itemlist=currentitems.txt
 # Now let's decompress any ZIP files we got, forced lowercase names.
-unzip -n -qq -LL -j "wozstaging/*.zip" -d wozoutput
-mv wozstaging/*.woz wozoutput
+unzip -n -qq -LL -j "wozstaging/*.zip" -d wozoutput 2> /dev/null
 # Move the meta XML and the disk images to the output folder for processing.
-mv wozstaging/*.dsk wozoutput
-cp wozstaging/*meta.xml wozoutput
+mv wozstaging/*.woz wozoutput 2> /dev/null
+cp wozstaging/*meta.xml wozoutput 2> /dev/null
 cd wozoutput
 # Remove stuff we don't want. We don't want to parse the playable.dsk because
 # that's an exact copy of the properly named disk. We don't want pictures and
@@ -55,6 +53,9 @@ for filename in *.xml; do
 	echo -e -n '\t\t<info name="release" value="' >> ../xml/woz/woz$1.xml
 	xmllint --xpath 'metadata/addeddate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/woz/woz$1.xml
 	echo -e '"/>' >> ../xml/woz/woz$1.xml
+	# Obviously you'll need to hand-configure the compatibility because there's a lot of ways this can be described...
+	echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+	echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
 	echo -e -n '\t\t<!--' >> ../xml/woz/woz$1.xml
 	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/woz/woz$1.xml
 	echo -e -n '-->\n' >> ../xml/woz/woz$1.xml
@@ -70,17 +71,32 @@ for filename in *.woz; do
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
 	lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' )
+	echo -e "Generating disk $disknum with file $lfilename.."
 	# Critical: Check for SHA1 dupes.
 	# Generate the SHA1 and put it in temp.
 	sha1sum $filename | awk '{print $1}' > temp
 	# Show on-screen if we got a dupe.
-	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
+	#grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
 	# If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
 	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml > temp2
+	if [[ -s temp2 ]]; then
+		echo "dupe" > dupecheck
+	fi
 	# Start outputting disk information.
 	echo -e -n '\t\t<part name="flop' >> ../xml/woz/woz$1.xml
 	echo -e -n $disknum >> ../xml/woz/woz$1.xml
-	echo -e '" interface="floppy_5_25">' >> ../xml/woz/woz$1.xml
+	echo -e -n '" interface="' >> ../xml/woz/woz$1.xml
+
+	# Now, is this a 5.25" or 3.5"?
+	disktype=$((16#$(xxd -e -p -l1 -s 21 "$filename")))
+	case $disktype in
+		*"2"*)
+			echo -e 'floppy_3_5">' >> ../xml/woz/woz$1.xml
+			;;
+		*)
+			echo -e 'floppy_5_25">' >> ../xml/woz/woz$1.xml
+			;;
+	esac
 
 	# Generate side/disk number information.
 
@@ -210,15 +226,6 @@ for filename in *.woz; do
 			;;
 		*"disk 10."*)
 			echo -e '\t\t\t<feature name="part_id" value="Disk 10"/>' >> ../xml/woz/woz$1.xml
-			;;
-
-		# "Side X - Title" type
-		# e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
-		*"side a -"*)
-			echo -e '\t\t\t<feature name="part_id" value="Side A - "/>' >> ../xml/woz/woz$1.xml
-			;;
-		*"side b -"*)
-			echo -e '\t\t\t<feature name="part_id" value="Side B - "/>' >> ../xml/woz/woz$1.xml
 			;;
 
 		# "Disk X Side X" type
@@ -963,10 +970,20 @@ for filename in *.woz; do
 			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B"/>' >> ../xml/woz/woz$1.xml
 			;;
 
-		# "Side X" type
-		# e.g. "reading and me (4am crack) side a.dsk"
 		# Because case is a fallthrough, it only ever gets here if it fails to match
 		# one of the above entries.
+
+		# "Side X - Title" type
+		# e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
+		*"side a -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Side A - "/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side b -"*)
+			echo -e '\t\t\t<feature name="part_id" value="Side B - "/>' >> ../xml/woz/woz$1.xml
+			;;
+
+		# "Side X" type
+		# e.g. "reading and me (4am crack) side a.dsk"
 		*"side a."*)
 			echo -e '\t\t\t<feature name="part_id" value="Side A"/>' >> ../xml/woz/woz$1.xml
 			;;
@@ -1008,13 +1025,16 @@ done
 echo -e '\t</software>\n' >> ../xml/woz/woz$1.xml
 # Clean out the woz-a-day collection tags.
 sed -i 's/ (woz-a-day collection)<\/description>/<\/description>/g' ../xml/woz/woz$1.xml
+sed -i 's/ 800K / (800K 3.5") /g' ../xml/woz/woz$1.xml
 # If the temp2 file above says this already exists in our MAME softlists,
 # then all this work was a waste and we need to delete the XML now.
-if [[ -s temp2 ]]; then
+if [[ -s dupecheck ]]; then
+	echo -e "Duplicated entry. Removing generated XML..."
 	rm ../xml/woz/woz$1.xml
 fi
 # Migrate all .woz images to the postsorted folder for later Clrmamepro
 # parsing so we can be 100% sure the XML is correct even after mame -valid
 mv *.woz ../postsorted 2> /dev/null
 cd ..
+echo -e "------"
 IFS=$SAVEIFS
