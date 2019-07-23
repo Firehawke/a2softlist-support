@@ -1049,6 +1049,7 @@ echo -e '\t</software>\n' >> ../xml/cc/cc$1.xml
 # Change crack tags to cleanly cracked.
 sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc/cc$1.xml
 sed -i 's/(san inc crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc/cc$1.xml
+sed -i 's/(4am and san inc crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/cc/cc$1.xml
 sed -i 's/ 800K / (800K 3.5") /g' ../xml/cc/cc$1.xml
 # If the temp2 file above says this already exists in our MAME softlists,
 # then all this work was a waste and we need to delete the XML now.
