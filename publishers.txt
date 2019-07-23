@@ -13,6 +13,7 @@ distributed by Alfred Publishing Company
 distributed by American Eagle
 distributed by American Educational Computer
 distributed by American Language Academy
+distributed by American School Publishing
 distributed by Apple Computer
 distributed by Applecart Programs For Education
 distributed by Aquarius People Materials
@@ -21,6 +22,7 @@ distributed by Artworx
 distributed by Atari
 distributed by Avant-Garde Creations
 distributed by Bally Midway
+distributed by Bantam Electronic Publishing
 distributed by Bantam Software
 distributed by Barnum Software
 distributed by Baudville
@@ -30,6 +32,8 @@ distributed by Bitcards
 distributed by Blue Chip Software
 distributed by Blue Ridge Software
 distributed by Border Software
+distributed by Borg-Warner Educational Systems
+distributed by BrainBank
 distributed by Broderbund Software
 distributed by CBS Software
 distributed by CPU Software
@@ -43,6 +47,7 @@ distributed by Computer Headware
 distributed by Conduit Educational Software
 distributed by Control Data Corporation
 distributed by Courses by Computers
+distributed by Criterion Micro Soft
 distributed by Critical Thinking Press and Software
 distributed by Cross Educational Software
 distributed by D.C. Heath
@@ -110,7 +115,9 @@ distributed by Learning Technologies
 distributed by Learning Well
 distributed by Learning Well and Pelican Software
 distributed by Level-10
+distributed by Lightspeed Software
 distributed by Litag
+distributed by Longman Group
 distributed by Lucasfilm
 distributed by MCE
 distributed by MECC
@@ -161,6 +168,7 @@ distributed by Penguin Software
 distributed by Phoenix Software
 distributed by Piccadilly Software
 distributed by Polarware
+distributed by Prentice-Hall
 distributed by Prescription Learning
 distributed by Program Design
 distributed by Quest Learning Systems
@@ -192,6 +200,7 @@ distributed by Soft Productions
 distributed by SoftArt Games
 distributed by Softlore Corporation
 distributed by Softsmith
+distributed by Software Publishing Corporation
 distributed by South-Western Publishing
 distributed by Space-Time Associates
 distributed by Spectrum Holobyte
@@ -232,6 +241,3 @@ published by K-12 MicroMedia
 published by Scholastic
 published by The Avalon Hill
 published by Windham Classics
-distributed by Software Publishing Corporation
-distributed by Lightspeed Software
-distributed by Prentice-Hall

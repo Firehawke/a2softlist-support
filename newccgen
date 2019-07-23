@@ -12,15 +12,16 @@ mkdir newccstaging 2> /dev/null
 # Log the entry for work tracking.
 echo -e $1 >> newcclog.txt
 # Do the actual search and download.
+echo -e "Beginning work on entry [$1].."
 ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
 ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.bin|*.woz|*.zip|*.BIN' --destdir="./newccstaging" --itemlist=currentitems.txt
 # Now let's decompress any ZIP files we got, forced lowercase names.
-unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput
+unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput 2> /dev/null
 # Before we go ANY further, let's clean up the .bin files into .2mg ...
 cd newccstaging
 # THIS use of rename is, unfortunately, Debian-specific. If you're using a
 # different distro, you're going to have to modify this.
-rename 's/.bin/.2mg/' *.bin
+rename 's/.bin/.2mg/' *.bin 2> /dev/null
 cd ..
 # Move the meta XML and the disk images to the output folder for processing.
 mv newccstaging/*.dsk newccoutput 2> /dev/null
@@ -78,13 +79,17 @@ for filename in *.dsk *.2mg; do
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
 	lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' )
+	echo -e "Generating disk $disknum with file $lfilename.."
 	# Critical: Check for SHA1 dupes.
 	# Generate the SHA1 and put it in temp.
 	sha1sum $filename | awk '{print $1}' > temp
 	# Show on-screen if we got a dupe.
-	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
+	#grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml
 	# If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
 	grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml > temp2
+	if [[ -s temp2 ]]; then
+		echo "dupe" > dupecheck
+	fi
 	# Start outputting disk information.
 	echo -e -n '\t\t<part name="flop' >> ../xml/cc/cc$1.xml
 	echo -e -n $disknum >> ../xml/cc/cc$1.xml
@@ -1047,7 +1052,8 @@ sed -i 's/(san inc crack)<\/description>/(cleanly cracked)<\/description>/g' ../
 sed -i 's/ 800K / (800K 3.5") /g' ../xml/cc/cc$1.xml
 # If the temp2 file above says this already exists in our MAME softlists,
 # then all this work was a waste and we need to delete the XML now.
-if [[ -s temp2 ]]; then
+if [[ -s dupecheck ]]; then
+	echo -e "Duplicated entry. Removing generated XML..."
 	rm ../xml/cc/cc$1.xml
 fi
 # Migrate all .dsk and .woz images to the postsorted folder for later Clrmamepro
@@ -1056,4 +1062,5 @@ mv *.dsk ../postsorted 2> /dev/null
 mv *.2mg ../postsorted 2> /dev/null
 mv *.woz ../postsorted 2> /dev/null
 cd ..
+echo -e "------"
 IFS=$SAVEIFS
