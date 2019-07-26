@@ -1,5 +1,7 @@
 Decision Development
+by Belanger and Boyle
 developed by Hartley Courseware
+developed by J &amp; S Software
 distributed by A/V Concepts
 distributed by ARCO Publishing
 distributed by Abracadata
@@ -21,6 +23,7 @@ distributed by Aquarius People Materials
 distributed by ArtSci
 distributed by Artworx
 distributed by Atari
+distributed by Automated Simulations
 distributed by Avant-Garde Creations
 distributed by Baker Book House
 distributed by Bally Midway
@@ -29,6 +32,7 @@ distributed by Bantam Software
 distributed by Barnum Software
 distributed by Baudville
 distributed by Behavioral Engineering
+distributed by Bergwall Educational Software
 distributed by Berserker Works
 distributed by Bitcards
 distributed by Blue Chip Software
@@ -46,8 +50,11 @@ distributed by College Entrance Exam Board
 distributed by College-Hill Press
 distributed by Compu-Tations
 distributed by Computer Headware
+distributed by Computer Programs Unlimited
 distributed by Conduit Educational Software
+distributed by Continental Software
 distributed by Control Data Corporation
+distributed by Cosmi Corporation
 distributed by Courses by Computers
 distributed by Criterion Micro Soft
 distributed by Critical Thinking Press
@@ -65,6 +72,9 @@ distributed by Daystar Learning
 distributed by DesignWare
 distributed by Developmental Learning Materials
 distributed by Didatech Software
+distributed by Discovery Games
+distributed by Double-Gold Software
+distributed by ERIC Software Publishing
 distributed by Edu-Ware
 distributed by Educational Activities
 distributed by Educational Materials and Equipment
@@ -76,6 +86,9 @@ distributed by Epyx
 distributed by Firebird
 distributed by Fisher Price Learning Software
 distributed by Focus Media
+distributed by Foster Cline
+distributed by Friend-Lee Software
+distributed by Funtastic
 distributed by GARDE
 distributed by Gamco Industries
 distributed by Gebelli Software
@@ -98,6 +111,7 @@ distributed by Highland Computers
 distributed by Hoffman Educational Systems
 distributed by Holt, Rinehart and Winston
 distributed by Houghton Mifflin
+distributed by Houghton-Mifflin
 distributed by Human Engineered Software
 distributed by I.M.C.
 distributed by Imaginative Systems Software
@@ -113,7 +127,9 @@ distributed by K-12 Micromedia
 distributed by Koala Technologies
 distributed by Krell Software
 distributed by Langenscheidt Publishers
+distributed by Language Study Software
 distributed by Laureate Learning Systems
+distributed by Learning Multi-Systems
 distributed by Learning Seed Company
 distributed by Learning Technologies
 distributed by Learning Well
@@ -125,7 +141,6 @@ distributed by Longman Group
 distributed by Lucasfilm
 distributed by MCE
 distributed by MECC
-published by MECC
 distributed by MUSE Software
 distributed by Magna Soft
 distributed by Marshfilm
@@ -139,10 +154,13 @@ distributed by Media Materials
 distributed by Methods and Solutions
 distributed by Michael G. Southwell
 distributed by Micro Education Corporation of America
+distributed by Micro Finance Systems
 distributed by Micro Lab
 distributed by Micro Learningware
+distributed by Micro Power and Light
 distributed by Micro-Fun Software
 distributed by MicroFun
+distributed by MicroLab
 distributed by Microcomputer Games
 distributed by Microcomputer Workshops
 distributed by Micrograms
@@ -153,23 +171,29 @@ distributed by Midwest Software
 distributed by Millenium Group Incorporated
 distributed by Millennium Group Incorporated
 distributed by Milliken Publishing
+distributed by Milton Bradley
 distributed by Milton Bradley Company
 distributed by Mindplay
 distributed by Mindscape
+distributed by Modern Education Corporation
 distributed by Morningstar
 distributed by National Geographic Society
 distributed by National Textbook Company
+distributed by Natural Intelligence
 distributed by Neosoft
 distributed by New World Computing
 distributed by Nikrom Technical Products
 distributed by On-Line Systems
 distributed by Opportunities For Learning
 distributed by Optimum Resource
+distributed by Orange Juice Software Systems
 distributed by Origin
+distributed by Paramount Pictures
 distributed by Parrot Software
 distributed by Peachtree Software
 distributed by Pelican Software
 distributed by Penguin Software
+distributed by Personal Software
 distributed by Phoenix Software
 distributed by Piccadilly Software
 distributed by Polarware
@@ -179,6 +203,7 @@ distributed by Program Design
 distributed by Quest Learning Systems
 distributed by Queue
 distributed by Random House
+distributed by Reader's Digest Services
 distributed by Reader's Digest Software
 distributed by Realty Software
 distributed by Reston Publishing
@@ -186,9 +211,11 @@ distributed by Rhiannon
 distributed by Ritam Corporation
 distributed by RockRoy
 distributed by SSI
+distributed by Sams Software
 distributed by Santa Barbara Softworks
 distributed by Scandura Associates
 distributed by Scarborough Systems
+distributed by Scharf Software Systems
 distributed by Scholastic
 distributed by Science Research Associates
 distributed by Scott, Foresman and Company
@@ -198,15 +225,20 @@ distributed by Sega
 distributed by Sentient Software
 distributed by Sierra On-Line
 distributed by Silver Burdett Company
+distributed by Silver Burdett Courseware
 distributed by Silver, Burdett and Ginn
+distributed by Sir-Tech
 distributed by Sirius Software
 distributed by Society for Visual Education
 distributed by Soft Productions
 distributed by SoftArt Games
 distributed by Softlore Corporation
 distributed by Softsmith
+distributed by Software Masters
 distributed by Software Publishing Corporation
 distributed by South-Western Publishing
+distributed by Southern Micro-Systems
+distributed by Southwest Edpsych Services
 distributed by Space-Time Associates
 distributed by Spectrum Holobyte
 distributed by Spinnaker
@@ -227,7 +259,9 @@ distributed by The Math Lab
 distributed by The Regents
 distributed by The Regents of the University of California
 distributed by The Regents/ALA Company
+distributed by The Software Emporium
 distributed by The Software Farm
+distributed by Thorn EMI Video
 distributed by Thunder Mountain
 distributed by Tom Snyder Productions
 distributed by Top Notch Software
@@ -237,18 +271,15 @@ distributed by Turning Point Software
 distributed by Unicorn Software
 distributed by Vital Information
 distributed by Windham Classics
+distributed by subLOGIC
 distributed by the Society for Visual Education
 distributed in 1982 by Terrapin
 distributed in 1984 by Terrapin
 published by Advanced Ideas
+published by Central Point Software
 published by Electric Transit
 published by K-12 MicroMedia
+published by MECC
 published by Scholastic
 published by The Avalon Hill
 published by Windham Classics
-distributed by Paramount Pictures
-distributed by Foster Cline
-distributed by Natural Intelligence
-distributed by Southwest Edpsych Services
-distributed by Language Study Software
-published by Central Point Software
