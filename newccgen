@@ -14,7 +14,7 @@ echo -e $1 >> newcclog.txt
 # Do the actual search and download.
 echo -e "Beginning work on entry [$1].."
 ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
-ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.bin|*.woz|*crack\).zip|*.BIN' --destdir="./newccstaging" --itemlist=currentitems.txt
+ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.bin|*.woz|*crack).zip|*.BIN' --destdir="./newccstaging" --itemlist=currentitems.txt
 # Now let's decompress any ZIP files we got, forced lowercase names.
 unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput 2> /dev/null
 # Before we go ANY further, let's clean up the .bin files into .2mg ...
@@ -35,6 +35,7 @@ rm 00playable.dsk 2> /dev/null
 rm 00playable.2mg 2> /dev/null
 rm playable.dsk 2> /dev/null
 rm playable.2mg 2> /dev/null
+rm 00playable2.dsk 2> /dev/null
 rm *fastdsk\ rip\* 2> /dev/null
 rm *.a2r 2> /dev/null
 rm *.png 2> /dev/null
@@ -929,6 +930,63 @@ for filename in *.dsk *.2mg; do
 			;;
 		*"disk 10 side b -"*)
 			echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B - "/>' >> ../xml/cc/cc$1.xml
+			;;
+
+			# Disk Side-Number.
+			# e.g. "reading workshop - running free (4am crack) disk a-1.dsk"
+			*"disk a-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk a-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk A-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk b-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk b-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk B-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk c-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk c-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk C-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk d-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk d-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk D-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk e-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk e-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk E-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk f-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk f-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk F-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk g-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk g-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk G-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk h-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk h-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk H-2"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk i-1"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I-1"/>' >> ../xml/cc/cc$1.xml
+			;;
+			*"disk i-2"*)
+			echo -e '\t\t\t<feature name="part_id" value="Disk I-2"/>' >> ../xml/cc/cc$1.xml
 			;;
 
 		# Disk NumberSide.
