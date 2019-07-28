@@ -13,8 +13,8 @@ mkdir newccstaging 2> /dev/null
 echo -e $1 >> newcclog.txt
 # Do the actual search and download.
 echo -e "Beginning work on entry [$1].."
-ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate asc" -i > currentitems.txt
-ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.bin|*.woz|*crack).zip|*.BIN' --destdir="./newccstaging" --itemlist=currentitems.txt
+ia search '@4am subject:"crack"' --parameters="page=$1&rows=1" --sort="publicdate desc" -i > currentitems.txt
+ia download -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.po|*.bin|*.woz|*crack).zip|*.BIN' --destdir="./newccstaging" --itemlist=currentitems.txt
 # Now let's decompress any ZIP files we got, forced lowercase names.
 unzip -n -qq -LL -j "newccstaging/*.zip" -d newccoutput 2> /dev/null
 # Before we go ANY further, let's clean up the .bin files into .2mg ...
@@ -25,6 +25,7 @@ rename 's/.bin/.2mg/' *.bin 2> /dev/null
 cd ..
 # Move the meta XML and the disk images to the output folder for processing.
 mv newccstaging/*.dsk newccoutput 2> /dev/null
+mv newccstaging/*.po newccoutput 2> /dev/null
 mv newccstaging/*.2mg newccoutput 2> /dev/null
 cp newccstaging/*meta.xml newccoutput 2> /dev/null
 cd newccoutput
@@ -76,7 +77,7 @@ done
 # Clrmamepro will rename files automagically so the the files are fine as-is;
 # we won't be renaming.
 disknum=1
-for filename in *.dsk *.2mg; do
+for filename in *.po *.dsk *.2mg; do
 	[ -e "$filename" ] || continue
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
@@ -98,7 +99,11 @@ for filename in *.dsk *.2mg; do
 	echo -e -n '" interface="' >> ../xml/cc/cc$1.xml
 
 	# Now, is this a 5.25" or 3.5"?
+	# In the case of a .po it could technicaly be either, but...
 	case $lfilename in
+		*".po"*)
+			echo -e 'floppy_3_5">' >> ../xml/cc/cc$1.xml
+			;;
 		*".dsk"*)
 			echo -e 'floppy_5_25">' >> ../xml/cc/cc$1.xml
 			;;

@@ -67,6 +67,7 @@ distributed by Datamost
 distributed by Datasoft
 distributed by Davidson &amp;amp; Associates
 distributed by Davidson and Associates
+published by Davidson and Associates
 distributed by Davka Corporation
 distributed by Daystar Learning
 distributed by DesignWare
@@ -187,7 +188,7 @@ distributed by On-Line Systems
 distributed by Opportunities For Learning
 distributed by Optimum Resource
 distributed by Orange Juice Software Systems
-distributed by Origin
+distributed by Origin Systems
 distributed by Paramount Pictures
 distributed by Parrot Software
 distributed by Peachtree Software
@@ -283,3 +284,6 @@ published by MECC
 published by Scholastic
 published by The Avalon Hill
 published by Windham Classics
+distributed by Frontier Software
+distributed by Practicorp
+distributed by Merrill Publishing

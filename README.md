@@ -14,11 +14,12 @@
  Yeah, this is the part that's going to probably see the most updates over time. The script pulls a grep against the publishers.txt file to try to autodetect who the publisher is, and adding new publishers to the list will cause them to be automagically handled.
 
 # How to use?
- Right now the scripts are set up in diametrically opposed directions, for good reason.
 
- `newccgen` is currently set up to count from the BEGINNING of the 4AM cleanly cracked disk archive. Running `newccgen 1` will get you the first release and generate the XML data accordingly. Running `newccgen 100` will do the 100th release, and so forth. It's set up this way because I'm still (as of July 2019) over 2000 disks behind and need to get through the backlog first. Eventually behavior will be changed to match the other script. MAME softlist-compatible XML output will be put in `xml/cc/cc#.xml`, with `newccgen 1` giving you `cc1.xml` and `newccgen 100` giving you `cc100.xml`-- in all cases, this WILL overwrite what's in the file, allowing you to re-run in case of error or if you need to modify publishers.txt or whatever.
+ Both scripts are now set up to count from the END of their respective archives, as I've finally caught up.
 
- `newwozgen` is set up to count from the END of the 4AM WOZ-a-day archives. Running `newwozgen 1` will ALWAYS grab the latest single release in that collection and generate MAME softlist-compatible XML as `xml/woz/woz1.xml` overwriting whatever is in that file on creation. Running `newwozgen 100` will go back 100 releases from latest and generate a `woz100.xml` file (and again overwriting what's there).
+ `newccgen` will count from the end of the 4AM cleanly cracked disk archive. Running `newccgen 1` will get you the latest release and generate the XML data accordingly. Running `newccgen 100` will do the 100th release back, and so forth. MAME softlist-compatible XML output will be put in `xml/cc/cc#.xml`, with `newccgen 1` giving you `cc1.xml` and `newccgen 100` giving you `cc100.xml`-- in all cases, this WILL overwrite what's in the file, allowing you to re-run in case of error or if you need to modify publishers.txt or whatever.
+
+ `newwozgen` is likewise set up to count from the end of the 4AM WOZ-a-day archives. Running `newwozgen 1` will grab the latest single release in that collection and generate MAME softlist-compatible XML as `xml/woz/woz1.xml` overwriting whatever is in that file on creation. Running `newwozgen 100` will go back 100 releases from latest and generate a `woz100.xml` file (and again overwriting what's there).
 
  When run, you may get output that looks like:
 
