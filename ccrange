@@ -3,6 +3,7 @@ rm xml/cc/cc*.xml
 COUNTER=1
 while [ $COUNTER -lt 100 ]; do
 		if ! (./newccgen $COUNTER); then
+			./ccgenxml
 			exit 1
 		fi
 		let COUNTER=COUNTER+1
