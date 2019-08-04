@@ -1,0 +1,10 @@
+#!/bin/bash
+rm xml/woz/woz*.xml
+COUNTER=1
+while [ $COUNTER -lt 100 ]; do
+		if ! (./newwozgen $COUNTER); then
+			exit 1
+		fi
+		let COUNTER=COUNTER+1
+done
+./wozgenxml

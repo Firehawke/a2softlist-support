@@ -17,15 +17,19 @@
 
  Both scripts are now set up to count from the END of their respective archives, as I've finally caught up.
 
+ Instead of directly using the `newccgen` and `newwozgen` tools described below, I suggest you read the next paragraph:
+
+ Newly added are `wozrange` and `ccrange`, scripts that automate the workflow a bit further. They will start from the newest entry and work their way back towards the 100th entry, stopping as soon as they hit any kind of duplicated material. They will then call the `ccgenxml`/`wozgenxml` scripts to condense the output to a single file for quicker editing pass. They will be out of order compared to the release list, so you'll need to open IA in your browser and copy-paste the entries accordingly, then do the necessary final adjustments as you usually would.
+
  `newccgen` will count from the end of the 4AM cleanly cracked disk archive. Running `newccgen 1` will get you the latest release and generate the XML data accordingly. Running `newccgen 100` will do the 100th release back, and so forth. MAME softlist-compatible XML output will be put in `xml/cc/cc#.xml`, with `newccgen 1` giving you `cc1.xml` and `newccgen 100` giving you `cc100.xml`-- in all cases, this WILL overwrite what's in the file, allowing you to re-run in case of error or if you need to modify publishers.txt or whatever.
 
  `newwozgen` is likewise set up to count from the end of the 4AM WOZ-a-day archives. Running `newwozgen 1` will grab the latest single release in that collection and generate MAME softlist-compatible XML as `xml/woz/woz1.xml` overwriting whatever is in that file on creation. Running `newwozgen 100` will go back 100 releases from latest and generate a `woz100.xml` file (and again overwriting what's there).
 
- When run, you may get output that looks like:
+ When run, you will eventually get output that looks like:
 
- `/mnt/c/msys64/src/mame/hash/apple2_flop_clcracked.xml:22105: <rom name="repton (4am crack).dsk" size="143360" crc="eb5a3f65" sha1="8efc7bf1b2bf004de51d7de9c4d0675626d3b0ff" />`
+ `Duplicated entry. Removing generated XML...`
 
- That's your official warning that the script found this exact SHA1 already in the described softlist and that you shouldn't proceed further without making sure you're not adding a duplicate. This WILL NOT save you from duplicates that don't have the same SHA1, however, such as from a different crack source.
+ That's your official notification that the script eventually got to material already in the softlist and stopped.
 
 ## Warnings
 

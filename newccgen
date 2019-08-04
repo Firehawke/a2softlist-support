@@ -1144,8 +1144,11 @@ sed -i 's/ 800K / (800K 3.5") /g' ../xml/cc/cc$1.xml
 if [[ -s dupecheck ]]; then
 	echo -e "Duplicated entry. Removing generated XML..."
 	rm ../xml/cc/cc$1.xml
+	echo ..
+	echo -e "------"
+	exit 1
 fi
-# Migrate all .dsk and .woz images to the postsorted folder for later Clrmamepro
+# Migrate all non-duplicated .dsk and .woz images to the postsorted folder for later Clrmamepro
 # parsing so we can be 100% sure the XML is correct even after mame -valid
 mv *.dsk ../postsorted 2> /dev/null
 mv *.2mg ../postsorted 2> /dev/null

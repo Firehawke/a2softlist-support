@@ -247,6 +247,7 @@ distributed by Springboard Software
 distributed by Stoneware
 distributed by Strategic Simulations
 distributed by Sunburst Communications
+published by Sunburst Communications
 distributed by Superior Software
 distributed by Synergistic Software
 distributed by Taito
@@ -287,3 +288,9 @@ published by Windham Classics
 distributed by Frontier Software
 distributed by Practicorp
 distributed by Merrill Publishing
+published by Quality Software
+published by Avant-Garde Creations
+published by Access Software
+published by Imagic
+distributed by Core Concepts
+distributed by Channelmark Corporation
