@@ -12,7 +12,15 @@ mkdir wozstaging 2> /dev/null
 # Do the actual search and download.
 echo -e "Beginning work on entry [$1].."
 ia search 'collection:wozaday' --parameters="page=$1&rows=1" --sort="publicdate desc" -i > currentitems.txt
-ia download -i --no-directories --glob '*.xml|*.woz|*.zip'  --destdir="./wozstaging" --itemlist=currentitems.txt
+# Major change: output download URLs to currentdls.txt
+ia download -i --no-directories --glob '*.xml|*.woz|*.zip' -d --destdir="./wozstaging" --itemlist=currentitems.txt > currentdls.txt
+# Let's remove the extras file and certain other unwanted materials
+sed -i '/%20extras%20/d' currentdls.txt
+sed -i '/0playable/d' currentdls.txt
+sed -i '/_files.xml/d' currentdls.txt
+# Now we download.
+echo "Downloading..."
+wget -q -i currentdls.txt -nc --show-progress -nd -P ./wozstaging
 # Now let's decompress any ZIP files we got, forced lowercase names.
 unzip -n -qq -LL -j "wozstaging/*.zip" -d wozoutput 2> /dev/null
 # Move the meta XML and the disk images to the output folder for processing.
@@ -1031,7 +1039,6 @@ sed -i 's/ 800K / (800K 3.5") /g' ../xml/woz/woz$1.xml
 if [[ -s dupecheck ]]; then
 	echo -e "Duplicated entry. Removing generated XML..."
 	rm ../xml/woz/woz$1.xml
-	echo ..
 	echo -e "------"
 	exit 1
 fi

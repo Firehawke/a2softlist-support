@@ -1,0 +1,4 @@
+#!/bin/bash
+cd xml/woz
+cat woz*.xml > ../woz-combined.xml 2> /dev/null
+cd ../..

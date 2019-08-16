@@ -1,3 +1,4 @@
 #!/bin/bash
 cd xml/cc
-cat cc*.xml > ../cc-combined.xml
+cat cc*.xml > ../cc-combined.xml 2> /dev/null
+cd ../..
