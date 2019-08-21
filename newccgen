@@ -18,7 +18,7 @@ ia download -d -i --no-directories --glob '*.xml|*.dsk|*.2mg|*.po|*.bin|*.woz|*c
 sed -i '/%20extras%20/d' currentdls.txt
 sed -i '/0playable/d' currentdls.txt
 sed -i '/_files.xml/d' currentdls.txt
-sed -i '/demuffin\'d/d' currentdls.txt
+sed -i "/demuffin\'d/d" currentdls.txt
 sed -i '/work%20disk/d' currentdls.txt
 # Now we download.
 echo "Downloading..."
