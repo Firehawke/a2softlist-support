@@ -61,9 +61,56 @@ for filename in *.xml; do
 	echo -e -n '\t\t<info name="release" value="' >> ../xml/woz/woz$1.xml
 	xmllint --xpath 'metadata/addeddate/text()' $filename | awk '{print $1}' | tr -d '\n' >> ../xml/woz/woz$1.xml
 	echo -e '"/>' >> ../xml/woz/woz$1.xml
+	compatdata=$(xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n')
+	case $compatdata in
+		*"It runs on any Apple ][ with 48K."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It runs on any Apple ][ with 48K. The double hi-res version is automatically selected if you have a 128K Apple //e or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It runs on any Apple ][ with 48K. -->\n\t\t<!-- The double hi-res version is automatically selected if you have a 128K Apple //e or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires a 48K Apple ][+ or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 48K Apple ][+ or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requirs a 64K Apple ][+ or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires a 64K Apple ][+ or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires 64K Apple ][+ or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires a 128K Apple //e or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 128K Apple //e or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires 128K Apple //e or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 128K Apple //e or later. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires a 128K Apple //e, //c, or IIgs."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 128K Apple //e, //c, or IIgs. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*"It requires an Apple ][ or ][+ with 48K. Due to compatibiltiy issues created by the copy protection, it will not run on later models."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires an Apple ][ or ][+ with 48K\n\t\tDue to compatibiltiy issues created by the copy protection,\n\t\tit will not run on later models. -->' >> ../xml/woz/woz$1.xml
+			;;
+		*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
+			;;
+	esac
 	# Obviously you'll need to hand-configure the compatibility because there's a lot of ways this can be described...
-	echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
-	echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
+	#echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+	#echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
 	echo -e -n '\t\t<!--' >> ../xml/woz/woz$1.xml
 	xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >> ../xml/woz/woz$1.xml
 	echo -e -n '-->\n' >> ../xml/woz/woz$1.xml
