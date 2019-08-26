@@ -301,3 +301,6 @@ published by Brainpower, Inc
 published by Spectrum HoloByte
 published by On-Line Systems
 published by Automated Simulations
+published by The Software Toolworks
+published by Crystal Software
+published by Micro Lab

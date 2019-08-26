@@ -63,6 +63,10 @@ for filename in *.xml; do
 	echo -e '"/>' >> ../xml/woz/woz$1.xml
 	compatdata=$(xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n')
 	case $compatdata in
+		*"It runs on any Apple ][ with 32K."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It runs on any Apple II with 32K. -->' >> ../xml/woz/woz$1.xml
+			;;
 		*"It runs on any Apple ][ with 48K."*)
 			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
 			echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
