@@ -304,3 +304,7 @@ published by Automated Simulations
 published by The Software Toolworks
 published by Crystal Software
 published by Micro Lab
+distributed by Didatech
+published by Mindscape
+published by Activision
+published by Polarware
