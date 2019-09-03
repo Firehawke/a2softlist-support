@@ -308,3 +308,5 @@ distributed by Didatech
 published by Mindscape
 published by Activision
 published by Polarware
+published by Artworx
+published by Queue
