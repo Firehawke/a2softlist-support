@@ -331,3 +331,5 @@ published by Strategic Studies Group
 published by Epyx
 published by Apple Computer
 published by Microcomputer Workshops
+published by Crystalware
+published by Sirius Software
