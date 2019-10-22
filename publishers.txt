@@ -2,6 +2,7 @@ Decision Development
 by Belanger and Boyle
 developed by Hartley Courseware
 developed by J &amp; S Software
+developed by Quest
 distributed by A/V Concepts
 distributed by ARCO Publishing
 distributed by Abracadata
@@ -44,6 +45,7 @@ distributed by Broderbund Software
 distributed by CBS Software
 distributed by CPU Software
 distributed by Centurion Software
+distributed by Channelmark Corporation
 distributed by Charles Lund
 distributed by Chevron Chemical Co.
 distributed by College Entrance Exam Board
@@ -54,12 +56,14 @@ distributed by Computer Programs Unlimited
 distributed by Conduit Educational Software
 distributed by Continental Software
 distributed by Control Data Corporation
+distributed by Core Concepts
 distributed by Cosmi Corporation
 distributed by Courses by Computers
 distributed by Criterion Micro Soft
-distributed by Critical Thinking Press
 distributed by Critical Thinking Press and Software
+distributed by Critical Thinking Press
 distributed by Cross Educational Software
+distributed by Crystalware
 distributed by D.C. Heath
 distributed by Data East
 distributed by Data East USA, Inc. and Mattel Electronics
@@ -67,11 +71,11 @@ distributed by Datamost
 distributed by Datasoft
 distributed by Davidson &amp;amp; Associates
 distributed by Davidson and Associates
-published by Davidson and Associates
 distributed by Davka Corporation
 distributed by Daystar Learning
 distributed by DesignWare
 distributed by Developmental Learning Materials
+distributed by Didatech
 distributed by Didatech Software
 distributed by Discovery Games
 distributed by Double-Gold Software
@@ -89,6 +93,7 @@ distributed by Fisher Price Learning Software
 distributed by Focus Media
 distributed by Foster Cline
 distributed by Friend-Lee Software
+distributed by Frontier Software
 distributed by Funtastic
 distributed by GARDE
 distributed by Gamco Industries
@@ -113,6 +118,7 @@ distributed by Hoffman Educational Systems
 distributed by Holt, Rinehart and Winston
 distributed by Houghton Mifflin
 distributed by Houghton-Mifflin
+distributed by Human Edge Software
 distributed by Human Engineered Software
 distributed by I.M.C.
 distributed by Imaginative Systems Software
@@ -133,8 +139,8 @@ distributed by Laureate Learning Systems
 distributed by Learning Multi-Systems
 distributed by Learning Seed Company
 distributed by Learning Technologies
-distributed by Learning Well
 distributed by Learning Well and Pelican Software
+distributed by Learning Well
 distributed by Level-10
 distributed by Lightspeed Software
 distributed by Litag
@@ -152,6 +158,7 @@ distributed by McCarthy-McCormack
 distributed by McGraw-Hill
 distributed by Media Basics
 distributed by Media Materials
+distributed by Merrill Publishing
 distributed by Methods and Solutions
 distributed by Michael G. Southwell
 distributed by Micro Education Corporation of America
@@ -184,6 +191,7 @@ distributed by Natural Intelligence
 distributed by Neosoft
 distributed by New World Computing
 distributed by Nikrom Technical Products
+distributed by Omnitrend Software
 distributed by On-Line Systems
 distributed by Opportunities For Learning
 distributed by Optimum Resource
@@ -198,6 +206,7 @@ distributed by Personal Software
 distributed by Phoenix Software
 distributed by Piccadilly Software
 distributed by Polarware
+distributed by Practicorp
 distributed by Prentice-Hall
 distributed by Prescription Learning
 distributed by Program Design
@@ -247,7 +256,6 @@ distributed by Springboard Software
 distributed by Stoneware
 distributed by Strategic Simulations
 distributed by Sunburst Communications
-published by Sunburst Communications
 distributed by Superior Software
 distributed by Synergistic Software
 distributed by Taito
@@ -258,9 +266,9 @@ distributed by The Continental Press
 distributed by The Human Edge
 distributed by The Learning Company
 distributed by The Math Lab
-distributed by The Regents
 distributed by The Regents of the University of California
 distributed by The Regents/ALA Company
+distributed by The Regents
 distributed by The Software Emporium
 distributed by The Software Farm
 distributed by Thorn EMI Video
@@ -277,60 +285,49 @@ distributed by subLOGIC
 distributed by the Society for Visual Education
 distributed in 1982 by Terrapin
 distributed in 1984 by Terrapin
+published by Absolute Entertainment
+published by Access Software
+published by Activision
 published by Advanced Ideas
+published by Adventure International
+published by Apple Computer
+published by Artworx
+published by Automated Simulations
+published by Avant-Garde Creations
+published by Bally Midway
+published by Bantam Software
+published by Brainpower, Inc
+published by Broderbund Software
+published by C.P.U. Software
 published by Central Point Software
+published by Crystal Software
+published by Crystalware
+published by Datamost
+published by Davidson and Associates
 published by Electric Transit
+published by Electronic Arts
+published by Epyx
+published by Hayden Book Company
+published by Hi-Tech Expressions
+published by Imagic
 published by K-12 MicroMedia
 published by MECC
-published by Scholastic
-published by The Avalon Hill
-published by Windham Classics
-distributed by Frontier Software
-distributed by Practicorp
-distributed by Merrill Publishing
-published by Quality Software
-published by Avant-Garde Creations
-published by Access Software
-published by Imagic
-distributed by Core Concepts
-distributed by Channelmark Corporation
-published by Broderbund Software
-published by Sierra On-Line
-published by On-Line Systems
-published by Brainpower, Inc
-published by Spectrum HoloByte
-published by On-Line Systems
-published by Automated Simulations
-published by The Software Toolworks
-published by Crystal Software
 published by Micro Lab
-distributed by Didatech
-published by Mindscape
-published by Activision
-published by Polarware
-published by Artworx
-published by Queue
-published by Absolute Entertainment
-published by Electronic Arts
-distributed by Human Edge Software
-published by Piccadilly Software
-published by Hi-Tech Expressions
-published by Adventure International
-published by C.P.U. Software
 published by Micro Learningware
-published by Bantam Software
-published by Hayden Book Company
-published by Optimum Resource
-published by Strategic Studies Group
-published by Bally Midway
-published by Datamost
-distributed by Crystalware
-developed by Quest
-distributed by Omnitrend Software
-published by Strategic Studies Group
-published by Epyx
-published by Apple Computer
 published by Microcomputer Workshops
-published by Crystalware
+published by Mindscape
+published by On-Line Systems
+published by Optimum Resource
+published by Piccadilly Software
+published by Polarware
+published by Quality Software
+published by Queue
+published by Scholastic
+published by Sierra On-Line
 published by Sirius Software
-published by Apple Computer
+published by Spectrum HoloByte
+published by Strategic Studies Group
+published by Sunburst Communications
+published by The Avalon Hill
+published by The Software Toolworks
+published by Windham Classics
