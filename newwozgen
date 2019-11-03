@@ -91,6 +91,10 @@ for filename in *.xml; do
 			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
 			echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >> ../xml/woz/woz$1.xml
 			;;
+		*"It requires a 64K Apple //e or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 64K Apple //e or later. -->' >> ../xml/woz/woz$1.xml
+			;;
 		*"It requires a 128K Apple //e or later."*)
 			echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
 			echo -e '\t\t<!-- It requires a 128K Apple //e or later. -->' >> ../xml/woz/woz$1.xml
