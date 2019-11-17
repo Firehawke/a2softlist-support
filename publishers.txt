@@ -346,3 +346,5 @@ published by MUSE Software
 published by Crystalware
 published by Strategic Simulations, Inc
 distributed by DC Heath
+published by subLOGIC
+distributed by Passport Designs, Inc
