@@ -47,6 +47,8 @@
 
  So, yeah, this does leave you with a bit of work, but it's still considerably better than hand-editing.
 
+ As of November 19th, 2019, the scripts were updated to use xslt to re-sort the order to make it easier to copy and paste right into the softlist XML file. At the same time, blank publisher entries (meaning autodetection failed) have been changed to output UNKNOWN for those. Keep an eye out for those and fix them (add to publishers.txt as well!) as needed.
+
 ## Chopgen
 
  Also included is my multi-purpose non-IA tool, chopgen. Chopgen will generate quick and dirty metadata for softlist entries from various disk images you have in the chopgen directory when running the script. It, like the other scripts, will move the disk images to the postsorted folder when completed for later clrmamepro pass.
@@ -59,7 +61,7 @@
 
  As I run Debian from a laptop and also as a WSL add-on to Windows 10, the packages will be described in that way.
 
-`sudo apt-get install python3-pip libarchive-zip-perl unzip libxml2-utils wget`
+`sudo apt-get install python3-pip libarchive-zip-perl unzip libxml2-utils wget xsltproc`
 
 `sudo pip3 install internetarchive`
 
