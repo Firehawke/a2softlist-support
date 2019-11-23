@@ -1089,6 +1089,8 @@ echo -e '\t</software>\n' >> ../xml/woz/woz$1.xml
 # Clean out the woz-a-day collection tags.
 sed -i 's/ (woz-a-day collection)<\/description>/<\/description>/g' ../xml/woz/woz$1.xml
 sed -i 's/ 800K / (800K 3.5") /g' ../xml/woz/woz$1.xml
+# Detect if we didn't get a publisher and add a warning notification.
+sed -i 's/<publisher><\/publisher>/<publisher>UNKNOWN<\/publisher>/g' ../xml/woz/woz$1.xml
 # If the temp2 file above says this already exists in our MAME softlists,
 # then all this work was a waste and we need to delete the XML now.
 if [[ -s dupecheck ]]; then

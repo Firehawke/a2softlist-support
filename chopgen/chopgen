@@ -13,7 +13,7 @@ rm *.zip
 # we need a forced lowercase for the XML.
 # Clrmamepro will rename files automagically so the the files are fine as-is;
 # we won't be renaming.
-for filename in *.WOZ *.DSK *.PO *.2MG *.po *.dsk *.2mg *.woz; do
+for filename in *.DO *.WOZ *.DSK *.PO *.2MG *.do *.po *.dsk *.2mg *.woz; do
 	[ -e "$filename" ] || continue
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
