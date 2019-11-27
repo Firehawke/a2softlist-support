@@ -8,6 +8,7 @@ distributed by ARCO Publishing
 distributed by Abracadata
 distributed by Abraxas Basic Courseware
 distributed by Academic Hallmarks
+distributed by Accolade
 distributed by Activision
 distributed by Addison-Wesley
 distributed by Advanced Ideas
@@ -65,8 +66,9 @@ distributed by Critical Thinking Press
 distributed by Cross Educational Software
 distributed by Crystalware
 distributed by D.C. Heath
-distributed by Data East
+distributed by DC Heath
 distributed by Data East USA, Inc. and Mattel Electronics
+distributed by Data East
 distributed by Datamost
 distributed by Datasoft
 distributed by Davidson &amp;amp; Associates
@@ -75,8 +77,8 @@ distributed by Davka Corporation
 distributed by Daystar Learning
 distributed by DesignWare
 distributed by Developmental Learning Materials
-distributed by Didatech
 distributed by Didatech Software
+distributed by Didatech
 distributed by Discovery Games
 distributed by Double-Gold Software
 distributed by ERIC Software Publishing
@@ -88,6 +90,7 @@ distributed by Electronic Arts
 distributed by Electronic Courseware Systems
 distributed by Encyclopaedia Britannica
 distributed by Epyx
+distributed by Estes Industries
 distributed by Firebird
 distributed by Fisher Price Learning Software
 distributed by Focus Media
@@ -199,6 +202,7 @@ distributed by Orange Juice Software Systems
 distributed by Origin Systems
 distributed by Paramount Pictures
 distributed by Parrot Software
+distributed by Passport Designs, Inc
 distributed by Peachtree Software
 distributed by Pelican Software
 distributed by Penguin Software
@@ -296,6 +300,7 @@ published by Automated Simulations
 published by Avant-Garde Creations
 published by Bally Midway
 published by Bantam Software
+published by Baudville
 published by Brainpower, Inc
 published by Broderbund Software
 published by C.P.U. Software
@@ -307,51 +312,41 @@ published by Davidson and Associates
 published by Electric Transit
 published by Electronic Arts
 published by Epyx
+published by Estes Industries
 published by Hayden Book Company
 published by Hi-Tech Expressions
 published by Imagic
+published by Infocom
 published by K-12 MicroMedia
 published by MECC
+published by MUSE Software
+published by Methods \&amp; Solutions
 published by Micro Lab
 published by Micro Learningware
 published by Microcomputer Workshops
+published by Micrograms Publishing
 published by Mindscape
+published by New World Computing
 published by On-Line Systems
 published by Optimum Resource
+published by Origin Systems
+published by Personal Software
 published by Piccadilly Software
 published by Polarware
+published by Publishing International
 published by Quality Software
 published by Queue
 published by Scholastic
+published by Sega Enterprises
 published by Sierra On-Line
 published by Sirius Software
 published by Spectrum HoloByte
+published by Spinnaker Software
+published by Stoneware
+published by Strategic Simulations, Inc
 published by Strategic Studies Group
 published by Sunburst Communications
 published by The Avalon Hill
 published by The Software Toolworks
 published by Windham Classics
-published by Baudville
-published by Estes Industries
-published by Micrograms Publishing
-published by MUSE Software
-published by New World Computing
-published by Infocom
-published by Micrograms Publishing
-published by Sega Enterprises
-published by Publishing International
-published by Personal Software
-published by Stoneware
-published by MUSE Software
-published by Crystalware
-published by Strategic Simulations, Inc
-distributed by DC Heath
 published by subLOGIC
-distributed by Passport Designs, Inc
-distributed by Estes Industries
-distributed by Accolade
-published by Infocom
-published by Epyx
-published by Origin Systems
-published by Methods \&amp; Solutions
-published by Spinnaker Software
