@@ -13,7 +13,18 @@ rm *.zip
 # we need a forced lowercase for the XML.
 # Clrmamepro will rename files automagically so the the files are fine as-is;
 # we won't be renaming.
-for filename in *.DO *.WOZ *.DSK *.PO *.2MG *.do *.po *.dsk *.2mg *.woz; do
+
+# DO - Apple II Disk Image in DOS 3.3 data order 
+# PO - Apple II Disk Image in ProDos data order
+# WOZ - Apple II Disk Image with magnetic flux construction (most accurate)
+# 2MG - Apple II Disk Image (.dsk or .nib base) with prefix with data about size, format, sector ordering, volume number, write protection, etc.
+# DSK - One of several things:
+# 	Apple II Disk Image in DOS 3.3 data order
+#	TRS-80 CoCo Disk Image
+# 2HD - 8sec/trk (1232k) Standard X68000 format
+# 2HS - 9sec/trk (1440k) X68000
+
+for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.2mg; do
 	[ -e "$filename" ] || continue
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
