@@ -18,7 +18,8 @@ rm *.zip
 # DO - Apple II Disk Image in DOS 3.3 data order 
 # PO - Apple II Disk Image in ProDos data order
 # WOZ - Apple II Disk Image with magnetic flux construction (most accurate)
-# 2MG - Apple II Disk Image (.dsk or .nib base) with prefix with data about size, format, sector ordering, volume number, write protection, etc.
+# 2MG - Apple II Disk Image (.dsk or .nib base) with prefix with data about
+#   size, format, sector ordering, volume number, write protection, etc.
 # DSK - One of several things:
 # 	Apple II Disk Image in DOS 3.3 data order
 #	TRS-80 CoCo Disk Image
@@ -36,15 +37,24 @@ for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.
 	echo -e -n '" interface="' >> ../xml/chopblock/chopblock.xml
 
 	# Now, is this a 5.25" or 3.5"?
-	# In the case of a .po it could technicaly be either, but...
+	# In the case of a .do or .po it could technicaly be either, but...
 	case $lfilename in
 		*".po"*)
+			# FIXME: There should be a way to detect the type.
+			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
+			;;
+		*".do"*)
+			# FIXME: There should be a way to detect the type.
 			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
 			;;
 		*".dsk"*)
+			# Almost certainly 5.25" on any platform.
 			echo -e 'floppy_5_25">' >> ../xml/chopblock/chopblock.xml
 			;;
 		*".2mg"*)
+			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
+			;;
+		*".2hd"*)
 			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
 			;;
 		*".woz"*)
