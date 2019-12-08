@@ -7,6 +7,7 @@ rm ../xml/chopblock/chopblock.xml
 mkdir ../xml/chopblock
 # Now let's decompress any ZIP files we have, forced lowercase names.
 unzip -n -qq -LL -j "*.zip" -d . 2> /dev/null
+unzip -n -qq -LL -j "*.ZIP" -d . 2> /dev/null
 rm *.zip
 # Now we start working on the disk images. Here's where things get a Little
 # hairy. We need both the proper (possibly bad)-cased filename for tools, but
