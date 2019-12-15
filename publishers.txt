@@ -356,3 +356,7 @@ distributed by Accolade
 published by Infocom
 published by Pelican Software
 published by Creative Computing Software
+published by CE Software
+published by Datasoft
+published by Sir-Tech
+published by Strategic Simulations
