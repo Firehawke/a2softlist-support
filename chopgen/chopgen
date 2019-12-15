@@ -40,11 +40,11 @@ for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.
 	# In the case of a .do or .po it could technicaly be either, but...
 	case $lfilename in
 		*".po"*)
-			# FIXME: There should be a way to detect the type.
 			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
 			;;
 		*".do"*)
 			# FIXME: There should be a way to detect the type.
+			# 143,360 bytes is a 5.25", so if larger it's a 3.5"
 			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
 			;;
 		*".dsk"*)
