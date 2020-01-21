@@ -67,6 +67,15 @@ for filename in *.xml; do
 			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
 			echo -e '\t\t<!-- It runs on any Apple II with 32K. -->' >> ../xml/woz/woz$1.xml
 			;;
+		*"It requires an Apple ][+ with 48K."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires an Apple ][+ with 48K. -->' >> ../xml/woz/woz$1.xml
+			;;
+	
+		*"It requires an 64K Apple ][+ or later."*)
+			echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
+			echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >> ../xml/woz/woz$1.xml
+			;;
 		*"It runs on any Apple ][ with 48K."*)
 			echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >> ../xml/woz/woz$1.xml
 			echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >> ../xml/woz/woz$1.xml
@@ -1053,11 +1062,53 @@ for filename in *.woz; do
 		*"side b."*)
 			echo -e '\t\t\t<feature name="part_id" value="Side B"/>' >> ../xml/woz/woz$1.xml
 			;;
+		*"side c."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side C"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side d."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side D"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side e."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side E"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side f."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side F"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side g."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side G"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side h."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side H"/>' >> ../xml/woz/woz$1.xml
+			;;
 		*"side 1."*)
 			echo -e '\t\t\t<feature name="part_id" value="Side 1"/>' >> ../xml/woz/woz$1.xml
 			;;
 		*"side 2."*)
 			echo -e '\t\t\t<feature name="part_id" value="Side 2"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 3."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 3"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 4."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 4"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 5."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 5"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 6."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 6"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 7."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 7"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 8."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 8"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 9."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 9"/>' >> ../xml/woz/woz$1.xml
+			;;
+		*"side 10."*)
+			echo -e '\t\t\t<feature name="part_id" value="Side 10"/>' >> ../xml/woz/woz$1.xml
 			;;
 
 		# Special cases. Will add as they come up.
