@@ -49,6 +49,8 @@
 
  As of November 19th, 2019, the scripts were updated to use xslt to re-sort the order to make it easier to copy and paste right into the softlist XML file. At the same time, blank publisher entries (meaning autodetection failed) have been changed to output UNKNOWN for those. Keep an eye out for those and fix them (add to publishers.txt as well!) as needed.
 
+ Do keep an eye out for dates that appear like `19901985` -- this happens when a program gets a rerelease. In this example, the program originally came out in 1985, but was rereleased in 1990. You'll need to hand edit the date in this case.
+
 ## Chopgen
 
  Also included is my multi-purpose non-IA tool, chopgen. Chopgen will generate quick and dirty metadata for softlist entries from various disk images you have in the chopgen directory when running the script. It, like the other scripts, will move the disk images to the postsorted folder when completed for later clrmamepro pass.
@@ -65,4 +67,4 @@
 
 `sudo pip3 install internetarchive`
 
-You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `/mnt/c/msys64/src/mame/hash/apple2_flop*.xml` in the script and change accordingly.
+You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `/mnt/c/msys64/src/mame/hash/apple2_flop*.xml` in the script and change accordingly (or set up a mount to redirect those to wherever your MAME hash folder actually is).

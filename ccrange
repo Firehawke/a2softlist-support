@@ -1,6 +1,8 @@
 #!/bin/bash
-rm xml/cc/cc*.xml
+# Just in case we have an incomplete run, we're going to clear things out.
+rm xml/cc/cc*.xml 2> /dev/null
 COUNTER=1
+# Run to a maximum of 99, end with exit code 1 when we finally hit a dupe.
 while [ $COUNTER -lt 100 ]; do
 		if ! (./newccgen $COUNTER); then
 			./ccgenxml
