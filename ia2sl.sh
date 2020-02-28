@@ -101,42 +101,273 @@ function generator() {
         "WOZADAY")
             compatdata=$(xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n')
             case $compatdata in
+
+            # Copy Protection compatibility issues section -------------------
+            *"It requires an Apple ][ or ][+ with 48K. Due to compatibiltiy issues created by the copy protection, it will not run on later models. Even with a compatible ROM file, this game triggers bugs in several emulators, resulting in crashes or spontaneous reboots."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t\<!-- It requires an Apple II or II+ with 48K.' >>../xml/disk/disk$1.xml
+                echo -e '\t\t\Due to compatibility issues created by the copy protection,' >>../xml/disk/disk$1.xml
+                echo -e '\t\t\it will not run on later models. Even with a compatible ROM file,' >>../xml/disk/disk$1.xml
+                echo -e '\t\t\this game triggers bugs in several emulators,' >>../xml/disk/disk$1.xml
+                echo -e '\t\t\resulting in crashes or spontaneous reboots. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][ or ][+, or an unenhanced Apple //e. Due to compatibility issues caused by the copy protection, it will not run on any later models."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tor an unenhanced Apple //e. Due to compatibility' >>../xml/disk/disk$1.xml
+                echo -e '\t\tissues caused by the copy protection, it will not' >>../xml/disk/disk$1.xml
+                echo -e '\t\trun on any later models. -->' >>../xml/disk/disk$1.xml
+                ;;	
+            *"It requires a 48K Apple II or ][+. Due to compatibility issues created by the copy protection, it will not run on later models."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDue to compatibility issues caused by the copy protection,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tit will not run on any later models. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][ or ][+. Due to compatibility issues caused by the copy protection, it will not run on any later models."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDue to compatibility issues caused by the copy protection,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tit will not run on any later models. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][ or Apple ][+. Due to compatibility problems created by the copy protection, it will not run on later models"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDue to compatibility issues caused by the copy protection,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tit will not run on any later models. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 64K Apple ][+ or later. It was released with several different copy protections; this version was protected with the E7 bitstream. Game code and data is identical to other protected variants"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+ or later.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tThis was released with several different copy protections;' >>../xml/disk/disk$1.xml
+                echo -e '\t\tthis version was protected with the E7 bitstream. Game code and data' >>../xml/disk/disk$1.xml
+                echo -e '\t\tis identical to other protected variants. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple ][ with 48K. Some emulators may have difficulty emulating this image due to its extreme copy protection methods"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tSome emulators may have difficulty emulating this image due to its' >>../xml/disk/disk$1.xml
+                echo -e '\t\textreme copy protection methods. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires an Apple ][ or Apple ][+. Due to restrictive copy protection, it will not boot on later models"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple II or Apple II+.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDue to restrictive copy protection,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tit will not boot on later models. --> -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple ][ with 48K. Note: due to subtle emulation bugs and extremely finicky copy protection, this disk may reboot one or more times before loading."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tNote: due to subtle emulation bugs and extremely finicky copy' >>../xml/disk/disk$1.xml
+                echo -e '\t\tprotection, this disk may reboot one or more times before loading. -->' >>../xml/disk/disk$1.xml
+
+            # Non-copy protection-related special notes ----------------------
+            *"It runs on any Apple ][ with 48K. (Attempting to run with less than 48K will appear to work, but copies will fail with an UNABLE TO WRITE error.)"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/disk/disk$1.xml
+                echo -e '\t\t(Attempting to run with less than 48K will appear to work,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tbut copies will fail with an UNABLE TO WRITE error.) -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][ or ][+."
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple II or II+."
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple ][ with 48K. The double hi-res version is automatically selected if you have a 128K Apple //e or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/disk/disk$1.xml
+                echo -e 'The double hi-res version is automatically selected' >>../xml/disk/disk$1.xml
+                echo -e 'if you have a 128K Apple //e or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 64K Apple ][+, //e, //c, or IIgs. Double hi-res mode requires a 128K Apple //e, //c, or IIgs"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple ][+, //e, //c, or IIgs.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDouble hi-res mode requires a 128K Apple //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It uses double hi-res graphics and thus requires a 128K Apple //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It uses double hi-res graphics and thus requires a' >>../xml/disk/disk$1.xml
+                echo -e '\t\t128K Apple //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"This version, using double hi-res graphics, requires a 128K Apple //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- This version, using double hi-res graphics,' >>../xml/disk/disk$1.xml
+                echo -e '\t\trequires a 128K Apple //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][ or ][+. It will not run on later models."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple ][ or ][+.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tIt will not run on later models. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 13-sector drive but otherwise runs on any Apple II with 48K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 13-sector drive but otherwise' >>../xml/disk/disk$1.xml
+                echo -e '\t\truns on any Apple II with 48K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 13-sector drive but otherwise runs on any Apple II with 32K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 13-sector drive but otherwise' >>../xml/disk/disk$1.xml
+                echo -e '\t\truns on any Apple II with 32K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 13-sector drive but otherwise runs on any Apple II with 24K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 13-sector drive but otherwise' >>../xml/disk/disk$1.xml
+                echo -e '\t\truns on any Apple II with 24K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 13-sector drive but otherwise runs on any Apple II with 16K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 13-sector drive but otherwise' >>../xml/disk/disk$1.xml
+                echo -e '\t\truns on any Apple II with 16K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 13-sector drive and a 48K Apple ][+ or later"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 13-sector drive and a 48K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires an original Apple II with 48K and Integer BASIC in ROM."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an original Apple II with 48K and Integer BASIC' >>../xml/disk/disk$1.xml
+                echo -e '\t\tin ROM. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple II and Integer BASIC in ROM"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an original Apple II with 48K and Integer BASIC' >>../xml/disk/disk$1.xml
+                echo -e '\t\tin ROM. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires an original Apple II with 32K and Integer BASIC in ROM."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an original Apple II with 32K and Integer BASIC' >>../xml/disk/disk$1.xml
+                echo -e '\t\tin ROM. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 64K Apple ][+ or later. Double hi-res graphics are available on 128K Apple //e and later"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple ][+ or later.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDouble hi-res graphics are available on 128K Apple //e and later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"This re-release requires a 64K Apple ][+ or later; the optional double hi-res graphics mode requires a 128K Apple //e or later. "*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- This re-release requires a 64K Apple II+ or later;' >>../xml/disk/disk$1.xml
+                echo -e '\t\tthe optional double hi-res graphics mode requires a' >>../xml/disk/disk$1.xml
+                echo -e '\t\t128K Apple //e or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"The disk label says it requires a 32K Apple II, but under emulation I could not get it to work on less than a 48K Apple II+"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- The disk label says it requires a 32K Apple II, but under' >>../xml/disk/disk$1.xml
+                echo -e '\t\temulation I could not get it to work on less than a 48K Apple II+. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires an Apple ][ with an Integer BASIC ROM and at least 32K. Due to the reliance on Integer ROM, it will not run on later models"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple II with Integer BASIC ROM and at least 32K.' >>../xml/disk/disk$1.xml
+                echo -e '\t\tDue to reliance on Integer ROM, it will not run on later models. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"Due to its use of double hi-res graphics, it requires a 128K Apple //e or later"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- Due to its use of double hi-res graphics,' >>../xml/disk/disk$1.xml
+                echo -e '\t\tit requires a 128K Apple //e or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+
+            # Normal section -------------------------------------------------
+            *"It requires a 64K Apple II+, //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 64K Apple ][+, //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][+, //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II+, //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on an Apple //e with 128K, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on an Apple //e with 128K, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requirs a 64K Apple ][+ or later"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 64K Apple //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple //e or later"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple //e or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple II."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple II with 64K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 64K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires a 48K Apple ][ or ][+."*)    
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II or II+. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple II with 32K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 32K. -->' >>../xml/disk/disk$1.xml
+                ;;
             *"It runs on any Apple ][ with 32K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It runs on any Apple II with 32K. -->' >>../xml/disk/disk$1.xml
                 ;;
+            *"It runs on any 48K Apple ][+, //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any 48K Apple II+, //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It run on any Apple II with 48K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires an Apple II+ with 48K"*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple II+ with 48K. -->' >>../xml/disk/disk$1.xml
+                ;;
             *"It requires an Apple ][+ with 48K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires an Apple ][+ with 48K. -->' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple II+ with 48K. -->' >>../xml/disk/disk$1.xml
                 ;;
-
             *"It requires an 64K Apple ][+ or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple ][ model with 48K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It runs on any Apple II with 48K."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/disk/disk$1.xml
                 ;;
             *"It runs on any Apple ][ with 48K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/disk/disk$1.xml
                 ;;
-            *"It runs on any Apple ][ with 48K. The double hi-res version is automatically selected if you have a 128K Apple //e or later."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It runs on any Apple ][ with 48K. -->\n\t\t<!-- The double hi-res version is automatically selected if you have a 128K Apple //e or later. -->' >>../xml/disk/disk$1.xml
-                ;;
             *"It requires a 48K Apple ][+ or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 48K Apple ][+ or later. -->' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
+                ;;
+            *"It requires an 64K Apple ][+, //e, //c, or IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
                 ;;
             *"It requirs a 64K Apple ][+ or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
                 ;;
             *"It requires a 64K Apple ][+ or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
                 ;;
             *"It requires 64K Apple ][+ or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 64K Apple ][+ or later. -->' >>../xml/disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/disk/disk$1.xml
                 ;;
             *"It requires a 64K Apple //e or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
@@ -153,10 +384,6 @@ function generator() {
             *"It requires a 128K Apple //e, //c, or IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 128K Apple //e, //c, or IIgs. -->' >>../xml/disk/disk$1.xml
-                ;;
-            *"It requires an Apple ][ or ][+ with 48K. Due to compatibiltiy issues created by the copy protection, it will not run on later models."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
-                echo -e '\t\t<!-- It requires an Apple ][ or ][+ with 48K\n\t\tDue to compatibiltiy issues created by the copy protection,\n\t\tit will not run on later models. -->' >>../xml/disk/disk$1.xml
                 ;;
             *)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
