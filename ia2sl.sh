@@ -12,10 +12,19 @@ function generator() {
     mkdir diskoutput 2>/dev/null
     mkdir diskstaging 2>/dev/null
 
+    case ${2} in
+    "WOZADAY")
+        echo "Starting WOZ cycle..."
+        ;;
+    "CLCRACKED")
+        echo "Starting ClCracked cycle..."
+        ;;
+    esac
 
     # Do the actual search and download.
     # This will depend on which type we're using, of course.
     echo -e "Beginning work on entry [$1].."
+
     case ${2} in
     "WOZADAY")
         ia search 'collection:wozaday' --parameters="page=$1&rows=1" --sort="publicdate desc" -i >currentitems.txt
@@ -29,6 +38,7 @@ function generator() {
 
     # Let's remove the extras file and certain other unwanted materials
     sed -i '/%20extras%20/d' currentdls.txt
+    sed -i '/extras.zip/d' currentdls.txt
     sed -i '/0playable/d' currentdls.txt
     sed -i '/_files.xml/d' currentdls.txt
     sed -i "/demuffin\'d/d" currentdls.txt
@@ -39,7 +49,6 @@ function generator() {
     wget -q -i currentdls.txt -nc --show-progress -nd -P ./diskstaging
     # Let's decompress any ZIP files we got, forced lowercase names.
     unzip -n -qq -LL -j "diskstaging/*.zip" -d diskoutput 2>/dev/null
-
     # Before we go ANY further, let's clean up any .bin files into .2mg ...
     cd diskstaging
     # THIS use of rename is, unfortunately, Debian-specific. If you're using a
@@ -74,7 +83,6 @@ function generator() {
     # 4AM sometimes leaves his work disk in the package. We don't want to keep that.
     rm *work\ disk* 2>/dev/null
     rm *demuffin\'d\ only* 2>/dev/null
-
     # Now, we parse the XML file(s), and there should only be one to parse.
 
     for filename in *.xml; do
@@ -155,24 +163,25 @@ function generator() {
                 echo -e '\t\tDue to restrictive copy protection,' >>../xml/disk/disk$1.xml
                 echo -e '\t\tit will not boot on later models. --> -->' >>../xml/disk/disk$1.xml
                 ;;
-            *"It runs on any Apple ][ with 48K. Note: due to subtle emulation bugs and extremely finicky copy protection, this disk may reboot one or more times before loading."*)
+            *'It runs on any Apple ][ with 48K. Note: due to subtle emulation bugs and extremely finicky copy protection, this disk may reboot one or more times before loading.'*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/disk/disk$1.xml
                 echo -e '\t\tNote: due to subtle emulation bugs and extremely finicky copy' >>../xml/disk/disk$1.xml
                 echo -e '\t\tprotection, this disk may reboot one or more times before loading. -->' >>../xml/disk/disk$1.xml
+                ;;
 
             # Non-copy protection-related special notes ----------------------
-            *"It runs on any Apple ][ with 48K. (Attempting to run with less than 48K will appear to work, but copies will fail with an UNABLE TO WRITE error.)"*)
+            *"Attempting to run with less than 48K will appear to work, but copies will fail with an UNABLE TO WRITE error."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/disk/disk$1.xml
                 echo -e '\t\t(Attempting to run with less than 48K will appear to work,' >>../xml/disk/disk$1.xml
                 echo -e '\t\tbut copies will fail with an UNABLE TO WRITE error.) -->' >>../xml/disk/disk$1.xml
                 ;;
-            *"It requires a 48K Apple ][ or ][+."
+            *"It requires a 48K Apple ][ or ][+."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 48K Apple II or II+. -->' >>../xml/disk/disk$1.xml
                 ;;
-            *"It requires a 48K Apple II or II+."
+            *"It requires a 48K Apple II or II+."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 48K Apple II or II+. -->' >>../xml/disk/disk$1.xml
                 ;;
@@ -1437,6 +1446,7 @@ function generator() {
     sed -i 's/<publisher><\/publisher>/<publisher>UNKNOWN<\/publisher>/g' ../xml/disk/disk$1.xml
     # If the dupecheck file above says this already exists in our MAME softlists,
     # then all this work was a waste and we need to delete the XML now.
+
     if [[ -s dupecheck ]]; then
         echo -e "Duplicated entry. Removing generated XML..."
         rm ../xml/disk/disk$1.xml
@@ -1459,7 +1469,6 @@ function generator() {
 }
 
 function aggregate() {
-    pwd
     cd xml/disk
     cat ../../xmlheader.txt >../disk-combined-presort.xml
     cat disk*.xml >>../disk-combined-presort.xml 2>/dev/null
