@@ -102,8 +102,6 @@ function generator() {
         xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >>../xml/disk/disk$1.xml
         echo -e '"/>' >>../xml/disk/disk$1.xml
         echo -e -n '\t\t<!--' >>../xml/disk/disk$1.xml
-        xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/disk/disk$1.xml
-        echo -e -n '-->\n' >>../xml/disk/disk$1.xml
         # Now, this next step only is done if we're doing WOZADAY where we have actual compatibility data at hand.
         case ${2} in
         "WOZADAY")
