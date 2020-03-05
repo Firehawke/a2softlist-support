@@ -4,8 +4,8 @@
 ## What is this?
  This script, in combination with a few external tools, can pull data from IA to generate MAME softlist data for Apple II disk dumps. It's not expected to be terribly useful to most people:
 
- * The code quality is crap.
- * It does exactly what I need it to do
+ * The code quality is less crap than before, but still not great.
+ * It does exactly what I need it to do.
  * It's relatively easy to read and to modify as needed.
  * The results are pretty solid and require relatively less cleanup than previous efforts did.
  * It's really only useful for someone specifically trying to pull metadata from IA to put into MAME.
@@ -15,25 +15,23 @@
 
 # How to use?
 
- Both scripts are now set up to count from the END of their respective archives, as I've finally caught up.
+ The previous multi-script setup has been replaced with a brand new refactored `ia2sl.sh` script. This script grabs from the end of the IA archives working backwards to progressively older releases until it either finds a duplicate or gets to 99 entries. This prevents the script from running out of control.
 
- Instead of directly using the `newccgen` and `newwozgen` tools described below, I suggest you read the next paragraph:
+ Use `ia2sl.sh clcracked` to generate just Cleanly Cracked data into `xml/cc-combined.xml`.
+ Likewise, `ia2sl.sh wozaday` generates just the Woz-a-day data into `xml/woz-combined.xml`.
+ Lastly, `ia2sl.sh both` will run both concurrently, saving time on the build process.
 
- Included in the set are `wozrange` and `ccrange`, scripts that automate the workflow a bit further. They will start from the newest entry and work their way back towards the 100th entry, stopping as soon as they hit any kind of duplicated material. They will then call the `ccgenxml`/`wozgenxml` scripts to condense the output to a single file for quicker editing pass. They will be in reverse order compared to the release list, so you'll need to copy them from bottom to top, then do the necessary final adjustments as you usually would.
+ These output XMLs are in correct order (newest at bottom, oldest at top) for direct copy-paste into the MAME softlist xml files. You will need to adjust some of the output.
 
- `newccgen` will count from the end of the 4AM cleanly cracked disk archive. Running `newccgen 1` will get you the latest release and generate the XML data accordingly. Running `newccgen 100` will do the 100th release back, and so forth. MAME softlist-compatible XML output will be put in `xml/cc/cc#.xml`, with `newccgen 1` giving you `cc1.xml` and `newccgen 100` giving you `cc100.xml`-- in all cases, this WILL overwrite what's in the file, allowing you to re-run in case of error or if you need to modify publishers.txt or whatever.
+ In particular, the script tries to parse the publisher from data in the `publisher.txt` file, but this isn't always possible (e.g. a new publisher shows up) and you'll see UNKNOWN for the publisher. You'll have to correct that by hand, then add the new publisher data to the `publisher.txt` file.
 
- `newwozgen` is likewise set up to count from the end of the 4AM WOZ-a-day archives. Running `newwozgen 1` will grab the latest single release in that collection and generate MAME softlist-compatible XML as `xml/woz/woz1.xml` overwriting whatever is in that file on creation. Running `newwozgen 100` will go back 100 releases from latest and generate a `woz100.xml` file (and again overwriting what's there).
+ Cleanly cracked does not have compatibility data because the copy protection (or lack thereof) can in many cases directly affect whether a given Apple II machine can run the program. There are a number of entries in the woz-a-day archives that will not run on machines newer than an Apple II+, but will run on any machine with the copy protection removed.
 
- When run, you will eventually get output that looks like:
-
- `Duplicated entry. Removing generated XML...`
-
- That's your official notification that the script eventually got to material already in the softlist and stopped.
+ It will copy the metadata 4am has left in the entries to a comment in each softlist entry. This should be removed after you validate that any compatibility line in the softlist matches up to what 4am has posted in his metadata. See existing entries in `apple2_flop_orig.xml` and the `ia2sl.sh` script itself to see how this data should look and how it is generated.
 
 ## Warnings
 
- Disk images will be moved to the postsorted directory on completion for ALL scripts included herein. This is to make it significantly easier to just point clrmamepro at the postsorted directory and have it do the final sorting into individual zip files.
+ Disk images will be moved to the postsorted directory on completion for ALL scripts included herein. This is to make it significantly easier to just point ROMVault (which does run in mono on *nix environments and has, as of March 2020, a prototype command-line tool for scripting the zip builds) or clrmamepro at the postsorted directory and have it do the final sorting into individual zip files.
 
  At no point should the output from this ever be directly trusted without an eyeball pass. There will ALWAYS be special cases that no script, no matter how finely-tuned, can deal with.
 
@@ -43,21 +41,22 @@
 
  You WILL need to add disk/side tags where appropriate (see existing softlist entries for examples). The script now can autodetect many common filename patterns for disk numbers and side numbers, but some oddly named disks will still fall through the cracks.
 
+ You WILL occasionally see dates that appear like `19901985` -- this happens when a program gets a rerelease. In this example, the program originally came out in 1985, but was rereleased in 1990. You'll need to hand edit the date in this case after reading the comment line to figure out what the exact situation is. In this example case you'd use 1990 because even if the software is the same as the 1985 version, you'd need to differentiate between a possible (now or later in the future) dump of the older version.
+
  You also will need to make small adjustments to match the formatting used in the MAME softlist files; the comment line that gets output by the script containing the complete description (suitable for doublechecking the work) can be converted to a blank line once you're ready to sign off on the file and that'll get you in line with the usual formatting for Apple softlists.
 
  So, yeah, this does leave you with a bit of work, but it's still considerably better than hand-editing.
 
- As of November 19th, 2019, the scripts were updated to use xslt to re-sort the order to make it easier to copy and paste right into the softlist XML file. At the same time, blank publisher entries (meaning autodetection failed) have been changed to output UNKNOWN for those. Keep an eye out for those and fix them (add to publishers.txt as well!) as needed.
-
- Do keep an eye out for dates that appear like `19901985` -- this happens when a program gets a rerelease. In this example, the program originally came out in 1985, but was rereleased in 1990. You'll need to hand edit the date in this case.
 
 ## Chopgen
-
+ 
  Also included is my multi-purpose non-IA tool, chopgen. Chopgen will generate quick and dirty metadata for softlist entries from various disk images you have in the chopgen directory when running the script. It, like the other scripts, will move the disk images to the postsorted folder when completed for later clrmamepro pass.
 
  This script will probably be modified in the near future to just chop up whatever is in the chopgen folder as opposed to just disk images, making it easier to work with cartridge images of various file extensions.
 
  Future plans include considering ways to have chopgen pull data from the disk images themselves where possible.
+
+ Note as of March 2020: Now that I've finished rebuilding the original toolkit, my next task will be to rebuild chopgen in the near future.
 
 ## Prerequisites for use
 

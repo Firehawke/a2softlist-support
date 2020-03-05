@@ -1,8 +1,0 @@
-#!/bin/bash
-cd xml/cc
-rm -rf ../cc-combined-presort.xml
-cat ../../xmlheader.txt > ../cc-combined-presort.xml
-cat cc*.xml >> ../cc-combined-presort.xml 2> /dev/null
-cat ../../xmlfooter.txt >> ../cc-combined-presort.xml
-xsltproc --nodtdattr -o ../cc-combined.xml ../../resortxml.xslt ../cc-combined-presort.xml
-cd ../..

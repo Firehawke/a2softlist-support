@@ -1,8 +1,0 @@
-#!/bin/bash
-cd xml/woz
-rm -rf ../woz-combined-presort.xml
-cat ../../xmlheader.txt > ../woz-combined-presort.xml
-cat woz*.xml >> ../woz-combined-presort.xml 2> /dev/null
-cat ../../xmlfooter.txt >> ../woz-combined-presort.xml
-xsltproc --nodtdattr -o ../woz-combined.xml ../../resortxml.xslt ../woz-combined-presort.xml
-cd ../..

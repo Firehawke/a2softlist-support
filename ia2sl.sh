@@ -18,7 +18,6 @@ function startcycle() {
         fi
         let COUNTER=COUNTER+1
     done
-    echo "falling out"
     aggregate $1
 }
 
@@ -1616,8 +1615,8 @@ function generator() {
         *"side b - scenario disk."*)
             echo -e '\t\t\t<feature name="part_id" value="Side B - Boot disk"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
-        # These two don't get a disk number because we don't know for sure what it should be.
-        # Instead, we use ~ so I can have my build scripts abort if I miss fixing this in the XML.
+            # These two don't get a disk number because we don't know for sure what it should be.
+            # Instead, we use ~ so I can have my build scripts abort if I miss fixing this in the XML.
         *"- program disk."*)
             echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Program disk"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -1644,6 +1643,15 @@ function generator() {
         echo -e '\t\t\t</dataarea>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '\t\t</part>' >>../xml/"$worktype"disk/disk$1.xml
         ((disknum++))
+        # One more sanity check to do. If there is a cracker tag that's not
+        # solo 4am, then we need to put up a warning so we notice and give
+        # proper credit.
+        if grep -q "(4am and san inc crack)" ../xml/"$worktype"disk/disk$1.xml; then
+            echo -e '\t\t<!-- !!!!!!!!!! 4am and San crack  !!!!!!!!!! -->' >>../xml/"$worktype"disk/disk$1.xml
+        fi
+        if grep -q "(logo crack)" ../xml/"$worktype"disk/disk$1.xml; then
+            echo -e '\t\t<!-- !!!!!!!!!!  LoGo crack  !!!!!!!!!! -->' >>../xml/"$worktype"disk/disk$1.xml
+        fi
     done
     echo -e '\t</software>\n' >>../xml/"$worktype"disk/disk$1.xml
     # Clean out any wozaday collection tags.
@@ -1682,15 +1690,19 @@ function aggregate() {
     cd xml/"$worktype"disk
     cat ../../xmlheader.txt >../"$worktype"disk-combined-presort.xml
     cat disk*.xml >>../"$worktype"disk-combined-presort.xml 2>/dev/null
+
     cat ../../xmlfooter.txt >>../"$worktype"disk-combined-presort.xml
     # This last step sorts the entries to be in release order so you can cut and paste
     # them into the MAME XML as-is.
+    # Because the xsltproc process malforms the XML slightly, we'll use sed to fix.
     case ${1} in
     "WOZADAY")
         xsltproc --novalid --nodtdattr -o ../woz-combined.xml ../../resortxml.xslt ../"$worktype"disk-combined-presort.xml
+        sed -i 's/<software name="namehere">/\t<software name="namehere">/g' ../woz-combined.xml
         ;;
     "CLCRACKED")
         xsltproc --novalid --nodtdattr -o ../cc-combined.xml ../../resortxml.xslt ../"$worktype"disk-combined-presort.xml
+        sed -i 's/<software name="namehere">/\t<software name="namehere">/g' ../cc-combined.xml
         ;;
     esac
     cd ../..
