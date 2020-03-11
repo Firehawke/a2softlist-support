@@ -1738,11 +1738,8 @@ case ${worktype} in
     mkdir xml/CLCRACKEDdisk 2>/dev/null
     ;;
 "WOZADAY")
-    rm -rf xml/"$worktype"disk 2>/dev/null
-    mkdir xml 2>/dev/null
-    mkdir xml/"$worktype"disk 2>/dev/null
-    mkdir postsorted 2>/dev/null
-    ;;
+    # fall through to clcracked since both use same logic.
+    ;&
 "CLCRACKED")
     rm -rf xml/"$worktype"disk 2>/dev/null
     mkdir xml 2>/dev/null
