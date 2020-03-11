@@ -14,7 +14,7 @@ function startcycle() {
     while [ $COUNTER -lt 100 ]; do
         if ! (generator $COUNTER $1); then
             aggregate $1
-            exit 1
+            return 1
         fi
         let COUNTER=COUNTER+1
     done
@@ -1671,9 +1671,8 @@ function generator() {
         echo -e "$worktype: Duplicated entry. Removing generated XML..."
         rm ../xml/"$worktype"disk/disk$1.xml
         # We found a dupe, so there's no point in continuing.
-        # Stop here, do the aggregation, and exit.
         cd ..
-        exit 1
+        return 1
     fi
 
     # Migrate all non-duplicate disk images to the postsorted folder for later
@@ -1708,7 +1707,7 @@ function aggregate() {
     cd ../..
     IFS=$SAVEIFS
     echo "$worktype: Process complete..."
-    exit 1
+    return 1
 }
 
 # Now our main loop.
@@ -1739,8 +1738,11 @@ case ${worktype} in
     mkdir xml/CLCRACKEDdisk 2>/dev/null
     ;;
 "WOZADAY")
-    # fall through to clcracked since both use same logic.
-    ;&
+    rm -rf xml/"$worktype"disk 2>/dev/null
+    mkdir xml 2>/dev/null
+    mkdir xml/"$worktype"disk 2>/dev/null
+    mkdir postsorted 2>/dev/null
+    ;;
 "CLCRACKED")
     rm -rf xml/"$worktype"disk 2>/dev/null
     mkdir xml 2>/dev/null
@@ -1766,7 +1768,8 @@ mkdir xml/CLCRACKEDdisk 2>/dev/null
 case ${worktype} in
 "BOTH")
     startcycle WOZADAY &
-    startcycle CLCRACKED
+    startcycle CLCRACKED &
+    wait
     ;;
 "WOZADAY")
     # fall through to clcracked since both use same logic.
