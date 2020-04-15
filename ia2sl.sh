@@ -59,9 +59,9 @@ function generator() {
     unzip -n -qq -LL -j "$worktype"'diskstaging/*.zip' -d "$worktype"diskoutput 2>/dev/null
     # Before we go ANY further, let's clean up any .bin files into .2mg ...
     cd "$worktype"diskstaging
-    # THIS use of rename is, unfortunately, Debian-specific. If you're using a
-    # different distro, you're going to have to modify this.
-    rename 's/.bin/.2mg/' *.bin 2>/dev/null
+    # Find all .bin files and rename them to 2mg. This should be Distro-agnostic,
+    # as opposed to the previous Debian-specific variation.
+    find . -name "*.bin" -exec sh -c 'mv "$1" "${1%.bin}.2mg"' _ {} \; 2>/dev/null
     cd ..
 
     # Move the meta XML and the disk images to the output folder for processing.
