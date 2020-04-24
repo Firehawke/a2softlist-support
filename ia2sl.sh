@@ -423,19 +423,19 @@ function generator() {
     for filename in *.woz *.po *.dsk *.2mg; do
         [ -e "$filename" ] || continue
         # Here we're generating a forced lowercase version of the name which we'll
-        # use in some places in the XML.
-        lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
+        # use in some places in the XML. We also strip invalid characters as well
+        # as double spaces.
+        lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | sed 's/\!/ /g' | sed 's/\  / /g')
         echo -e "$worktype: Generating disk $disknum with file $lfilename.."
         # Critical: Check for SHA1 dupes.
         # Generate the SHA1 and put it in temp.
         sha1sum $filename | awk '{print $1}' >temp
 
-        # ------------------------ Change this if you're not using WSL ----
         # If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
         # We'll use that a little later.
         grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml >temp2
         if [[ -s temp2 ]]; then
-            echo "dupe" >dupecheck
+            #echo "dupe" >dupecheck
         fi
         # Start outputting disk information.
         echo -e -n '\t\t<part name="flop' >>../xml/"$worktype"disk/disk$1.xml
