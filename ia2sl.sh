@@ -435,7 +435,7 @@ function generator() {
         # We'll use that a little later.
         grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml >temp2
         if [[ -s temp2 ]]; then
-            #echo "dupe" >dupecheck
+            echo "dupe" >dupecheck
         fi
         # Start outputting disk information.
         echo -e -n '\t\t<part name="flop' >>../xml/"$worktype"disk/disk$1.xml
