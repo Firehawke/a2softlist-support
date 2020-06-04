@@ -425,7 +425,7 @@ function generator() {
         # Here we're generating a forced lowercase version of the name which we'll
         # use in some places in the XML. We also strip invalid characters as well
         # as double spaces.
-        lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | sed 's/\!/ /g' | sed 's/\  / /g')
+        lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | sed 's/\!/ /g' | sed 's/\  / /g' | sed 's/\&/and/g')
         echo -e "$worktype: Generating disk $disknum with file $lfilename.."
         # Critical: Check for SHA1 dupes.
         # Generate the SHA1 and put it in temp.
