@@ -163,6 +163,7 @@ distributed by Media Basics
 distributed by Media Materials
 distributed by Merrill Publishing
 distributed by Methods and Solutions
+distributed by Methods &amp; Solutions
 distributed by Michael G. Southwell
 distributed by Micro Education Corporation of America
 distributed by Micro Finance Systems
@@ -386,3 +387,5 @@ distributed by Insoft
 distributed by Sof/Sys, Inc.
 distributed by Hi-Tech Expressions
 distributed by Boone Corporation
+distributed by Barron's Educational Series
+distributed by the Michigan Department of Public Resources
