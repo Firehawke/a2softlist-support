@@ -2,9 +2,10 @@
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 # This script is for non-IA quick data generation.
-# Clean the chopping board...
-rm ../xml/chopblock/chopblock.xml
-mkdir ../xml/chopblock
+# Removed the chopblock cleaning aspect because we may want to keep existing
+# data in there for later work, particularly if we're missing some critical
+# information (e.g. compatibility)
+mkdir ../xml/chopblock 2> /dev/null
 # Now let's decompress any ZIP files we have, forced lowercase names.
 unzip -n -qq -LL -j "*.zip" -d . 2> /dev/null
 unzip -n -qq -LL -j "*.ZIP" -d . 2> /dev/null
@@ -25,8 +26,9 @@ rm *.zip
 #	TRS-80 CoCo Disk Image
 # 2HD - 8sec/trk (1232k) Standard X68000 format
 # 2HS - 9sec/trk (1440k) X68000
+# ATR - Atari 8-bit disk image
 
-for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.2mg; do
+for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.2mg *.ATR *.atr; do
 	[ -e "$filename" ] || continue
 	# Here we're generating a forced lowercase version of the name which we'll
 	# use in some places in the XML.
@@ -1081,6 +1083,7 @@ for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.
 	echo -en '\n' >> ../xml/chopblock/chopblock.xml
 done
 
+exit 1
 # Migrate all disk images to the postsorted folder for later Clrmamepro
 # parsing so we can be 100% sure the XML is correct even after mame -valid
 mv *.DSK ../postsorted 2> /dev/null
