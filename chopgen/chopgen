@@ -41,6 +41,10 @@ for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.
 	# Now, is this a 5.25" or 3.5"?
 	# In the case of a .do or .po it could technicaly be either, but...
 	case $lfilename in
+		*".atr"*)
+			# Atari 8-bit floppy image is 5.25"
+			echo -e 'floppy_5_25">' >> ../xml/chopblock/chopblock.xml
+			;;
 		*".po"*)
 			echo -e 'floppy_3_5">' >> ../xml/chopblock/chopblock.xml
 			;;
