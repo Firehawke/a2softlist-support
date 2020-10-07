@@ -402,3 +402,5 @@ distributed by United Software of America
 distributed by StarCraft
 distributed by Highlands Computers
 distributed by The Avalon Hill Game Company
+distributed by California Pacific Computer
+distributed by Ramware
