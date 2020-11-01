@@ -405,3 +405,6 @@ distributed by The Avalon Hill Game Company
 distributed by California Pacific Computer
 distributed by Ramware
 distributed by Beagle Bros.
+distributed by Highlands Computer Services
+distributed by RenoSoft
+distributed by Southwest Data Systems
