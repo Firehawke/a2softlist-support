@@ -169,6 +169,7 @@ function generator() {
             compatdata=$(xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n')
             case $compatdata in
 
+            # Obviously you'll need to doublecheck the compatibility because there's a lot of ways this can be described...
             # Copy Protection compatibility issues section -------------------
             *"It requires an Apple ][ or ][+ with 48K. Due to compatibiltiy issues created by the copy protection, it will not run on later models. Even with a compatible ROM file, this game triggers bugs in several emulators, resulting in crashes or spontaneous reboots."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/"$worktype"disk/disk$1.xml
@@ -458,14 +459,18 @@ function generator() {
                 echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             esac
-
-            # Obviously you'll need to hand-configure the compatibility because there's a lot of ways this can be described...
-            echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
-            xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
-            echo -e -n '-->\n' >>../xml/"$worktype"disk/disk$1.xml
             ;;
         esac
     done
+
+    # We're going to output the description in either case, so we can catch
+    # publisher information or the like where the script doesn't recognize it.
+    # This saves us one trip to IA to look up the metadata manually in those
+    # cases and is just one line to delete if everything is fine.
+    echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
+    xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
+    echo -e -n '-->\n' >>../xml/"$worktype"disk/disk$1.xml
+
     # Add a space between the metadata and disk information
     echo -e -n '\n' >>../xml/"$worktype"disk/disk$1.xml
 
