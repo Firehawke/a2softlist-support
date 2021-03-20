@@ -58,7 +58,7 @@ function generator() {
     # Let's decompress any ZIP files we got, forced lowercase names.
     unzip -n -qq -LL -j "$worktype"'diskstaging/*.zip' -d "$worktype"diskoutput 2>/dev/null
     # Before we go ANY further, let's clean up any .bin files into .2mg ...
-    cd "$worktype"diskstaging
+    cd "$worktype"diskstaging || exit
     # Find all .bin files and rename them to 2mg. This should be Distro-agnostic,
     # as opposed to the previous Debian-specific variation.
     find . -name "*.bin" -exec sh -c 'mv "$1" "${1%.bin}.2mg"' _ {} \; 2>/dev/null
@@ -68,7 +68,7 @@ function generator() {
     mv "$worktype"diskstaging/*.woz "$worktype"diskoutput 2>/dev/null
     cp "$worktype"diskstaging/*meta.xml "$worktype"diskoutput 2>/dev/null
 
-    cd "$worktype"diskoutput
+    cd "$worktype"diskoutput || exit
 
     # Remove stuff we don't want. We don't want to parse the playable.dsk because
     # that's an exact copy of the properly named disk. We don't want pictures and
@@ -1671,7 +1671,7 @@ function generator() {
         echo -e "$worktype: Duplicated entry. Removing generated XML..."
         rm ../xml/"$worktype"disk/disk$1.xml
         # We found a dupe, so there's no point in continuing.
-        cd ..
+        cd .. || exit
         return 1
     fi
 
@@ -1681,12 +1681,12 @@ function generator() {
     mv *.dsk ../postsorted 2>/dev/null
     mv *.2mg ../postsorted 2>/dev/null
     mv *.woz ../postsorted 2>/dev/null
-    cd ..
+    cd .. || exit
 }
 
 function aggregate() {
     echo "$worktype: Generating final XML..."
-    cd xml/"$worktype"disk
+    cd xml/"$worktype"disk || exit
     cat ../../xmlheader.txt >../"$worktype"disk-combined-presort.xml
     cat disk*.xml >>../"$worktype"disk-combined-presort.xml 2>/dev/null
 
@@ -1704,7 +1704,7 @@ function aggregate() {
         sed -i 's/<software name="namehere">/\t<software name="namehere">/g' ../cc-combined.xml
         ;;
     esac
-    cd ../..
+    cd ../.. || exit
     IFS=$SAVEIFS
     echo "$worktype: Process complete..."
     return 1
