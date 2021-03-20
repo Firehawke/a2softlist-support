@@ -98,7 +98,61 @@ function generator() {
         # We'll have to handcraft the shortname ourselves.
         echo -e '\t<software name="namehere">' >../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<description>' >>../xml/"$worktype"disk/disk$1.xml
-        xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
+        # Now, let's do a bit of adjusting with the description name, to change
+        # v1.0 to (Version 1.0) -- the method is truly horrifying, but it works.
+        # We can add more special cases as they show up in the future.
+        xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' \
+| sed -e 's/v1.0/(Version 1.0)/' \
+| sed -e 's/v1.1/(Version 1.1)/' \
+| sed -e 's/v1.2/(Version 1.2)/' \
+| sed -e 's/v1.3/(Version 1.3)/' \
+| sed -e 's/v1.4/(Version 1.4)/' \
+| sed -e 's/v1.5/(Version 1.5)/' \
+| sed -e 's/v1.6/(Version 1.6)/' \
+| sed -e 's/v1.7/(Version 1.7)/' \
+| sed -e 's/v1.8/(Version 1.8)/' \
+| sed -e 's/v1.9/(Version 1.9)/' \
+| sed -e 's/v2.0/(Version 2.0)/' \
+| sed -e 's/v2.1/(Version 2.1)/' \
+| sed -e 's/v2.2/(Version 2.2)/' \
+| sed -e 's/v2.3/(Version 2.3)/' \
+| sed -e 's/v2.4/(Version 2.4)/' \
+| sed -e 's/v2.5/(Version 2.5)/' \
+| sed -e 's/v2.6/(Version 2.6)/' \
+| sed -e 's/v2.7/(Version 2.7)/' \
+| sed -e 's/v2.8/(Version 2.8)/' \
+| sed -e 's/v2.9/(Version 2.9)/' \
+| sed -e 's/v3.0/(Version 3.0)/' \
+| sed -e 's/v3.1/(Version 3.1)/' \
+| sed -e 's/v3.2/(Version 3.2)/' \
+| sed -e 's/v3.3/(Version 3.3)/' \
+| sed -e 's/v3.4/(Version 3.4)/' \
+| sed -e 's/v3.5/(Version 3.5)/' \
+| sed -e 's/v3.6/(Version 3.6)/' \
+| sed -e 's/v3.7/(Version 3.7)/' \
+| sed -e 's/v3.8/(Version 3.8)/' \
+| sed -e 's/v3.9/(Version 3.9)/' \
+| sed -e 's/v4.0/(Version 4.0)/' \
+| sed -e 's/v4.1/(Version 4.1)/' \
+| sed -e 's/v4.2/(Version 4.2)/' \
+| sed -e 's/v4.3/(Version 4.3)/' \
+| sed -e 's/v4.4/(Version 4.4)/' \
+| sed -e 's/v4.5/(Version 4.5)/' \
+| sed -e 's/v4.6/(Version 4.6)/' \
+| sed -e 's/v4.7/(Version 4.7)/' \
+| sed -e 's/v4.8/(Version 4.8)/' \
+| sed -e 's/v4.9/(Version 4.9)/' \
+| sed -e 's/v5.0/(Version 5.0)/' \
+| sed -e 's/v5.1/(Version 5.1)/' \
+| sed -e 's/v5.2/(Version 5.2)/' \
+| sed -e 's/v5.3/(Version 5.3)/' \
+| sed -e 's/v5.4/(Version 5.4)/' \
+| sed -e 's/v5.5/(Version 5.5)/' \
+| sed -e 's/v5.6/(Version 5.6)/' \
+| sed -e 's/v5.7/(Version 5.7)/' \
+| sed -e 's/v5.8/(Version 5.8)/' \
+| sed -e 's/v5.9/(Version 5.9)/' \
+>>../xml/"$worktype"disk/disk$1.xml
         echo -e '</description>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<year>' >>../xml/"$worktype"disk/disk$1.xml
         xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
@@ -115,6 +169,7 @@ function generator() {
             compatdata=$(xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n')
             case $compatdata in
 
+            # Obviously you'll need to doublecheck the compatibility because there's a lot of ways this can be described...
             # Copy Protection compatibility issues section -------------------
             *"It requires an Apple ][ or ][+ with 48K. Due to compatibiltiy issues created by the copy protection, it will not run on later models. Even with a compatible ROM file, this game triggers bugs in several emulators, resulting in crashes or spontaneous reboots."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/"$worktype"disk/disk$1.xml
@@ -404,14 +459,20 @@ function generator() {
                 echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             esac
-
-            # Obviously you'll need to hand-configure the compatibility because there's a lot of ways this can be described...
-            echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
-            xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
-            echo -e -n '-->\n' >>../xml/"$worktype"disk/disk$1.xml
             ;;
         esac
     done
+
+    # We're going to output the description in either case, so we can catch
+    # publisher information or the like where the script doesn't recognize it.
+    # This saves us one trip to IA to look up the metadata manually in those
+    # cases and is just one line to delete if everything is fine.
+    echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
+    xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
+    echo -e -n '-->\n' >>../xml/"$worktype"disk/disk$1.xml
+
+    # Add a space between the metadata and disk information
+    echo -e -n '\n' >>../xml/"$worktype"disk/disk$1.xml
 
     # Now we start working on the disk images. Here's where things get a Little
     # hairy. We need both the proper (possibly bad)-cased filename for tools, but
