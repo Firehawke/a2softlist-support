@@ -10,8 +10,8 @@ function startcycle() {
     # worktype and that'll cause this to break. Instead we take what the caller
     # gives us in $1
     COUNTER=1
-    # Run to a maximum of 99, end with exit code 1 when we finally hit a dupe.
-    while [ $COUNTER -lt 100 ]; do
+    # Run to a maximum of 500, end with exit code 1 when we finally hit a dupe.
+    while [ $COUNTER -lt 499 ]; do
         if ! (generator $COUNTER $1); then
             aggregate $1
             return 1
@@ -73,24 +73,24 @@ function generator() {
     # Remove stuff we don't want. We don't want to parse the playable.dsk because
     # that's an exact copy of the properly named disk. We don't want pictures and
     # videos in this case either.
-    rm 00playable.dsk 2>/dev/null
-    rm 00playable.2mg 2>/dev/null
-    rm 00playable.woz 2>/dev/null
-    rm 00playable2.dsk 2>/dev/null
-    rm playable.dsk 2>/dev/null
-    rm playable.2mg 2>/dev/null
-    rm playable.woz 2>/dev/null
-    rm *.a2r 2>/dev/null
-    rm *.png 2>/dev/null
-    rm *.mp4 2>/dev/null
-    rm *.jpg 2>/dev/null
-    rm *fastdsk\ rip\* 2>/dev/null
+    rm ./00playable.dsk 2>/dev/null
+    rm ./00playable.2mg 2>/dev/null
+    rm ./00playable.woz 2>/dev/null
+    rm ./00playable2.dsk 2>/dev/null
+    rm ./playable.dsk 2>/dev/null
+    rm ./playable.2mg 2>/dev/null
+    rm ./playable.woz 2>/dev/null
+    rm ./*.a2r 2>/dev/null
+    rm ./*.png 2>/dev/null
+    rm ./*.mp4 2>/dev/null
+    rm ./*.jpg 2>/dev/null
+    rm ./*fastdsk\ rip\* 2>/dev/null
     # These next two files seem to pop up a lot with MP4 files, which we don't want.
-    rm ProjFileList.xml 2>/dev/null
-    rm project.xml 2>/dev/null
+    rm ./ProjFileList.xml 2>/dev/null
+    rm ./project.xml 2>/dev/null
     # 4AM sometimes leaves his work disk in the package. We don't want to keep that.
-    rm *work\ disk* 2>/dev/null
-    rm *demuffin\'d\ only* 2>/dev/null
+    rm ./*work\ disk* 2>/dev/null
+    rm ./*demuffin\'d\ only* 2>/dev/null
     # Now, we parse the XML file(s), and there should only be one to parse.
 
     for filename in *.xml; do
@@ -163,14 +163,19 @@ function generator() {
         echo -e -n '\t\t<info name="release" value="' >>../xml/"$worktype"disk/disk$1.xml
         xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '"/>' >>../xml/"$worktype"disk/disk$1.xml
+
         # Now, this next step only is done if we're doing WOZADAY where we have actual compatibility data at hand.
         case ${2} in
         "WOZADAY")
             compatdata=$(xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n')
             case $compatdata in
 
-            # Obviously you'll need to doublecheck the compatibility because there's a lot of ways this can be described...
-            # Copy Protection compatibility issues section -------------------
+        # Copy Protection compatibility issues section -------------------
+            *"It requires a 48K Apple ][ or ][+. It will not run on later models."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 48K Apple ][ or ][+.' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\tIt will not run on later models. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires an Apple ][ or ][+ with 48K. Due to compatibiltiy issues created by the copy protection, it will not run on later models. Even with a compatible ROM file, this game triggers bugs in several emulators, resulting in crashes or spontaneous reboots."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t\<!-- It requires an Apple II or II+ with 48K.' >>../xml/"$worktype"disk/disk$1.xml
@@ -230,7 +235,7 @@ function generator() {
                 echo -e '\t\tprotection, this disk may reboot one or more times before loading. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
 
-                # Non-copy protection-related special notes ----------------------
+            # Non-copy protection-related special notes ----------------------
             *"Attempting to run with less than 48K will appear to work, but copies will fail with an UNABLE TO WRITE error."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It runs on any Apple II with 48K.' >>../xml/"$worktype"disk/disk$1.xml
@@ -265,11 +270,6 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- This version, using double hi-res graphics,' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\trequires a 128K Apple //e, //c, or IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;
-            *"It requires a 48K Apple ][ or ][+. It will not run on later models."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 48K Apple ][ or ][+.' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\tIt will not run on later models. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             *"It requires a 13-sector drive but otherwise runs on any Apple II with 48K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
@@ -337,7 +337,7 @@ function generator() {
                 echo -e '\t\tit requires a 128K Apple //e or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
 
-                # Normal section -------------------------------------------------
+            # Normal section -------------------------------------------------
             *"It requires a 64K Apple II+, //e, //c, or IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -373,10 +373,6 @@ function generator() {
             *"It runs on any Apple II with 64K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It runs on any Apple II with 64K. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;
-            *"It requires a 48K Apple ][ or ][+."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 48K Apple II or II+. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             *"It runs on any Apple II with 32K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
@@ -426,10 +422,6 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
-            *"It requirs a 64K Apple ][+ or later."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;
             *"It requires a 64K Apple ][+ or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 64K Apple II+ or later. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -459,20 +451,14 @@ function generator() {
                 echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             esac
-            ;;
+        ;;
         esac
+        # Obviously you'll need to hand-tweak the compatibility because there's a lot of ways this can be described...
+        # We'll include the full description text as a comment, as eventually we need to get other metadata like authors
+        echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
+        xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
+        echo -e -n '-->\n\n' >>../xml/"$worktype"disk/disk$1.xml
     done
-
-    # We're going to output the description in either case, so we can catch
-    # publisher information or the like where the script doesn't recognize it.
-    # This saves us one trip to IA to look up the metadata manually in those
-    # cases and is just one line to delete if everything is fine.
-    echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
-    xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
-    echo -e -n '-->\n' >>../xml/"$worktype"disk/disk$1.xml
-
-    # Add a space between the metadata and disk information
-    echo -e -n '\n' >>../xml/"$worktype"disk/disk$1.xml
 
     # Now we start working on the disk images. Here's where things get a Little
     # hairy. We need both the proper (possibly bad)-cased filename for tools, but
@@ -516,11 +502,11 @@ function generator() {
             echo -e 'floppy_3_5">' >>../xml/"$worktype"disk/disk$1.xml
             ;;
         *".woz"*)
-            # WOZ can be either. We need to pull the data from the WOZ itself.
-            # According to the WOZ 2.0 spec, certain info is always hard-set
-            # location-wise to help lower-end emulators.
-            # The disk type should ALWAYS be at offset 21, and
-            # should be "1" for 5.25" and "2" for 3.5" disks.
+        # WOZ can be either. We need to pull the data from the WOZ itself.
+        # According to the WOZ 2.0 spec, certain info is always hard-set
+        # location-wise to help lower-end emulators.
+        # The disk type should ALWAYS be at offset 21, and
+        # should be "1" for 5.25" and "2" for 3.5" disks.
             disktype=$((16#$(xxd -e -p -l1 -s 21 "$filename")))
             case $disktype in
             *"2"*)
@@ -536,6 +522,31 @@ function generator() {
         # Generate side/disk number information.
 
         case $lfilename in
+
+        # Special cases. Will add as they come up.
+        *"side 2 (boot)."*)
+            echo -e '\t\t\t<feature name="part_id" value="Side 2 - Boot"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
+        *"side a - master scenario disk."*)
+            echo -e '\t\t\t<feature name="part_id" value="Side A - Master scenario disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
+        *"side b - boot."*)
+            echo -e '\t\t\t<feature name="part_id" value="Side B - Boot disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
+        *"side a - master disk."*)
+            echo -e '\t\t\t<feature name="part_id" value="Side A - Master disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
+        *"side b - scenario disk."*)
+            echo -e '\t\t\t<feature name="part_id" value="Side B - Boot disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
+        # These two don't get a disk number because we don't know for sure what it should be.
+        # Instead, we use ~ so I can have my build scripts abort if I miss fixing this in the XML.
+        *"- program disk."*)
+            echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Program disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
+        *"- player disk."*)
+            echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Player disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            ;;
 
         # "Disk X - Title" type
         # e.g. "swordthrust (4am crack) disk 1 - the king's testing ground.dsk"
@@ -630,8 +641,8 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk 30 - "/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Disk X" type
-            # e.g. "read and spell - in the days of knights and castles (4am crack) disk 1.dsk"
+        # "Disk X" type
+        # e.g. "read and spell - in the days of knights and castles (4am crack) disk 1.dsk"
         *"disk 1."*)
             echo -e '\t\t\t<feature name="part_id" value="Disk 1"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -663,8 +674,8 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk 10"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Disk X Side X" type
-            # e.g. "read n roll (4am crack) disk 2 side a.dsk"
+        # "Disk X Side X" type
+        # e.g. "read n roll (4am crack) disk 2 side a.dsk"
         *"disk 1 side a."*)
             echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side A"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -726,7 +737,7 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Disk X" type
+        # "Disk X" type
         *"disk a."*)
             echo -e '\t\t\t<feature name="part_id" value="Disk A"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -806,7 +817,7 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk Z"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Disk X Side A/B" type
+        # "Disk X Side A/B" type
         *"disk a side a."*)
             echo -e '\t\t\t<feature name="part_id" value="Disk A Side A"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -964,8 +975,8 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk Z Side B"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Disk X Side X" type
-            # e.g. "the perfect score (4am crack) disk a side 1 - antonyms i.dsk"
+        # "Disk X Side X" type
+        # e.g. "the perfect score (4am crack) disk a side 1 - antonyms i.dsk"
         *"disk a side 1 -"*)
             echo -e '\t\t\t<feature name="part_id" value="Disk A Side 1 - "/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -1279,8 +1290,8 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk Z Side 2"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Disk X Side X - Title" type
-            # e.g. "superprint (4am crack) disk 1 side a - program.dsk"
+        # "Disk X Side X - Title" type
+        # e.g. "superprint (4am crack) disk 1 side a - program.dsk"
         *"disk 1 side a -"*)
             echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side A - "/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -1342,8 +1353,8 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B - "/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # Disk NumberSide.
-            # e.g. "voyage of the mimi (4am crack) disk 1a.dsk"
+        # Disk NumberSide.
+        # e.g. "voyage of the mimi (4am crack) disk 1a.dsk"
         *"disk 1a."*)
             echo -e '\t\t\t<feature name="part_id" value="Disk 1 Side A"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -1465,11 +1476,11 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Disk 10 Side B"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # Because case is a fallthrough, it only ever gets here if it fails to match
-            # one of the above entries.
+        # Because case is a fallthrough, it only ever gets here if it fails to match
+        # one of the above entries.
 
-            # "Side X - Title" type
-            # e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
+        # "Side X - Title" type
+        # e.g. "the bard's tale ii (4am and san inc crack) side a - program.dsk"
         *"side a -"*)
             echo -e '\t\t\t<feature name="part_id" value="Side A - "/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -1549,8 +1560,8 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Side Z - "/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
-            # "Side X" type
-            # e.g. "reading and me (4am crack) side a.dsk"
+        # "Side X" type
+        # e.g. "reading and me (4am crack) side a.dsk"
         *"side a."*)
             echo -e '\t\t\t<feature name="part_id" value="Side A"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
@@ -1659,31 +1670,6 @@ function generator() {
         *"side 10."*)
             echo -e '\t\t\t<feature name="part_id" value="Side 10"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
-
-            # Special cases. Will add as they come up.
-        *"side 2 (boot)."*)
-            echo -e '\t\t\t<feature name="part_id" value="Side 2 - Boot"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
-        *"side a - master scenario disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Side A - Master scenario disk"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
-        *"side b - boot."*)
-            echo -e '\t\t\t<feature name="part_id" value="Side B - Boot disk"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
-        *"side a - master disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Side A - Master disk"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
-        *"side b - scenario disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Side B - Boot disk"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
-            # These two don't get a disk number because we don't know for sure what it should be.
-            # Instead, we use ~ so I can have my build scripts abort if I miss fixing this in the XML.
-        *"- program disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Program disk"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
-        *"- player disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Player disk"/>' >>../xml/"$worktype"disk/disk$1.xml
-            ;;
         esac
 
         # Give us the actual floppy definition, including size.
@@ -1738,10 +1724,10 @@ function generator() {
 
     # Migrate all non-duplicate disk images to the postsorted folder for later
     # parsing so we can be 100% sure the XML is correct even after mame -valid
-    mv *.woz ../postsorted 2>/dev/null
-    mv *.dsk ../postsorted 2>/dev/null
-    mv *.2mg ../postsorted 2>/dev/null
-    mv *.woz ../postsorted 2>/dev/null
+    mv ./*.woz ../postsorted 2>/dev/null
+    mv ./*.dsk ../postsorted 2>/dev/null
+    mv ./*.2mg ../postsorted 2>/dev/null
+    mv ./*.woz ../postsorted 2>/dev/null
     cd .. || exit
 }
 
