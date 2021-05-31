@@ -338,6 +338,10 @@ function generator() {
                 ;;
 
             # Normal section -------------------------------------------------
+            *"It requires a 1MB Apple IIgs ROM01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires a 1MB Apple IIgs. (Music requires 1.25MB.)"*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs. (Music requires 1.25MB.) -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -500,7 +504,7 @@ function generator() {
 
         # If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
         # We'll use that a little later.
-        grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple2_flop*.xml >temp2
+        grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple*_flop*.xml >temp2
         if [[ -s temp2 ]]; then
             echo "dupe" >dupecheck
         fi
