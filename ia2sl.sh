@@ -152,6 +152,7 @@ function generator() {
 | sed -e 's/v5.7/(Version 5.7)/' \
 | sed -e 's/v5.8/(Version 5.8)/' \
 | sed -e 's/v5.9/(Version 5.9)/' \
+| sed -e 's/IIgs/(IIgs)/' \
 >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</description>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<year>' >>../xml/"$worktype"disk/disk$1.xml
@@ -336,8 +337,10 @@ function generator() {
                 echo -e '\t\t<!-- Due to its use of double hi-res graphics,' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\tit requires a 128K Apple //e or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
-
-            # Normal section -------------------------------------------------
+            *"It requires a 1.25MB Apple IIgs."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1.25MB Apple IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires a 1MB Apple IIgs ROM01 or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -346,6 +349,8 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs. (Music requires 1.25MB.) -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
+
+            # Normal section -------------------------------------------------
             *"It requires a 1MB Apple IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml

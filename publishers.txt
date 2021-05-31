@@ -437,3 +437,4 @@ distributed by The Software Toolworks
 distributed by Microprose
 distributed by Seven Hills Software
 distributed by Three Sixty
+distributed by Strategic Studies Group
