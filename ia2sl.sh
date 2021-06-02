@@ -96,7 +96,7 @@ function generator() {
     for filename in *.xml; do
         [ -e "$filename" ] || continue
         # We'll have to handcraft the shortname ourselves.
-        echo -e '\t<software name="namehere">' >../xml/"$worktype"disk/disk$1.xml
+        echo -e '\t<software name="ia2slnewnamehere">' >../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<description>' >>../xml/"$worktype"disk/disk$1.xml
         # Now, let's do a bit of adjusting with the description name, to change
         # v1.0 to (Version 1.0) -- the method is truly horrifying, but it works.
@@ -341,13 +341,29 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1.25MB Apple IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
-            *"It requires a 1MB Apple IIgs ROM01 or later."*)
+            *"It requires a 1.25M Apple IIgs ROM 00 or ROM 01."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1.25M Apple IIgs ROM 00 or ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             *"It requires a 1MB Apple IIgs. (Music requires 1.25MB.)"*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs. (Music requires 1.25MB.) -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 1MB Apple IIgs ROM01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 1MB Apple IIgs ROM 01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 768K Apple IIgs ROM01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 768K Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 512K Apple IIgs ROM01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
 
             # Normal section -------------------------------------------------
