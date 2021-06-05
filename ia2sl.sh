@@ -1767,8 +1767,9 @@ function generator() {
     done
     echo -e '\t</software>\n' >>../xml/"$worktype"disk/disk$1.xml
     # Clean out any wozaday collection tags.
-    # Change descriptions that end in IIgs to (IIgs)
-    sed -i 's/IIgs<\/description>/(IIgs)<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
+    # Remove the "IIgs" from the end of GS-specific disks since they're going to
+    # go into a GS-specific software list.
+    sed -i 's/IIgs<\/description>/<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
     # Change any crack tags to cleanly cracked.
     sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
     sed -i 's/(san inc crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
