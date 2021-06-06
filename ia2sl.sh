@@ -512,8 +512,10 @@ function generator() {
                 echo -e '\t\t<!-- It requires a 128K Apple //e, //c, or IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             *)
+                # Fallthrough: We don't know what the compatibility is.
+                # Output something we can easily regex to find these
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It runs on any Apple II with 48K. -->' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- -=-=UNKNOWNCOMPATIBILITY=-=- -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             esac
         ;;
@@ -525,7 +527,7 @@ function generator() {
         echo -e -n '-->\n\n' >>../xml/"$worktype"disk/disk$1.xml
     done
 
-    # Now we start working on the disk images. Here's where things get a Little
+    # Now we start working on the disk images. Here's where things get a LITTLE
     # hairy. We need both the proper (possibly bad)-cased filename for tools, but
     # we need a forced lowercase for the XML.
     # clrmamepro/romcenter will rename files automagically so the the files are
@@ -605,12 +607,12 @@ function generator() {
             echo -e '\t\t\t<feature name="part_id" value="Side B - Boot disk"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
         # These two don't get a disk number because we don't know for sure what it should be.
-        # Instead, we use ~ so I can have my build scripts abort if I miss fixing this in the XML.
+        # We use "-=-=UNKNOWNDISK=-=-" so we can easily regex it out of the whole file.
         *"- program disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Program disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            echo -e '\t\t\t<feature name="part_id" value="-=-=UNKNOWNDISK=-=- - Program disk"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
         *"- player disk."*)
-            echo -e '\t\t\t<feature name="part_id" value="Disk ~ - Player disk"/>' >>../xml/"$worktype"disk/disk$1.xml
+            echo -e '\t\t\t<feature name="part_id" value=""-=-=UNKNOWNDISK=-=- - Player disk"/>' >>../xml/"$worktype"disk/disk$1.xml
             ;;
 
         # "Disk X - Title" type
@@ -1778,7 +1780,7 @@ function generator() {
     sed -i 's/ (woz-a-day collection)<\/description>/<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
     sed -i 's/ 800K / (800K 3.5") /g' ../xml/"$worktype"disk/disk$1.xml
     # Detect if we didn't get a publisher and add a warning notification.
-    sed -i 's/<publisher><\/publisher>/<publisher>UNKNOWN<\/publisher>/g' ../xml/"$worktype"disk/disk$1.xml
+    sed -i 's/<publisher><\/publisher>/<publisher>-=-=UNKNOWNPUBLISHER=-=-<\/publisher>/g' ../xml/"$worktype"disk/disk$1.xml
     # If the dupecheck file above says this already exists in our MAME softlists,
     # then all this work was a waste and we need to delete the XML now.
 
