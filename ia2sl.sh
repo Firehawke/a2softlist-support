@@ -101,6 +101,9 @@ function generator() {
         # Now, let's do a bit of adjusting with the description name, to change
         # v1.0 to (Version 1.0) -- the method is truly horrifying, but it works.
         # We can add more special cases as they show up in the future.
+        # Also remove the "IIgs" from the end of GS-specific disks since they're
+        # going to go into a GS-specific software list.
+
         xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' \
 | sed -e 's/v1.0/(Version 1.0)/' \
 | sed -e 's/v1.1/(Version 1.1)/' \
@@ -152,7 +155,7 @@ function generator() {
 | sed -e 's/v5.7/(Version 5.7)/' \
 | sed -e 's/v5.8/(Version 5.8)/' \
 | sed -e 's/v5.9/(Version 5.9)/' \
-| sed -e 's/IIgs/(IIgs)/' \
+| sed -e 's/ IIgs//' \
 >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</description>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<year>' >>../xml/"$worktype"disk/disk$1.xml
@@ -522,8 +525,9 @@ function generator() {
         esac
         # Obviously you'll need to hand-tweak the compatibility because there's a lot of ways this can be described...
         # We'll include the full description text as a comment, as eventually we need to get other metadata like authors
+        # We use perl to normalize the text since it uses escaping.
         echo -e -n '\t\t<!--' >>../xml/"$worktype"disk/disk$1.xml
-        xmllint --xpath 'metadata/description/text()' $filename | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
+        xmllint --xpath 'metadata/description/text()' $filename | perl -Mopen=locale -pe 's/&#x([\da-f]+);/chr hex $1/gie' | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '-->\n\n' >>../xml/"$worktype"disk/disk$1.xml
     done
 
@@ -1769,9 +1773,6 @@ function generator() {
     done
     echo -e '\t</software>\n' >>../xml/"$worktype"disk/disk$1.xml
     # Clean out any wozaday collection tags.
-    # Remove the "IIgs" from the end of GS-specific disks since they're going to
-    # go into a GS-specific software list.
-    sed -i 's/IIgs<\/description>/<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
     # Change any crack tags to cleanly cracked.
     sed -i 's/(4am crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
     sed -i 's/(san inc crack)<\/description>/(cleanly cracked)<\/description>/g' ../xml/"$worktype"disk/disk$1.xml
