@@ -368,6 +368,14 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM 01 or later -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
+            *"It requires a 768K Apple IIgs ROM 01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 768K Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 768K Apple IIgs ROM01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 768K Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires a 512K Apple IIgs ROM 01. Music requires 768K."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 01. Music requires 768K. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -375,10 +383,6 @@ function generator() {
             *"It requires a 512K Apple IIgs ROM 00 or ROM 01."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 00 or ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;
-            *"It requires a 768K Apple IIgs ROM01 or later."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 768K Apple IIgs ROM01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             *"It requires a 512K Apple IIgs ROM 00 or ROM 01."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
@@ -551,7 +555,7 @@ function generator() {
 
         # If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
         # We'll use that a little later.
-        grep -a -i -F -n -R -f temp /mnt/c/msys64/src/mame/hash/apple*_flop*.xml >temp2
+        grep -a -i -F -n -R -f temp /mnt/c/msys64/src/MAME/mame-softlists/hash/apple*_flop*.xml >temp2
         if [[ -s temp2 ]]; then
             echo "dupe" >dupecheck
         fi
@@ -1815,11 +1819,11 @@ function aggregate() {
     case ${1} in
     "WOZADAY")
         xsltproc --novalid --nodtdattr -o ../woz-combined.xml ../../resortxml.xslt ../"$worktype"disk-combined-presort.xml
-        sed -i 's/<software name="namehere">/\t<software name="namehere">/g' ../woz-combined.xml
+        sed -i 's/<software name="ia2slnewnamehere">/\t<software name="ia2slnewnamehere">/g' ../woz-combined.xml
         ;;
     "CLCRACKED")
         xsltproc --novalid --nodtdattr -o ../cc-combined.xml ../../resortxml.xslt ../"$worktype"disk-combined-presort.xml
-        sed -i 's/<software name="namehere">/\t<software name="namehere">/g' ../cc-combined.xml
+        sed -i 's/<software name="ia2slnewnamehere">/\t<software name="ia2slnewnamehere">/g' ../cc-combined.xml
         ;;
     esac
     cd ../.. || exit

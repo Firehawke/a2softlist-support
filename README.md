@@ -66,4 +66,4 @@
 
 `sudo pip3 install internetarchive`
 
-You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `/mnt/c/msys64/src/mame/hash/apple2_flop*.xml` in the script and change accordingly (or set up a mount to redirect those to wherever your MAME hash folder actually is).
+You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `/mnt/c/msys64/src/MAME/mame-softlists/hash/apple*_flop*.xml` in the script and change accordingly (or set up a mount to redirect those to wherever your MAME hash folder actually is).
