@@ -368,6 +368,10 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
+            *"It requires a 1 MB Apple IIgs ROM 01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1 MB Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires a 1MB Apple IIgs ROM 01 or later"*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM 01 or later -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -403,6 +407,10 @@ function generator() {
             *"It requires a 512K Apple IIgs ROM 00 or ROM 01."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 00 or ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 256K Apple IIgs ROM 01."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 256K Apple IIgs ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
 
             # Normal section -------------------------------------------------
