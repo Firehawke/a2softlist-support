@@ -340,6 +340,18 @@ function generator() {
                 echo -e '\t\t<!-- Due to its use of double hi-res graphics,' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\tit requires a 128K Apple //e or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
+            *"It requires an Apple IIgs, Apple //c+, or a 128K Apple //e with a compatible drive controller card."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple IIgs, Apple //c+, or a 128K Apple //e with a compatible drive controller card. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires an Apple IIgs, Apple //c+, Apple //e, or 64K Apple ][+ with a compatible drive controller card."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple IIgs, Apple //c+, Apple //e, or 64K Apple ][+ with a compatible drive controller card. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires an Apple IIgs, Apple //c+, or 128K Apple //e with a compatible drive controller card."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires an Apple IIgs, Apple //c+, or 128K Apple //e with a compatible drive controller card. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires a 1.5MB Apple IIgs ROM 01 or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1.5MB Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -367,6 +379,10 @@ function generator() {
             *"It requires a 1MB Apple IIgs ROM 01 or later."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 1 MB Apple IIgs ROM 01 or later."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 1 MB Apple IIgs ROM 01 or later. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
             *"It requires a 1MB Apple IIgs ROM 01 or later"*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
@@ -403,6 +419,18 @@ function generator() {
             *"It requires a 512K Apple IIgs ROM 00 or ROM 01."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 00 or ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 512K Apple IIgs ROM 01 or earlier."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 01 or earlier. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 256K Apple IIgs ROM 01."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 256K Apple IIgs ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
+            *"It requires a 256K Apple IIgs ROM 01 or earlier."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a 256K Apple IIgs ROM 01 or earlier. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
 
             # Normal section -------------------------------------------------
@@ -1798,9 +1826,11 @@ function generator() {
     sed -i 's/ 800K / (800K 3.5") /g' ../xml/"$worktype"disk/disk$1.xml
     # Detect if we didn't get a publisher and add a warning notification.
     sed -i 's/<publisher><\/publisher>/<publisher>-=-=UNKNOWNPUBLISHER=-=-<\/publisher>/g' ../xml/"$worktype"disk/disk$1.xml
+    # Clean up any "&amp;" to "and"
+    sed -i 's/&amp;/and/g' ../xml/"$worktype"disk/disk$1.xml
+
     # If the dupecheck file above says this already exists in our MAME softlists,
     # then all this work was a waste and we need to delete the XML now.
-
     if [[ -s dupecheck ]]; then
         echo -e "$worktype: Duplicated entry. Removing generated XML..."
         rm ../xml/"$worktype"disk/disk$1.xml
