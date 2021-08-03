@@ -416,10 +416,6 @@ function generator() {
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 00 or ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
                 ;;
-            *"It requires a 512K Apple IIgs ROM 00 or ROM 01."*)
-                echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
-                echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 00 or ROM 01. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;
             *"It requires a 512K Apple IIgs ROM 01 or earlier."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 512K Apple IIgs ROM 01 or earlier. -->' >>../xml/"$worktype"disk/disk$1.xml
