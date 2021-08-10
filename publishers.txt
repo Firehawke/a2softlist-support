@@ -468,3 +468,5 @@ distributed by Systems Design Lab
 distributed by Davidson &amp; Associates
 distributed by Walt Disney Computer Software
 distributed by Data Trek
+distributed by MECC
+distributed by Micro Power &amp; Light
