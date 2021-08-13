@@ -45,12 +45,7 @@ function generator() {
     ia download -d -i --no-directories --glob '*.zip|*.xml|*.dsk|*.2mg|*.po|*.bin|*.woz|*crack).zip|*.BIN' --itemlist="$worktype"currentitems.txt >"$worktype"currentdls.txt
 
     # Let's remove the extras file and certain other unwanted materials
-    sed -i '/%20extras%20/d' "$worktype"currentdls.txt
-    sed -i '/extras.zip/d' "$worktype"currentdls.txt
-    sed -i '/0playable/d' "$worktype"currentdls.txt
-    sed -i '/_files.xml/d' "$worktype"currentdls.txt
-    sed -i "/demuffin\'d/d" "$worktype"currentdls.txt
-    sed -i '/work%20disk/d' "$worktype"currentdls.txt
+    sed -i "/%20extras%20/d;/extras.zip/d;/0playable/d;/_files.xml/d;/demuffin\'d/d;/work%20disk/d" "$worktype"currentdls.txt
 
     # Now we download.
     echo "$worktype: Downloading..."
@@ -99,70 +94,17 @@ function generator() {
         echo -e '\t<software name="ia2slnewnamehere">' >../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<description>' >>../xml/"$worktype"disk/disk$1.xml
         # Now, let's do a bit of adjusting with the description name, to change
-        # v1.0 to (Version 1.0) -- the method is truly horrifying, but it works.
+        # v1.0 to (Version 1.0) and so forth.
         # We can add more special cases as they show up in the future.
         # Also remove the "IIgs" from the end of GS-specific disks since they're
         # going to go into a GS-specific software list.
-
-        xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' \
-| sed -e 's/v1.0/(Version 1.0)/' \
-| sed -e 's/v1.1/(Version 1.1)/' \
-| sed -e 's/v1.2/(Version 1.2)/' \
-| sed -e 's/v1.3/(Version 1.3)/' \
-| sed -e 's/v1.4/(Version 1.4)/' \
-| sed -e 's/v1.5/(Version 1.5)/' \
-| sed -e 's/v1.6/(Version 1.6)/' \
-| sed -e 's/v1.7/(Version 1.7)/' \
-| sed -e 's/v1.8/(Version 1.8)/' \
-| sed -e 's/v1.9/(Version 1.9)/' \
-| sed -e 's/v2.0/(Version 2.0)/' \
-| sed -e 's/v2.1/(Version 2.1)/' \
-| sed -e 's/v2.2/(Version 2.2)/' \
-| sed -e 's/v2.3/(Version 2.3)/' \
-| sed -e 's/v2.4/(Version 2.4)/' \
-| sed -e 's/v2.5/(Version 2.5)/' \
-| sed -e 's/v2.6/(Version 2.6)/' \
-| sed -e 's/v2.7/(Version 2.7)/' \
-| sed -e 's/v2.8/(Version 2.8)/' \
-| sed -e 's/v2.9/(Version 2.9)/' \
-| sed -e 's/v3.0/(Version 3.0)/' \
-| sed -e 's/v3.1/(Version 3.1)/' \
-| sed -e 's/v3.2/(Version 3.2)/' \
-| sed -e 's/v3.3/(Version 3.3)/' \
-| sed -e 's/v3.4/(Version 3.4)/' \
-| sed -e 's/v3.5/(Version 3.5)/' \
-| sed -e 's/v3.6/(Version 3.6)/' \
-| sed -e 's/v3.7/(Version 3.7)/' \
-| sed -e 's/v3.8/(Version 3.8)/' \
-| sed -e 's/v3.9/(Version 3.9)/' \
-| sed -e 's/v4.0/(Version 4.0)/' \
-| sed -e 's/v4.1/(Version 4.1)/' \
-| sed -e 's/v4.2/(Version 4.2)/' \
-| sed -e 's/v4.3/(Version 4.3)/' \
-| sed -e 's/v4.4/(Version 4.4)/' \
-| sed -e 's/v4.5/(Version 4.5)/' \
-| sed -e 's/v4.6/(Version 4.6)/' \
-| sed -e 's/v4.7/(Version 4.7)/' \
-| sed -e 's/v4.8/(Version 4.8)/' \
-| sed -e 's/v4.9/(Version 4.9)/' \
-| sed -e 's/v5.0/(Version 5.0)/' \
-| sed -e 's/v5.1/(Version 5.1)/' \
-| sed -e 's/v5.2/(Version 5.2)/' \
-| sed -e 's/v5.3/(Version 5.3)/' \
-| sed -e 's/v5.4/(Version 5.4)/' \
-| sed -e 's/v5.5/(Version 5.5)/' \
-| sed -e 's/v5.6/(Version 5.6)/' \
-| sed -e 's/v5.7/(Version 5.7)/' \
-| sed -e 's/v5.8/(Version 5.8)/' \
-| sed -e 's/v5.9/(Version 5.9)/' \
-| sed -e 's/ IIgs//' \
->>../xml/"$worktype"disk/disk$1.xml
+        xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' | sed -E 's/v([[:digit:]]*).([[:digit:]]*).([[:digit:]]*)/\(Version \1.\2.\3\)/;s/\.\)/) /;s/ IIga//' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</description>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<year>' >>../xml/"$worktype"disk/disk$1.xml
         xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</year>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<publisher>' >>../xml/"$worktype"disk/disk$1.xml
-        xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -e 's/distributed by //g' | sed -e 's/published by //g' | sed -e 's/\&amp;amp;/and/g' >>../xml/"$worktype"disk/disk$1.xml
+        xmllint --xpath 'metadata/description/text()' $filename | grep -o -a -i -F -f ../publishers.txt | tr -d '\n' | sed -E -e 's/distributed by //g;s/published by //g;s/\&amp\;amp\;/and/g' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</publisher>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<info name="release" value="' >>../xml/"$worktype"disk/disk$1.xml
         xmllint --xpath 'metadata/publicdate/text()' $filename | awk '{print $1}' | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
@@ -1938,4 +1880,4 @@ case ${worktype} in
 esac
 
 IFS=$SAVEIFS
-exit 1
+exit 0

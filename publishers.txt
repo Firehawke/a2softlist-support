@@ -1,7 +1,9 @@
+re-released by SoftSmith
 Decision Development
+SoftSmith
 by Belanger and Boyle
 developed by Hartley Courseware
-developed by J &amp; S Software
+developed by J & S Software
 developed by Quest
 distributed by A/V Concepts
 distributed by ARCO Publishing
@@ -17,7 +19,9 @@ distributed by Adventure International
 distributed by Alfred Publishing Company
 distributed by American Eagle
 distributed by American Educational Computer
+distributed by American Guidance Service
 distributed by American Language Academy
+distributed by American School Publishers
 distributed by American School Publishing
 distributed by Apple Computer
 distributed by Applecart Programs For Education
@@ -30,35 +34,49 @@ distributed by Avant-Garde Creations
 distributed by Baker Book House
 distributed by Bally Midway
 distributed by Bantam Electronic Publishing
-distributed by Bantam Software
 distributed by Barnum Software
+distributed by Barron's Educational Series, Inc.
+distributed by Barron's Educational Series
 distributed by Baudville
+distributed by Beagle Bros.
 distributed by Behavioral Engineering
 distributed by Bergwall Educational Software
 distributed by Berserker Works
+distributed by Big Red Computer Club
 distributed by Bitcards
 distributed by Blue Chip Software
 distributed by Blue Ridge Software
+distributed by Book Lures
+distributed by Boone Corporation
 distributed by Border Software
 distributed by Borg-Warner Educational Systems
+distributed by Box Office
 distributed by BrainBank
+distributed by Britannica Software
 distributed by Broderbund Software
 distributed by CBS Software
 distributed by CPU Software
+distributed by California Dreams
+distributed by California Pacific Computer
+distributed by Cassidy & Greene
 distributed by Centurion Software
 distributed by Channelmark Corporation
 distributed by Charles Lund
 distributed by Chevron Chemical Co.
+distributed by Cinemaware
 distributed by College Entrance Exam Board
 distributed by College-Hill Press
 distributed by Compu-Tations
+distributed by Computer Easy
 distributed by Computer Headware
 distributed by Computer Programs Unlimited
+distributed by Conduit
 distributed by Conduit Educational Software
 distributed by Continental Software
 distributed by Control Data Corporation
 distributed by Core Concepts
 distributed by Cosmi Corporation
+distributed by Cosmi
 distributed by Courses by Computers
 distributed by Criterion Micro Soft
 distributed by Critical Thinking Press and Software
@@ -67,11 +85,14 @@ distributed by Cross Educational Software
 distributed by Crystalware
 distributed by D.C. Heath
 distributed by DC Heath
+distributed by Dakin5 Corporation
 distributed by Data East USA, Inc. and Mattel Electronics
 distributed by Data East
+distributed by Data Trek
 distributed by Datamost
 distributed by Datasoft
-distributed by Davidson &amp;amp; Associates
+distributed by Davidson & Associates
+distributed by Davidson &amp; Associates
 distributed by Davidson and Associates
 distributed by Davka Corporation
 distributed by Daystar Learning
@@ -81,8 +102,11 @@ distributed by Didatech Software
 distributed by Didatech
 distributed by Discovery Games
 distributed by Double-Gold Software
+distributed by DreamWorld Software
 distributed by ERIC Software Publishing
+distributed by Earthware Computer Services
 distributed by Edu-Ware
+distributed by EduWare Services
 distributed by Educational Activities
 distributed by Educational Materials and Equipment
 distributed by Educational Publishing Concepts
@@ -91,18 +115,25 @@ distributed by Electronic Courseware Systems
 distributed by Encyclopaedia Britannica
 distributed by Epyx
 distributed by Estes Industries
+distributed by Evolving Technology Company
+distributed by FTA
+distributed by Fanfare
 distributed by Firebird
+distributed by First Byte
 distributed by Fisher Price Learning Software
 distributed by Focus Media
 distributed by Foster Cline
+distributed by Free Tools Association
 distributed by Friend-Lee Software
 distributed by Frontier Software
 distributed by Funtastic
 distributed by GARDE
 distributed by Gamco Industries
 distributed by Gebelli Software
+distributed by General Masters
 distributed by General Quarters Software
 distributed by Gentry Software
+distributed by George Earl
 distributed by Gessler Educational Software
 distributed by Gray Matter
 distributed by Great Game Products
@@ -111,24 +142,37 @@ distributed by HRM Software
 distributed by Harcourt Brace Jovanovich
 distributed by Hartley Courseware
 distributed by Hartley Software
+distributed by Harvest Computer Systems
 distributed by Hayden Book Company
 distributed by Hayden Software
 distributed by Hearlihy and Co
 distributed by Heartsoft
 distributed by Hesware
+distributed by Hi-Tech Expressions
 distributed by Highland Computers
+distributed by Highlands Computer Services
+distributed by Highlands Computers
 distributed by Hoffman Educational Systems
 distributed by Holt, Rinehart and Winston
 distributed by Houghton Mifflin
 distributed by Houghton-Mifflin
+distributed by Howard W. Sams, Inc.
 distributed by Human Edge Software
 distributed by Human Engineered Software
+distributed by Huntington Computing
 distributed by I.M.C.
+distributed by ICOM Simulations
 distributed by Imaginative Systems Software
 distributed by Infocom
+distributed by Infogrames
+distributed by Insoft
+distributed by Instructional/Communications Technology
 distributed by Intellectual Software
 distributed by Intelligent Statements
+distributed by Interplay
+distributed by Interplay Productions
 distributed by J and S Software
+distributed by JADA Graphics
 distributed by Jandel Corporation
 distributed by Josten Learning Systems
 distributed by Jostens Learning
@@ -142,43 +186,58 @@ distributed by Laureate Learning Systems
 distributed by Learning Multi-Systems
 distributed by Learning Seed Company
 distributed by Learning Technologies
-distributed by Learning Well and Pelican Software
 distributed by Learning Well
+distributed by Learning Well and Pelican Software
+distributed by Leland Corporation
+distributed by Leslie Hoffenberg
 distributed by Level-10
 distributed by Lightspeed Software
 distributed by Litag
 distributed by Longman Group
 distributed by Lucasfilm
 distributed by MCE
+distributed by MCX
 distributed by MECC
 distributed by MUSE Software
 distributed by Magna Soft
+distributed by Main Street Publishing
 distributed by Marshfilm
 distributed by Marshware
+distributed by Masterplay Publishing Corporation
+distributed by Masterplay Publishing Corporationn
+distributed by Mastery Development
 distributed by MatchMaker
 distributed by Mattel
 distributed by McCarthy-McCormack
 distributed by McGraw-Hill
 distributed by Media Basics
 distributed by Media Materials
+distributed by Melbourne House
+distributed by Mentor Learning Systems
 distributed by Merrill Publishing
+distributed by Methods & Solutions
 distributed by Methods and Solutions
-distributed by Methods &amp; Solutions
 distributed by Michael G. Southwell
 distributed by Micro Education Corporation of America
 distributed by Micro Finance Systems
+distributed by Micro Fun
 distributed by Micro Lab
 distributed by Micro Learningware
+distributed by Micro Power & Light
 distributed by Micro Power and Light
+distributed by Micro Revelations
 distributed by Micro-Fun Software
 distributed by MicroFun
+distributed by MicroIllusions
 distributed by MicroLab
 distributed by Microcomputer Games
 distributed by Microcomputer Workshops
 distributed by Micrograms
 distributed by Micromax
+distributed by Microprose
 distributed by Microprose Software
 distributed by Midscape
+distributed by Midwest Publications
 distributed by Midwest Software
 distributed by Millenium Group Incorporated
 distributed by Millennium Group Incorporated
@@ -201,9 +260,12 @@ distributed by Opportunities For Learning
 distributed by Optimum Resource
 distributed by Orange Juice Software Systems
 distributed by Origin Systems
+distributed by PBI Software
+distributed by Panda Learning Systems
 distributed by Paramount Pictures
 distributed by Parrot Software
 distributed by Passport Designs, Inc
+distributed by Passport Designs
 distributed by Peachtree Software
 distributed by Pelican Software
 distributed by Penguin Software
@@ -214,18 +276,29 @@ distributed by Polarware
 distributed by Practicorp
 distributed by Prentice-Hall
 distributed by Prescription Learning
+distributed by Progame
 distributed by Program Design
+distributed by Pyware
+distributed by Quality Computers
+distributed by Quality Software
 distributed by Quest Learning Systems
 distributed by Queue
+distributed by Rainbird
+distributed by Ramware
 distributed by Random House
 distributed by Reader's Digest Services
 distributed by Reader's Digest Software
+distributed by ReadySoft
 distributed by Realty Software
+distributed by RenoSoft
 distributed by Reston Publishing
 distributed by Rhiannon
 distributed by Ritam Corporation
 distributed by RockRoy
+distributed by Roger Wagner Publishing
+distributed by Roklan Corporation
 distributed by SSI
+distributed by Salty Software
 distributed by Sams Software
 distributed by Santa Barbara Softworks
 distributed by Scandura Associates
@@ -238,55 +311,86 @@ distributed by Screenplay
 distributed by Search Software
 distributed by Sega
 distributed by Sentient Software
+distributed by Seven Hills Software
 distributed by Sierra On-Line
 distributed by Silver Burdett Company
 distributed by Silver Burdett Courseware
 distributed by Silver, Burdett and Ginn
+distributed by Simon & Schuster
+distributed by Simulations Publications
 distributed by Sir-Tech
 distributed by Sirius Software
 distributed by Society for Visual Education
+distributed by Sof/Sys, Inc.
 distributed by Soft Productions
 distributed by SoftArt Games
 distributed by Softlore Corporation
 distributed by Softsmith
+distributed by Software Alternatives
+distributed by Software Entertainment Company
 distributed by Software Masters
 distributed by Software Publishing Corporation
+distributed by Sogiciel
 distributed by South-Western Publishing
 distributed by Southern Micro-Systems
+distributed by Southwest Data Systems
 distributed by Southwest Edpsych Services
 distributed by Space-Time Associates
 distributed by Spectrum Holobyte
 distributed by Spinnaker
 distributed by Springboard Software
+distributed by StarCraft
 distributed by Stoneware
 distributed by Strategic Simulations
+distributed by Strategic Studies Group
 distributed by Sunburst Communications
 distributed by Superior Software
 distributed by Synergistic Software
+distributed by Systems Design Lab
+distributed by TSR Hobbies
 distributed by Taito
 distributed by Telarium
 distributed by Terrapin
 distributed by Tess Enterprises
+distributed by The Avalon Hill Game Company
 distributed by The Continental Press
 distributed by The Human Edge
 distributed by The Learning Company
 distributed by The Math Lab
+distributed by The Millenium Group
+distributed by The National Audubon Society
 distributed by The Regents of the University of California
 distributed by The Regents/ALA Company
 distributed by The Regents
 distributed by The Software Emporium
 distributed by The Software Farm
+distributed by The Software Toolworks
 distributed by Thorn EMI Video
+distributed by Three-Sixty Pacific
+distributed by Three Sixty
 distributed by Thunder Mountain
 distributed by Tom Snyder Productions
+distributed by Toolbox
 distributed by Top Notch Software
 distributed by Trillium
 distributed by Troll Associates
 distributed by Turning Point Software
+distributed by U.S. Gold
 distributed by Unicorn Software
+distributed by United Software of America
+distributed by Utopia Software Development
+distributed by Victory Software
 distributed by Vital Information
+distributed by Vitesse Software
+distributed by Voyager Software
+distributed by Walt Disney Computer Software
 distributed by Windham Classics
+distributed by Woodbury Computer Associates
+distributed by WordPerfect Corporation
+distributed by Yukon Computer Products
+distributed by distributed by Box Office Software
 distributed by subLOGIC
+distributed by the Michigan Department of Public Resources
 distributed by the Society for Visual Education
 distributed in 1982 by Terrapin
 distributed in 1984 by Terrapin
@@ -299,16 +403,20 @@ published by Apple Computer
 published by Artworx
 published by Automated Simulations
 published by Avant-Garde Creations
+published by Avant-Garde Publishing
 published by Bally Midway
 published by Bantam Software
 published by Baudville
 published by Brainpower, Inc
 published by Broderbund Software
 published by C.P.U. Software
+published by CE Software
 published by Central Point Software
+published by Creative Computing Software
 published by Crystal Software
 published by Crystalware
 published by Datamost
+published by Datasoft
 published by Davidson and Associates
 published by Electric Transit
 published by Electronic Arts
@@ -318,10 +426,11 @@ published by Hayden Book Company
 published by Hi-Tech Expressions
 published by Imagic
 published by Infocom
+published by Infocom
 published by K-12 MicroMedia
 published by MECC
 published by MUSE Software
-published by Methods \&amp; Solutions
+published by Methods \& Solutions
 published by Micro Lab
 published by Micro Learningware
 published by Microcomputer Workshops
@@ -331,19 +440,23 @@ published by New World Computing
 published by On-Line Systems
 published by Optimum Resource
 published by Origin Systems
+published by Pelican Software
 published by Personal Software
 published by Piccadilly Software
 published by Polarware
 published by Publishing International
 published by Quality Software
 published by Queue
+published by Random House
 published by Scholastic
 published by Sega Enterprises
 published by Sierra On-Line
+published by Sir-Tech
 published by Sirius Software
 published by Spectrum HoloByte
 published by Spinnaker Software
 published by Stoneware
+published by Strategic Simulations
 published by Strategic Simulations, Inc
 published by Strategic Studies Group
 published by Sunburst Communications
@@ -351,122 +464,3 @@ published by The Avalon Hill
 published by The Software Toolworks
 published by Windham Classics
 published by subLOGIC
-distributed by Passport Designs, Inc
-distributed by Estes Industries
-distributed by Accolade
-published by Infocom
-published by Pelican Software
-published by Creative Computing Software
-published by CE Software
-published by Datasoft
-published by Sir-Tech
-published by Strategic Simulations
-distributed by Howard W. Sams, Inc.
-distributed by Barron's Educational Series, Inc.
-published by Random House
-published by Avant-Garde Publishing
-distributed by Midwest Publications
-distributed by Yukon Computer Products
-distributed by Interplay Productions
-distributed by Roklan Corporation
-distributed by Salty Software
-distributed by Micro Fun
-distributed by Huntington Computing
-distributed by EduWare Services
-distributed by Dakin5 Corporation
-distributed by Simon &amp; Schuster
-distributed by The Millenium Group
-distributed by Leland Corporation
-distributed by Simulations Publications
-distributed by Progame
-distributed by General Masters
-distributed by Cosmi
-distributed by Book Lures
-distributed by Quality Software
-distributed by Insoft
-distributed by Sof/Sys, Inc.
-distributed by Hi-Tech Expressions
-distributed by Boone Corporation
-distributed by Barron's Educational Series
-distributed by the Michigan Department of Public Resources
-distributed by Instructional/Communications Technology
-distributed by Conduit
-distributed by TSR Hobbies
-distributed by Mentor Learning Systems
-distributed by Evolving Technology Company
-distributed by George Earl
-distributed by distributed by Box Office Software
-distributed by U.S. Gold
-distributed by Panda Learning Systems
-distributed by United Software of America
-distributed by StarCraft
-distributed by Highlands Computers
-distributed by The Avalon Hill Game Company
-distributed by California Pacific Computer
-distributed by Ramware
-distributed by Beagle Bros.
-distributed by Highlands Computer Services
-distributed by RenoSoft
-distributed by Southwest Data Systems
-distributed by Software Entertainment Company
-distributed by Software Alternatives
-distributed by Rainbird
-distributed by Computer Easy
-distributed by The National Audubon Society
-distributed by Woodbury Computer Associates
-distributed by Micro Power & Light
-distributed by Leslie Hoffenberg
-distributed by Main Street Publishing
-distributed by Voyager Software
-distributed by Harvest Computer Systems
-distributed by Utopia Software Development
-distributed by Mastery Development
-distributed by American Guidance Service
-distributed by Earthware Computer Services
-distributed by Interplay
-distributed by MicroIllusions
-distributed by California Dreams
-distributed by Micro Revelations
-distributed by PBI Software
-distributed by Box Office
-distributed by ICOM Simulations
-distributed by Britannica Software
-distributed by Cassidy &amp; Greene
-distributed by Sogiciel
-distributed by The Software Toolworks
-distributed by Microprose
-distributed by Seven Hills Software
-distributed by Three Sixty
-distributed by Strategic Studies Group
-distributed by Fanfare
-distributed by Free Tools Association
-distributed by Melbourne House
-distributed by Three-Sixty Pacific
-distributed by Cinemaware
-distributed by Masterplay Publishing Corporationn
-distributed by Masterplay Publishing Corporation
-distributed by ReadySoft
-distributed by MCX
-distributed by Victory Software
-distributed by DreamWorld Software
-distributed by JADA Graphics
-re-released by SoftSmith
-distributed by First Byte
-distributed by Toolbox
-distributed by Infogrames
-distributed by Big Red Computer Club
-distributed by Passport Designs
-distributed by Pyware
-distributed by Vitesse Software
-distributed by FTA
-distributed by Roger Wagner Publishing
-distributed by WordPerfect Corporation
-SoftSmith
-distributed by Quality Computers
-distributed by American School Publishers
-distributed by Systems Design Lab
-distributed by Davidson &amp; Associates
-distributed by Walt Disney Computer Software
-distributed by Data Trek
-distributed by MECC
-distributed by Micro Power &amp; Light
