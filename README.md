@@ -60,10 +60,20 @@
 
 ## Prerequisites for use
 
- As I run Debian from a laptop and also as a WSL add-on to Windows 10, the packages will be described in that way.
+### Arch Linux
 
-`sudo apt-get install python3-pip libarchive-zip-perl unzip libxml2-utils wget xsltproc`
+ As I now use Arch Linux via WSL for this and better cross-compilation tools, the packages will be described in that way:
 
-`sudo pip3 install internetarchive`
+ `sudo pacman -Su libxslt unzip python3 python-pip perl-archive-zip`
 
-You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `/mnt/c/msys64/src/MAME/mame-softlists/hash/apple*_flop*.xml` in the script and change accordingly (or set up a mount to redirect those to wherever your MAME hash folder actually is).
+ `sudo pip3 install internetarchive`
+
+### Debian
+
+ Here are the previous Debian instructions:
+
+ `sudo apt-get install python3-pip libarchive-zip-perl unzip libxml2-utils wget xsltproc`
+
+ `sudo pip3 install internetarchive`
+
+You will need to change a grep line in each script: they're set to check the Apple softlists in the default install location of the MAME compilation tools via WSL path. Look for `~/Projects/MAME/mame-softlists/hash/apple*_flop*.xml` in the script and change accordingly (or set up a symlink to redirect those to wherever your MAME hash folder actually is).
