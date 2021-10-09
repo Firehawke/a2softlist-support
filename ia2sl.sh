@@ -533,7 +533,7 @@ function generator() {
 
         # If we got a dupe, put it in temp2, otherwise leave a 0-byte file.
         # We'll use that a little later.
-        grep -a -i -F -n -R -f temp ~/Projects/MAME/mame-softlists/hash/apple*_flop*.xml >temp2
+        grep -a -i -F -n -R -f temp ~/projects/mame/mame-softlists/hash/apple*_flop*.xml >temp2
         if [[ -s temp2 ]]; then
             echo "dupe" >dupecheck
         fi
