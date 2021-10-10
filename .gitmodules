@@ -1,0 +1,3 @@
+[submodule "wozardry"]
+	path = wozardry
+	url = git@github.com:a2-4am/wozardry.git

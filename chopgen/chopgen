@@ -1085,6 +1085,20 @@ for filename in *.DO *.WOZ *.DSK *.PO *.2HD *.2MG *.do *.woz *.dsk *.po *.2hd *.
 	echo -e '\t\t\t</dataarea>' >> ../xml/chopblock/chopblock.xml
 	echo -e '\t\t</part>' >> ../xml/chopblock/chopblock.xml
 	echo -en '\n' >> ../xml/chopblock/chopblock.xml
+
+# Is this a WOZ? If so, let's run the WOZardry export against
+# this disk. This is set up as a case so that future disk types
+# can also be parsed as tools similar to WOZardry are available
+# for them.
+
+case $lfilename in
+	*".woz"*)
+		# Yep, it's a WOZ..
+		../wozardry/wozardry.py export "$filename" >> ../xml/chopblock/chopblock.xml
+		;;
+esac
+
+# Now let's run the WOZardry export against this disk
 done
 
 exit 1
