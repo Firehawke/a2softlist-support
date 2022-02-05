@@ -98,7 +98,8 @@ function generator() {
         # We can add more special cases as they show up in the future.
         # Also remove the "IIgs" from the end of GS-specific disks since they're
         # going to go into a GS-specific software list.
-        xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' | sed -E 's/v([[:digit:]]*).([[:digit:]]*).([[:digit:]]*)/\(Version \1.\2.\3\)/;s/\.\)/) /;s/ IIga//' >>../xml/"$worktype"disk/disk$1.xml
+        # FIXME: Temporarily disable this while I try to figure out how to keep this from breaking things..
+        # xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' | sed -E 's/v([[:digit:]]*).([[:digit:]]*).([[:digit:]]*)/\(Version \1.\2.\3\)/;s/\.\)/) /;s/ IIga//' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</description>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<year>' >>../xml/"$worktype"disk/disk$1.xml
         xmllint --xpath 'metadata/description/text()' $filename | grep -o '19[0123456789][0123456789]' | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
@@ -372,6 +373,10 @@ function generator() {
                 ;;
 
             # Normal section -------------------------------------------------
+            *"It requires a Apple IIgs, //c+, or 128K //e with a compatible drive controller card."*)
+                echo -e '\t\t<sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
+                echo -e '\t\t<!-- It requires a Apple IIgs, //c+, or 128K //e with a compatible drive controller card. -->' >>../xml/"$worktype"disk/disk$1.xml
+                ;;
             *"It requires a 1MB Apple IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 1MB Apple IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -387,7 +392,7 @@ function generator() {
             *"It requires a 256K Apple IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 256K Apple IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;
+                ;;25
             *"It requires a 64K Apple II+, //e, //c, or IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
