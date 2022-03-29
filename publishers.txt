@@ -504,3 +504,7 @@ distributed by Med Systems Software
 distributed by Ventura Educational Systems
 distributed by WINGS for Learning
 distributed by Crystal Software
+distributed by Electronic Courseware
+distributed by Alpha Logic Business Systems
+distributed by Omega Microware
+distributed by Central Point Software
