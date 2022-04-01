@@ -508,3 +508,5 @@ distributed by Electronic Courseware
 distributed by Alpha Logic Business Systems
 distributed by Omega Microware
 distributed by Central Point Software
+distributed by Pirate's Harbor
+distributed by Langenscheidt Languageware
