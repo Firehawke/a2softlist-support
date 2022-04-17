@@ -31,7 +31,6 @@ function generator() {
 
     # Do the actual search and download.
     # This will depend on which type we're using, of course.
-    echo -e "$worktype: Beginning work on entry [$1].."
 
     case ${2} in
     "WOZADAY")
@@ -48,7 +47,6 @@ function generator() {
     sed -i "/%20extras%20/d;/extras.zip/d;/0playable/d;/_files.xml/d;/demuffin\'d/d;/work%20disk/d" "$worktype"currentdls.txt
 
     # Now we download.
-    echo "$worktype: Downloading..."
     wget -q -i "$worktype"currentdls.txt -nc -nv -nd -P ./"$worktype"diskstaging
     # Let's decompress any ZIP files we got, forced lowercase names.
     unzip -n -qq -LL -j "$worktype"'diskstaging/*.zip' -d "$worktype"diskoutput 2>/dev/null
@@ -392,7 +390,7 @@ function generator() {
             *"It requires a 256K Apple IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 256K Apple IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
-                ;;25
+                ;;
             *"It requires a 64K Apple II+, //e, //c, or IIgs."*)
                 echo -e '\t\t<sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />' >>../xml/"$worktype"disk/disk$1.xml
                 echo -e '\t\t<!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->' >>../xml/"$worktype"disk/disk$1.xml
@@ -531,7 +529,7 @@ function generator() {
         # use in some places in the XML. We also strip invalid characters as well
         # as double spaces.
         lfilename=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | sed 's/\!/ /g' | sed 's/\  / /g' | sed 's/\&/and/g')
-        echo -e "$worktype: Generating disk $disknum with file $lfilename.."
+        echo -e "$worktype: [$disknum] '$lfilename'"
         # Critical: Check for SHA1 dupes.
         # Generate the SHA1 and put it in temp.
         sha1sum $filename | awk '{print $1}' >temp
@@ -1775,10 +1773,23 @@ function generator() {
     # If the dupecheck file above says this already exists in our MAME softlists,
     # then all this work was a waste and we need to delete the XML now.
     if [[ -s dupecheck ]]; then
-        echo -e "$worktype: Duplicated entry. Removing generated XML..."
         rm ../xml/"$worktype"disk/disk$1.xml
         # We found a dupe, so there's no point in continuing.
         cd .. || exit
+        if [ $worktype == "WOZADAY" ]; then
+            if [ $1 == "1" ]; then
+                echo -e "$worktype: No new entries were made!   -----------------------------------------------------------------"
+            else
+                echo -e "$worktype: $1 entries generated"
+            fi
+        fi
+        if [ $worktype == "CLCRACKED" ]; then
+            if [ $1 == "1" ]; then
+                echo -e "$worktype: No new entries were made!   ---------------------------------------------------------------"
+            else
+                echo -e "$worktype: $1 entries generated"
+            fi
+        fi
         return 1
     fi
 
@@ -1792,7 +1803,6 @@ function generator() {
 }
 
 function aggregate() {
-    echo "$worktype: Generating final XML..."
     cd xml/"$worktype"disk || exit
     cat ../../xmlheader.txt >../"$worktype"disk-combined-presort.xml
     cat disk*.xml >>../"$worktype"disk-combined-presort.xml 2>/dev/null
@@ -1813,14 +1823,19 @@ function aggregate() {
     esac
     cd ../.. || exit
     IFS=$SAVEIFS
-    echo "$worktype: Process complete..."
-    return 1
+    return 0
 }
 
 # Now our main loop.
 
+# Introduce ourselves!
+echo -e "IA2SL 2022-04-16 r1 by Firehawke\n"
+
 # First thing's first, make sure we picked a type to work with.
 if [ $# -eq 0 ]; then
+    echo -e "This tool generates preliminary (needs editing for full compliance) software lists by polling Internet Archive"
+    echo -e "for the latest WOZ and/or cleanly cracked Apple II disks provided by 4am.\n"
+    echo "Usage:"
     echo "No Apple disk type supplied. Please run as either:"
     echo "$0 clcracked"
     echo "$0 wozaday"
@@ -1871,6 +1886,7 @@ mkdir xml/CLCRACKEDdisk 2>/dev/null
 # run as usual, both needs parallelization.
 case ${worktype} in
 "BOTH")
+    echo -e "IA2SL: WOZADAY and CLCRACKED"
     startcycle WOZADAY &
     startcycle CLCRACKED &
     wait
@@ -1880,6 +1896,7 @@ case ${worktype} in
     ;&
 "CLCRACKED")
     # Because we're using a single type, we can pass $worktype
+    echo -e "IA2SL: $worktype"
     startcycle $worktype
     ;;
 esac
