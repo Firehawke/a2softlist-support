@@ -97,6 +97,7 @@ function generator() {
         # Also remove the "IIgs" from the end of GS-specific disks since they're
         # going to go into a GS-specific software list.
         # FIXME: Temporarily disable this while I try to figure out how to keep this from breaking things..
+        xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' >>../xml/"$worktype"disk/disk$1.xml
         # xmllint --xpath 'metadata/title/text()' "$filename" | tr -d '\n' | sed -E 's/v([[:digit:]]*).([[:digit:]]*).([[:digit:]]*)/\(Version \1.\2.\3\)/;s/\.\)/) /;s/ IIga//' >>../xml/"$worktype"disk/disk$1.xml
         echo -e '</description>' >>../xml/"$worktype"disk/disk$1.xml
         echo -e -n '\t\t<year>' >>../xml/"$worktype"disk/disk$1.xml
